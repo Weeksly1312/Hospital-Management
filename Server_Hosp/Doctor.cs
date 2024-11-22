@@ -242,6 +242,41 @@ namespace Server_Hosp
             }
         }
 
+        /// <summary>
+        /// Retrieves all departments from the database.
+        /// </summary>
+        /// <param name="connectionString">Database connection string</param>
+        /// <returns>List of departments or null if an error occurs</returns>
+        public List<string> GetDepartments(string connectionString)
+        {
+            List<string> departments = new List<string>();
+            try
+            {
+                string query = "SELECT ID, Name FROM Departments ORDER BY ID";
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string deptString = $"{reader["ID"]} - {reader["Name"]}";
+                                departments.Add(deptString);
+                            }
+                        }
+                    }
+                }
+                return departments;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting departments: {ex.Message}");
+                return new List<string>();
+            }
+        }
+
         #endregion
 
         #region Validation Methods
