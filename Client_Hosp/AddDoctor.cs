@@ -53,19 +53,22 @@ namespace Client_Hosp
         /// </summary>
         private void SetupComboBoxes()
         {
-            // Setup Specialization ComboBox
-            ComSpecialization.Items.AddRange(new string[] {
-                "General Medicine",
-                "Cardiology",
-                "Neurology",
-                "Pediatrics",
-                "Orthopedics",
-                "Dermatology",
-                "Ophthalmology",
-                "Psychiatry"
-            });
+            // Remove the hardcoded specializations
+            ComSpecialization.Items.Clear();
 
-            // Updated Department ComboBox to use database values
+            // Get specializations from database
+            try
+            {
+                List<string> specializations = doctorRPC.GetSpecializations(connectionString);
+                ComSpecialization.Items.AddRange(specializations.ToArray());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading specializations: {ex.Message}", 
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // Setup departments (existing code)
             try
             {
                 List<string> departments = doctorRPC.GetDepartments(connectionString);
@@ -78,7 +81,7 @@ namespace Client_Hosp
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            // Status ComboBox setup
+            // Status ComboBox setup (existing code)
             ComStatus.Items.Clear();
             ComStatus.Items.AddRange(new string[] {
                 "Available",
