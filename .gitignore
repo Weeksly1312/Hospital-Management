@@ -1,0 +1,17 @@
+/Client_Hosp/.vs/
+/Server_Hosp/.vs/   
+/Middle_Hosp/.vs/
+
+/Client_Hosp/bin/
+/Server_Hosp/bin/
+/Middle_Hosp/bin/   
+
+/Client_Hosp/obj/
+/Server_Hosp/obj/
+/Middle_Hosp/obj/   
+
+/Client_Hosp/Properties/
+/Server_Hosp/Properties/
+/Middle_Hosp/Properties/
+
+/.vs/
