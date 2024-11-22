@@ -74,9 +74,11 @@ namespace Server_Hosp
                 if (!isValid)
                     return $"Error: {errorMessage}";
 
+                int specializationId = int.Parse(Specialization.Split('-')[0].Trim());
+
                 string query = @"INSERT INTO dbo.Doctors 
-                    (ID, first_name, last_name, phone_number, specialization, department_id, address, gender, status) 
-                    VALUES (@ID, @FirstName, @LastName, @PhoneNumber, @Specialization, @DepartmentId, @Address, @Gender, @Status)";
+                    (ID, first_name, last_name, phone_number, specialization_id, department_id, address, gender, status) 
+                    VALUES (@ID, @FirstName, @LastName, @PhoneNumber, @SpecializationId, @DepartmentId, @Address, @Gender, @Status)";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
@@ -87,7 +89,7 @@ namespace Server_Hosp
                         cmd.Parameters.AddWithValue("@FirstName", FirstName);
                         cmd.Parameters.AddWithValue("@LastName", LastName);
                         cmd.Parameters.AddWithValue("@PhoneNumber", PhoneNumber);
-                        cmd.Parameters.AddWithValue("@Specialization", (object)Specialization ?? DBNull.Value);
+                        cmd.Parameters.AddWithValue("@SpecializationId", specializationId);
                         cmd.Parameters.AddWithValue("@DepartmentId", DepartmentId);
                         cmd.Parameters.AddWithValue("@Address", (object)Address ?? DBNull.Value);
                         cmd.Parameters.AddWithValue("@Gender", Gender.ToUpper());
@@ -152,8 +154,11 @@ namespace Server_Hosp
 
             try
             {
-                string query = @"SELECT id, first_name, last_name, phone_number, specialization, 
-                               department_id, address, gender, status FROM dbo.Doctors";
+                string query = @"SELECT d.id, d.first_name, d.last_name, d.phone_number, 
+                                s.Name as specialization, d.department_id, d.address, 
+                                d.gender, d.status 
+                                FROM dbo.Doctors d
+                                LEFT JOIN dbo.Specializations s ON d.specialization_id = s.ID";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
@@ -185,7 +190,7 @@ namespace Server_Hosp
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error in GetAll: {ex.Message}");
                 return null;
             }
         }
@@ -205,11 +210,14 @@ namespace Server_Hosp
                 if (!isValid)
                     return $"Error: {errorMessage}";
 
+                // Parse specialization ID from the selected item
+                int specializationId = int.Parse(specialization.Split('-')[0].Trim());
+
                 string query = @"UPDATE dbo.Doctors 
                     SET first_name = @FirstName, 
                         last_name = @LastName, 
                         phone_number = @PhoneNumber,
-                        specialization = @Specialization,
+                        specialization_id = @SpecializationId,
                         department_id = @DepartmentId,
                         address = @Address,
                         gender = @Gender,
@@ -225,7 +233,7 @@ namespace Server_Hosp
                         cmd.Parameters.AddWithValue("@FirstName", firstName);
                         cmd.Parameters.AddWithValue("@LastName", lastName);
                         cmd.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
-                        cmd.Parameters.AddWithValue("@Specialization", (object)specialization ?? DBNull.Value);
+                        cmd.Parameters.AddWithValue("@SpecializationId", specializationId);
                         cmd.Parameters.AddWithValue("@DepartmentId", departmentId);
                         cmd.Parameters.AddWithValue("@Address", (object)address ?? DBNull.Value);
                         cmd.Parameters.AddWithValue("@Gender", gender.ToUpper());
@@ -273,6 +281,41 @@ namespace Server_Hosp
             catch (Exception ex)
             {
                 Console.WriteLine($"Error getting departments: {ex.Message}");
+                return new List<string>();
+            }
+        }
+
+        /// <summary>
+        /// Retrieves all specializations from the database.
+        /// </summary>
+        /// <param name="connectionString">Database connection string</param>
+        /// <returns>List of specializations or null if an error occurs</returns>
+        public List<string> GetSpecializations(string connectionString)
+        {
+            List<string> specializations = new List<string>();
+            try
+            {
+                string query = "SELECT ID, Name FROM Specializations ORDER BY ID";
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string specString = $"{reader["ID"]} - {reader["Name"]}";
+                                specializations.Add(specString);
+                            }
+                        }
+                    }
+                }
+                return specializations;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting specializations: {ex.Message}");
                 return new List<string>();
             }
         }
