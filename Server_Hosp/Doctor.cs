@@ -75,14 +75,15 @@ namespace Server_Hosp
                     return $"Error: {errorMessage}";
 
                 string query = @"INSERT INTO dbo.Doctors 
-                    (first_name, last_name, phone_number, specialization, department_id, address, gender, status) 
-                    VALUES (@FirstName, @LastName, @PhoneNumber, @Specialization, @DepartmentId, @Address, @Gender, @Status)";
+                    (ID, first_name, last_name, phone_number, specialization, department_id, address, gender, status) 
+                    VALUES (@ID, @FirstName, @LastName, @PhoneNumber, @Specialization, @DepartmentId, @Address, @Gender, @Status)";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
+                        cmd.Parameters.AddWithValue("@ID", ID);
                         cmd.Parameters.AddWithValue("@FirstName", FirstName);
                         cmd.Parameters.AddWithValue("@LastName", LastName);
                         cmd.Parameters.AddWithValue("@PhoneNumber", PhoneNumber);
@@ -96,6 +97,14 @@ namespace Server_Hosp
                         return rowsAffected > 0 ? "Doctor added successfully!" : "No rows affected.";
                     }
                 }
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627) // Unique constraint violation
+                {
+                    return "Error: A doctor with this ID already exists.";
+                }
+                return $"Error: {ex.Message}";
             }
             catch (Exception ex)
             {
