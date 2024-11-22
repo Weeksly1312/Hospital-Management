@@ -385,6 +385,11 @@ namespace Client_Hosp
 
         }
 
+        private void listViewDoctors_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void AddDoctor_Load(object sender, EventArgs e)
         {
             throw new NotImplementedException();
