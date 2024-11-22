@@ -178,6 +178,42 @@ namespace Client_Hosp
             }
         }
 
+        #region Validation Methods
+
+        /// <summary>
+        /// Performs client-side validation of form inputs before sending to server.
+        /// </summary>
+        /// <returns>True if validation passes, false otherwise</returns>
+        private bool ValidateFormInputs()
+        {
+            // Check required fields
+            if (string.IsNullOrWhiteSpace(txtName.Text) ||
+                string.IsNullOrWhiteSpace(txtLast.Text) ||
+                string.IsNullOrWhiteSpace(txtPhone.Text) ||
+                ComSpecialization.SelectedIndex == -1 ||
+                (!GenM.Checked && !GenF.Checked) ||
+                ComDepartment.SelectedIndex == -1 ||
+                ComStatus.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please fill in all required fields",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // Get department ID
+            int departmentId = GetSelectedDepartmentId();
+            if (departmentId <= 0)
+            {
+                MessageBox.Show("Please select a valid department.", 
+                    "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
+
         /// <summary>
         /// Handles the Add button click event.
         /// Validates and adds a new doctor to the system.
@@ -186,35 +222,8 @@ namespace Client_Hosp
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(txtName.Text) ||
-                    string.IsNullOrWhiteSpace(txtLast.Text) ||
-                    string.IsNullOrWhiteSpace(txtPhone.Text) ||
-                    ComSpecialization.SelectedIndex == -1 ||
-                    (!GenM.Checked && !GenF.Checked) ||
-                    ComDepartment.SelectedIndex == -1 ||
-                    ComStatus.SelectedIndex == -1)
-                {
-                    MessageBox.Show("Please fill in all required fields",
-                        "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (!ValidateFormInputs())
                     return;
-                }
-
-                if (!System.Text.RegularExpressions.Regex.IsMatch(txtPhone.Text, @"^\+?[\d\s-]+$"))
-                {
-                    MessageBox.Show("Please enter a valid phone number",
-                        "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                string gender = GetSelectedGender();
-                int departmentId = GetSelectedDepartmentId();
-
-                if (departmentId <= 0)
-                {
-                    MessageBox.Show("Please select a valid department.", "Invalid Input",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
 
                 Cursor = Cursors.WaitCursor;
                 lblStatus.Text = "Adding doctor...";
@@ -225,9 +234,9 @@ namespace Client_Hosp
                     txtLast.Text.Trim(),
                     txtPhone.Text.Trim(),
                     ComSpecialization.SelectedItem.ToString(),
-                    departmentId,
+                    GetSelectedDepartmentId(),
                     textAdress.Text.Trim(),
-                    gender,
+                    GetSelectedGender(),
                     ComStatus.SelectedItem.ToString()
                 );
 
@@ -265,117 +274,98 @@ namespace Client_Hosp
         /// </summary>
         private void btnModify_Click(object sender, EventArgs e)
         {
-            if (listViewDoctors.SelectedItems.Count > 0)
+            if (listViewDoctors.SelectedItems.Count == 0)
             {
-                if (!isEditing)
+                MessageBox.Show("Please select a doctor to modify.",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!isEditing)
+            {
+                List<RPC> doctors = doctorRPC.GetAll(connectionString);
+                var selectedDoctor = doctors.Find(doc =>
+                    doc.ID.ToString() == listViewDoctors.SelectedItems[0].Text);
+
+                if (selectedDoctor != null)
                 {
-                    List<RPC> doctors = doctorRPC.GetAll(connectionString);
-                    var selectedDoctor = doctors.Find(doc =>
-                        doc.ID.ToString() == listViewDoctors.SelectedItems[0].Text);
+                    txtDoctorID.Text = selectedDoctor.ID.ToString();
+                    txtName.Text = selectedDoctor.FirstName;
+                    txtLast.Text = selectedDoctor.LastName;
+                    txtPhone.Text = selectedDoctor.PhoneNumber;
+                    textAdress.Text = selectedDoctor.Address;
+                    ComSpecialization.Text = selectedDoctor.Specialization;
+                    SetSelectedGender(selectedDoctor.Gender);
+                    ComStatus.Text = selectedDoctor.Status;
 
-                    if (selectedDoctor != null)
+                    foreach (var item in ComDepartment.Items)
                     {
-                        txtDoctorID.Text = selectedDoctor.ID.ToString();
-                        txtName.Text = selectedDoctor.FirstName;
-                        txtLast.Text = selectedDoctor.LastName;
-                        txtPhone.Text = selectedDoctor.PhoneNumber;
-                        textAdress.Text = selectedDoctor.Address;
-                        ComSpecialization.Text = selectedDoctor.Specialization;
-                        SetSelectedGender(selectedDoctor.Gender);
-                        ComStatus.Text = selectedDoctor.Status;
-
-                        foreach (var item in ComDepartment.Items)
+                        if (item.ToString().StartsWith(selectedDoctor.DepartmentId.ToString()))
                         {
-                            if (item.ToString().StartsWith(selectedDoctor.DepartmentId.ToString()))
-                            {
-                                ComDepartment.SelectedItem = item;
-                                break;
-                            }
+                            ComDepartment.SelectedItem = item;
+                            break;
                         }
-
-                        txtDoctorID.ReadOnly = true;
-                        btnModify.Text = "Save Changes";
-                        btnAdd.Enabled = false;
-                        btnDelete.Enabled = false;
-                        isEditing = true;
                     }
-                }
-                else
-                {
-                    try
-                    {
-                        if (!int.TryParse(txtDoctorID.Text, out int doctorId))
-                        {
-                            MessageBox.Show("Invalid ID format", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
 
-                        if (string.IsNullOrWhiteSpace(txtName.Text) ||
-                            string.IsNullOrWhiteSpace(txtLast.Text) ||
-                            string.IsNullOrWhiteSpace(txtPhone.Text) ||
-                            ComSpecialization.SelectedIndex == -1 ||
-                            (!GenM.Checked && !GenF.Checked) ||
-                            ComDepartment.SelectedIndex == -1 ||
-                            ComStatus.SelectedIndex == -1)
-                        {
-                            MessageBox.Show("Please fill in all required fields",
-                                "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-
-                        int departmentId = GetSelectedDepartmentId();
-                        if (departmentId <= 0)
-                        {
-                            MessageBox.Show("Invalid department selection", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-
-                        Cursor = Cursors.WaitCursor;
-                        lblStatus.Text = "Updating doctor...";
-
-                        string modificationResult = doctorRPC.ModifyDoctor(
-                            connectionString,
-                            doctorId,
-                            txtName.Text.Trim(),
-                            txtLast.Text.Trim(),
-                            txtPhone.Text.Trim(),
-                            ComSpecialization.Text,
-                            departmentId,
-                            textAdress.Text.Trim(),
-                            GetSelectedGender(),
-                            ComStatus.SelectedItem.ToString()
-                        );
-
-                        RefreshDoctorsList();
-                        ClearFields();
-                        btnModify.Text = "Modify";
-                        btnAdd.Enabled = true;
-                        btnDelete.Enabled = true;
-                        isEditing = false;
-
-                        lblStatus.Text = modificationResult.Contains("Error") ? 
-                            "Error updating doctor" : "Doctor updated successfully";
-
-                        MessageBox.Show(modificationResult);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error updating doctor: {ex.Message}",
-                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        lblStatus.Text = "Error occurred";
-                    }
-                    finally
-                    {
-                        Cursor = Cursors.Default;
-                    }
+                    txtDoctorID.ReadOnly = true;
+                    btnModify.Text = "Save Changes";
+                    btnAdd.Enabled = false;
+                    btnDelete.Enabled = false;
+                    isEditing = true;
                 }
             }
             else
             {
-                MessageBox.Show("Please select a doctor to modify.",
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                try
+                {
+                    if (!ValidateFormInputs())
+                        return;
+
+                    if (!int.TryParse(txtDoctorID.Text, out int doctorId))
+                    {
+                        MessageBox.Show("Invalid ID format", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    Cursor = Cursors.WaitCursor;
+                    lblStatus.Text = "Updating doctor...";
+
+                    string modificationResult = doctorRPC.ModifyDoctor(
+                        connectionString,
+                        doctorId,
+                        txtName.Text.Trim(),
+                        txtLast.Text.Trim(),
+                        txtPhone.Text.Trim(),
+                        ComSpecialization.Text,
+                        GetSelectedDepartmentId(),
+                        textAdress.Text.Trim(),
+                        GetSelectedGender(),
+                        ComStatus.SelectedItem.ToString()
+                    );
+
+                    RefreshDoctorsList();
+                    ClearFields();
+                    btnModify.Text = "Modify";
+                    btnAdd.Enabled = true;
+                    btnDelete.Enabled = true;
+                    isEditing = false;
+
+                    lblStatus.Text = modificationResult.Contains("Error") ? 
+                        "Error updating doctor" : "Doctor updated successfully";
+
+                    MessageBox.Show(modificationResult);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error updating doctor: {ex.Message}",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    lblStatus.Text = "Error occurred";
+                }
+                finally
+                {
+                    Cursor = Cursors.Default;
+                }
             }
         }
 
