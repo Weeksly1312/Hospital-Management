@@ -32,5 +32,7 @@ namespace Middle_Hosp
         bool Login(string username, string password);
         string RegisterUser(string username, string password);
         void Initialize(string text1, string text2, string text3, int v, string text4, string text5, string text6, string text7);
+
+        List<string> GetDepartments(string connectionString);
     }
 }
