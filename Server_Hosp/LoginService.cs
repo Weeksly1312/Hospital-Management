@@ -40,6 +40,11 @@ namespace Server_Hosp
             throw new NotImplementedException();
         }
 
+        public List<string> GetSpecializations(string connectionString)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Initialize(int id, string firstName, string lastName, string phoneNumber, string specialization, int departmentId, string address, string gender, string status)
         {
             throw new NotImplementedException();
