@@ -24,7 +24,7 @@ namespace Client_Hosp
         #region Fields
 
         private Middle_Hosp.RPC doctorRPC;
-        private readonly string connectionString = @"Data Source=DESKTOP-C03F80S\SQLEXPRESS01;Initial Catalog=DoctorManagement;Integrated Security=True;Connect Timeout=30;";
+        private readonly string connectionString = @"Data Source=DESKTOP-C03F80S\SQLEXPRESS01;Initial Catalog=DoctorManagements;Integrated Security=True;Connect Timeout=30;";
         // Med Tamel // @"Data Source=DESKTOP-MVIQ4R9\SQLEXPRESS01;Initial Catalog=New Database;Integrated Security=True;Connect Timeout=30;";
         private bool isEditing = false;
 
