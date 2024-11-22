@@ -15,12 +15,27 @@ using Middle_Hosp;
 
 namespace Client_Hosp
 {
+    /// <summary>
+    /// UserControl for managing doctor information including adding, modifying, and deleting doctors.
+    /// This control provides a complete interface for doctor management operations.
+    /// </summary>
     public partial class AddDoctor : UserControl
     {
+        #region Fields
+
         private Middle_Hosp.RPC doctorRPC;
         private readonly string connectionString = @"Data Source=DESKTOP-C03F80S\SQLEXPRESS01;Initial Catalog=DoctorManagement;Integrated Security=True;Connect Timeout=30;";
-            //@"Data Source=DESKTOP-MVIQ4R9\SQLEXPRESS01;Initial Catalog=New Database;Integrated Security=True;Connect Timeout=30;";
+        // Med Tamel // @"Data Source=DESKTOP-MVIQ4R9\SQLEXPRESS01;Initial Catalog=New Database;Integrated Security=True;Connect Timeout=30;";
+        private bool isEditing = false;
 
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the AddDoctor UserControl.
+        /// Sets up the initial component and establishes RPC connection.
+        /// </summary>
         public AddDoctor()
         {
             InitializeComponent();
@@ -28,6 +43,14 @@ namespace Client_Hosp
             SetupComboBoxes();
         }
 
+        #endregion
+
+        #region Initialization Methods
+
+        /// <summary>
+        /// Initializes the combo boxes with predefined values for specialization,
+        /// department, and status options.
+        /// </summary>
         private void SetupComboBoxes()
         {
             // Setup Specialization ComboBox
@@ -54,7 +77,7 @@ namespace Client_Hosp
                 "8 - Intensive Care Unit"
             });
 
-            // Status ComboBox remains the same
+            // Status ComboBox setup
             ComStatus.Items.Clear();
             ComStatus.Items.AddRange(new string[] {
                 "Available",
@@ -65,10 +88,13 @@ namespace Client_Hosp
                 "Unavailable",
                 "Emergency"
             });
-            ComStatus.SelectedIndex = 0; // Set default status to Available
+            ComStatus.SelectedIndex = 0;
         }
 
-
+        /// <summary>
+        /// Initializes the RPC connection to the doctor service.
+        /// Handles channel registration and connection testing.
+        /// </summary>
         private void InitializeRPCConnection()
         {
             try
@@ -118,6 +144,14 @@ namespace Client_Hosp
             }
         }
 
+        #endregion
+
+        #region Event Handlers
+
+        /// <summary>
+        /// Handles the Load event of the AddDoctor control.
+        /// Initializes connections and refreshes the doctors list.
+        /// </summary>
         private void AddDoctor_Load_1(object sender, EventArgs e)
         {
             try
@@ -144,71 +178,10 @@ namespace Client_Hosp
             }
         }
 
-        private void RefreshDoctorsList()
-        {
-            listViewDoctors.Items.Clear();
-            List<RPC> doctors = doctorRPC.GetAll(connectionString);
-
-            if (doctors != null)
-            {
-                foreach (var doc in doctors)
-                {
-                    var item = new ListViewItem(doc.ID.ToString());
-                    item.SubItems.Add(doc.FirstName);
-                    item.SubItems.Add(doc.LastName);
-                    item.SubItems.Add(doc.PhoneNumber);
-                    item.SubItems.Add(doc.Specialization);
-                    item.SubItems.Add(doc.Address);
-                    item.SubItems.Add(doc.Gender);
-                    item.SubItems.Add(doc.Status);
-                    item.SubItems.Add(doc.DepartmentId.ToString());
-
-                    listViewDoctors.Items.Add(item);
-                }
-            }
-            else
-            {
-                lblStatus.Text = "Error: No doctors found.";
-            }
-        }
-
-        private void ClearFields()
-        {
-            txtDoctorID.Clear();
-            txtName.Clear();
-            txtLast.Clear();
-            txtPhone.Clear();
-            textAdress.Clear();
-            ComSpecialization.SelectedIndex = -1;
-            GenM.Checked = false;
-            GenF.Checked = false;
-            ComDepartment.SelectedIndex = -1;
-            txtDoctorID.ReadOnly = false;
-        }
-
-        private string GetSelectedGender()
-        {
-            if (GenM.Checked) return "M";
-            if (GenF.Checked) return "F";
-            return string.Empty;
-        }
-
-        private void SetSelectedGender(string gender)
-        {
-            GenM.Checked = gender.ToUpper() == "M";
-            GenF.Checked = gender.ToUpper() == "F";
-        }
-
-        private int GetSelectedDepartmentId()
-        {
-            if (ComDepartment.SelectedItem != null)
-            {
-                string departmentText = ComDepartment.SelectedItem.ToString();
-                return int.Parse(departmentText.Split('-')[0].Trim());
-            }
-            return -1;
-        }
-
+        /// <summary>
+        /// Handles the Add button click event.
+        /// Validates and adds a new doctor to the system.
+        /// </summary>
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
@@ -286,8 +259,10 @@ namespace Client_Hosp
             }
         }
 
-        private bool isEditing = false;
-
+        /// <summary>
+        /// Handles the Modify button click event.
+        /// Toggles between edit mode and save mode for modifying doctor information.
+        /// </summary>
         private void btnModify_Click(object sender, EventArgs e)
         {
             if (listViewDoctors.SelectedItems.Count > 0)
@@ -404,6 +379,10 @@ namespace Client_Hosp
             }
         }
 
+        /// <summary>
+        /// Handles the Delete button click event.
+        /// Deletes the selected doctor after confirmation.
+        /// </summary>
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if(listViewDoctors.SelectedItems.Count > 0)
@@ -438,11 +417,10 @@ namespace Client_Hosp
         
     }
 
-        private void listViewDoctors_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Handles the View button click event.
+        /// Refreshes the doctors list display.
+        /// </summary>
         private void btnView_Click(object sender, EventArgs e)
         {
             try
@@ -464,6 +442,93 @@ namespace Client_Hosp
             }
         }
 
-        // Existing delete and other methods remain the same...
+        #endregion
+
+        #region Helper Methods
+
+        /// <summary>
+        /// Refreshes the ListView control with the current list of doctors.
+        /// </summary>
+        private void RefreshDoctorsList()
+        {
+            listViewDoctors.Items.Clear();
+            List<RPC> doctors = doctorRPC.GetAll(connectionString);
+
+            if (doctors != null)
+            {
+                foreach (var doc in doctors)
+                {
+                    var item = new ListViewItem(doc.ID.ToString());
+                    item.SubItems.Add(doc.FirstName);
+                    item.SubItems.Add(doc.LastName);
+                    item.SubItems.Add(doc.PhoneNumber);
+                    item.SubItems.Add(doc.Specialization);
+                    item.SubItems.Add(doc.Address);
+                    item.SubItems.Add(doc.Gender);
+                    item.SubItems.Add(doc.Status);
+                    item.SubItems.Add(doc.DepartmentId.ToString());
+
+                    listViewDoctors.Items.Add(item);
+                }
+            }
+            else
+            {
+                lblStatus.Text = "Error: No doctors found.";
+            }
+        }
+
+        /// <summary>
+        /// Clears all input fields and resets the form to its initial state.
+        /// </summary>
+        private void ClearFields()
+        {
+            txtDoctorID.Clear();
+            txtName.Clear();
+            txtLast.Clear();
+            txtPhone.Clear();
+            textAdress.Clear();
+            ComSpecialization.SelectedIndex = -1;
+            GenM.Checked = false;
+            GenF.Checked = false;
+            ComDepartment.SelectedIndex = -1;
+            txtDoctorID.ReadOnly = false;
+        }
+
+        /// <summary>
+        /// Gets the selected gender from the radio buttons.
+        /// </summary>
+        /// <returns>String representing the selected gender ('M' or 'F')</returns>
+        private string GetSelectedGender()
+        {
+            if (GenM.Checked) return "M";
+            if (GenF.Checked) return "F";
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Sets the gender radio buttons based on the provided gender value.
+        /// </summary>
+        /// <param name="gender">Gender value to set ('M' or 'F')</param>
+        private void SetSelectedGender(string gender)
+        {
+            GenM.Checked = gender.ToUpper() == "M";
+            GenF.Checked = gender.ToUpper() == "F";
+        }
+
+        /// <summary>
+        /// Gets the selected department ID from the department combo box.
+        /// </summary>
+        /// <returns>Integer representing the selected department ID</returns>
+        private int GetSelectedDepartmentId()
+        {
+            if (ComDepartment.SelectedItem != null)
+            {
+                string departmentText = ComDepartment.SelectedItem.ToString();
+                return int.Parse(departmentText.Split('-')[0].Trim());
+            }
+            return -1;
+        }
+
+        #endregion
     }
 }
