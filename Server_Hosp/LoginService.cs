@@ -5,7 +5,7 @@ using Middle_Hosp;
 
 namespace Server_Hosp
 {
-    public class LoginService : MarshalByRefObject, RPC
+    public class LoginService : MarshalByRefObject, Middle_Hosp.RPC
     {
         private string connectionString = @"Data Source=DESKTOP-C03F80S\SQLEXPRESS01;Initial Catalog=DoctorManagements;Integrated Security=True;Connect Timeout=30;";
             //@"Data Source=DESKTOP-MVIQ4R9\SQLEXPRESS01;Initial Catalog=New Database;Integrated Security=True;Connect Timeout=30;";
@@ -31,6 +31,11 @@ namespace Server_Hosp
         }
 
         public List<RPC> GetAll(string connectionString)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> GetDepartments(string connectionString)
         {
             throw new NotImplementedException();
         }
