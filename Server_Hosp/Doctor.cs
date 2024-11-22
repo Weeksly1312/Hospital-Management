@@ -7,8 +7,14 @@ using Middle_Hosp;
 
 namespace Server_Hosp
 {
+    /// <summary>
+    /// Represents a Doctor entity and implements the RPC interface for remote doctor management operations.
+    /// Handles database operations for doctor records including CRUD operations.
+    /// </summary>
     public class Doctor : MarshalByRefObject, Middle_Hosp.RPC
     {
+        #region Properties
+
         public int ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -19,6 +25,15 @@ namespace Server_Hosp
         public string Gender { get; set; }
         public string Status { get; set; }
 
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Initializes a doctor instance with the provided information.
+        /// Validates required fields before initialization.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown when required fields are empty or invalid</exception>
         public void Initialize(int id, string firstName, string lastName, string phoneNumber,
             string specialization, int departmentId, string address, string gender, string status)
         {
@@ -44,14 +59,20 @@ namespace Server_Hosp
             Status = status ?? "Available";
         }
 
+        /// <summary>
+        /// Adds a new doctor to the database.
+        /// </summary>
+        /// <param name="connectionString">Database connection string</param>
+        /// <returns>Success message or error description</returns>
         public string Add(string connectionString)
         {
             try
             {
-                if (!IsValidStatus(Status))
-                {
-                    return "Error: Invalid status value";
-                }
+                var (isValid, errorMessage) = ValidateDoctor(FirstName, LastName, PhoneNumber, 
+                    DepartmentId, Gender, Status);
+                
+                if (!isValid)
+                    return $"Error: {errorMessage}";
 
                 string query = @"INSERT INTO dbo.Doctors 
                     (first_name, last_name, phone_number, specialization, department_id, address, gender, status) 
@@ -82,22 +103,12 @@ namespace Server_Hosp
             }
         }
 
-        private bool IsValidStatus(string status)
-        {
-            string[] validStatuses = new string[]
-            {
-                "Available",
-                "In Consultation",
-                "On Break",
-                "Off Duty",
-                "In Surgery",
-                "Unavailable",
-                "Emergency"
-            };
-
-            return validStatuses.Contains(status);
-        }
-
+        /// <summary>
+        /// Deletes a doctor from the database by their ID.
+        /// </summary>
+        /// <param name="connectionString">Database connection string</param>
+        /// <param name="doctorId">ID of the doctor to delete</param>
+        /// <returns>Success message or error description</returns>
         public string DeleteDoctor(string connectionString, int doctorId)
         {
             try
@@ -121,6 +132,11 @@ namespace Server_Hosp
             }
         }
 
+        /// <summary>
+        /// Retrieves all doctors from the database.
+        /// </summary>
+        /// <param name="connectionString">Database connection string</param>
+        /// <returns>List of doctors or null if an error occurs</returns>
         public List<RPC> GetAll(string connectionString)
         {
             List<RPC> doctors = new List<RPC>();
@@ -165,15 +181,20 @@ namespace Server_Hosp
             }
         }
 
+        /// <summary>
+        /// Updates an existing doctor's information in the database.
+        /// </summary>
+        /// <returns>Success message or error description</returns>
         public string ModifyDoctor(string connectionString, int doctorId, string firstName, string lastName,
             string phoneNumber, string specialization, int departmentId, string address, string gender, string status)
         {
             try
             {
-                if (!IsValidStatus(status))
-                {
-                    return "Error: Invalid status value";
-                }
+                var (isValid, errorMessage) = ValidateDoctor(firstName, lastName, phoneNumber, 
+                    departmentId, gender, status);
+                
+                if (!isValid)
+                    return $"Error: {errorMessage}";
 
                 string query = @"UPDATE dbo.Doctors 
                     SET first_name = @FirstName, 
@@ -212,6 +233,68 @@ namespace Server_Hosp
             }
         }
 
+        #endregion
+
+        #region Validation Methods
+
+        /// <summary>
+        /// Validates all doctor information before any database operation.
+        /// </summary>
+        /// <returns>Tuple with validation result and error message if any</returns>
+        private (bool isValid, string errorMessage) ValidateDoctor(string firstName, string lastName, 
+            string phoneNumber, int departmentId, string gender, string status)
+        {
+            // Required fields validation
+            if (string.IsNullOrWhiteSpace(firstName))
+                return (false, "First name cannot be empty");
+            if (string.IsNullOrWhiteSpace(lastName))
+                return (false, "Last name cannot be empty");
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+                return (false, "Phone number cannot be empty");
+            if (string.IsNullOrWhiteSpace(gender))
+                return (false, "Gender cannot be empty");
+            if (departmentId <= 0)
+                return (false, "Invalid department ID");
+
+            // Phone number format validation
+            if (!System.Text.RegularExpressions.Regex.IsMatch(phoneNumber, @"^\+?[\d\s-]+$"))
+                return (false, "Invalid phone number format");
+
+            // Gender validation
+            if (gender.ToUpper() != "M" && gender.ToUpper() != "F")
+                return (false, "Gender must be 'M' or 'F'");
+
+            // Status validation
+            if (!IsValidStatus(status))
+                return (false, "Invalid status value");
+
+            return (true, string.Empty);
+        }
+
+        /// <summary>
+        /// Validates if the provided status is one of the allowed values.
+        /// </summary>
+        private bool IsValidStatus(string status)
+        {
+            string[] validStatuses = new string[]
+            {
+                "Available",
+                "In Consultation",
+                "On Break",
+                "Off Duty",
+                "In Surgery",
+                "Unavailable",
+                "Emergency"
+            };
+
+            return validStatuses.Contains(status);
+        }
+
+        #endregion
+
+        #region Interface Implementation
+
+        // These methods are part of the interface but not implemented in this context
         public bool Login(string username, string password)
         {
             throw new NotImplementedException();
@@ -226,6 +309,7 @@ namespace Server_Hosp
         {
             throw new NotImplementedException();
         }
-    }
 
+        #endregion
+    }
 }
