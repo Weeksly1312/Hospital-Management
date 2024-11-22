@@ -189,6 +189,7 @@ namespace Client_Hosp
             this.listViewDoctors.TabIndex = 45;
             this.listViewDoctors.UseCompatibleStateImageBehavior = false;
             this.listViewDoctors.View = System.Windows.Forms.View.Details;
+            this.listViewDoctors.SelectedIndexChanged += new System.EventHandler(this.listViewDoctors_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -382,6 +383,11 @@ namespace Client_Hosp
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        private void listViewDoctors_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void AddDoctor_Load(object sender, EventArgs e)
