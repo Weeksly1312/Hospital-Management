@@ -65,17 +65,18 @@ namespace Client_Hosp
                 "Psychiatry"
             });
 
-            // Updated Department ComboBox with more realistic departments
-            ComDepartment.Items.AddRange(new string[] {
-                "1 - Emergency Department",
-                "2 - Internal Medicine",
-                "3 - Surgery Department",
-                "4 - Pediatrics Department",
-                "5 - Obstetrics & Gynecology",
-                "6 - Cardiology Department",
-                "7 - Neurology Department",
-                "8 - Intensive Care Unit"
-            });
+            // Updated Department ComboBox to use database values
+            try
+            {
+                List<string> departments = doctorRPC.GetDepartments(connectionString);
+                ComDepartment.Items.Clear();
+                ComDepartment.Items.AddRange(departments.ToArray());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading departments: {ex.Message}", 
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             // Status ComboBox setup
             ComStatus.Items.Clear();
