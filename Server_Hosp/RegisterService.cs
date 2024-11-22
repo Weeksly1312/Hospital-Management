@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using Middle_Hosp;
 
-public class RegisterService : MarshalByRefObject, RPC
+public class RegisterService : MarshalByRefObject, Middle_Hosp.RPC
 {
     private readonly string connectionString = @"Data Source=DESKTOP-C03F80S\SQLEXPRESS01;Initial Catalog=DoctorManagements;Integrated Security=True;Connect Timeout=30;";
     //@"Data Source=DESKTOP-MVIQ4R9\SQLEXPRESS01;Initial Catalog=New Database;Integrated Security=True;Connect Timeout=30";
@@ -153,6 +153,11 @@ public bool Login(string username, string password)
     }
 
     public void Initialize(string text1, string text2, string text3, int v, string text4, string text5, string text6, string text7)
+    {
+        throw new NotImplementedException();
+    }
+
+    public List<string> GetDepartments(string connectionString)
     {
         throw new NotImplementedException();
     }
