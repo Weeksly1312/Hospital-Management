@@ -186,6 +186,14 @@ namespace Client_Hosp
         /// <returns>True if validation passes, false otherwise</returns>
         private bool ValidateFormInputs()
         {
+            // Check ID field
+            if (string.IsNullOrWhiteSpace(txtDoctorID.Text))
+            {
+                MessageBox.Show("Please enter a Doctor ID",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
             // Check required fields
             if (string.IsNullOrWhiteSpace(txtName.Text) ||
                 string.IsNullOrWhiteSpace(txtLast.Text) ||
@@ -222,6 +230,23 @@ namespace Client_Hosp
         {
             try
             {
+                // Add ID validation
+                if (!int.TryParse(txtDoctorID.Text, out int doctorId))
+                {
+                    MessageBox.Show("Please enter a valid numeric ID", 
+                        "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Check if ID already exists
+                List<RPC> doctors = doctorRPC.GetAll(connectionString);
+                if (doctors.Any(d => d.ID == doctorId))
+                {
+                    MessageBox.Show("A doctor with this ID already exists. Please use a different ID.",
+                        "Duplicate ID", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 if (!ValidateFormInputs())
                     return;
 
@@ -229,7 +254,7 @@ namespace Client_Hosp
                 lblStatus.Text = "Adding doctor...";
 
                 doctorRPC.Initialize(
-                    0,
+                    doctorId, // Use the parsed ID
                     txtName.Text.Trim(),
                     txtLast.Text.Trim(),
                     txtPhone.Text.Trim(),
