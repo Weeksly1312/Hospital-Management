@@ -21,5 +21,15 @@ namespace Client_Hosp
         {
 
         }
+
+        private void txtPatientID_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPaLast_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
