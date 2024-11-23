@@ -35,5 +35,9 @@ namespace Middle_Hosp
 
         List<string> GetDepartments(string connectionString);
         List<string> GetSpecializations(string connectionString);
+        List<RPC> GetDoctors(string connectionString);
+        void Initialize(int patientId, string v1, string v2, string v3, string v4, DateTime value, string v5, string v6, int v7, int v8, string v9);
+        string DeletePatient(string connectionString, int selectedPatientID);
+        string Update(string connectionString, int patientId, string v1, string v2, string v3, string v4, DateTime value, string v5, string v6, int v7, int v8, string v9);
     }
 }
