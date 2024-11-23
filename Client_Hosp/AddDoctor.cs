@@ -571,20 +571,6 @@ namespace Client_Hosp
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            //private void ExportToCSV()
-            //{
-            //    string filePath = "export.csv";
-            //    using (StreamWriter writer = new StreamWriter(filePath))
-            //    {
-            //        writer.WriteLine("ID, FirstName, LastName, Age, Gender, Blood, Doctor, Room, Address, Disease");
-            //        foreach (DataGridViewRow row in dataGridView.Rows)
-            //        {
-            //            string line = string.Join(",", row.Cells.Cast<DataGridViewCell>().Select(cell => cell.Value?.ToString()));
-            //            writer.WriteLine(line);
-            //        }
-            //    }
-            //    MessageBox.Show("Data exported successfully!");
-            //}
 
         }
     }
