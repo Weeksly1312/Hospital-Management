@@ -8,7 +8,7 @@ namespace Server_Hosp
     public class LoginService : MarshalByRefObject, Middle_Hosp.RPC
     {
         private string connectionString = @"Data Source=DESKTOP-C03F80S\SQLEXPRESS01;Initial Catalog=DoctorManagements;Integrated Security=True;Connect Timeout=30;";
-            //@"Data Source=DESKTOP-MVIQ4R9\SQLEXPRESS01;Initial Catalog=New Database;Integrated Security=True;Connect Timeout=30;";
+        //@"Data Source=DESKTOP-MVIQ4R9\SQLEXPRESS01;Initial Catalog=New Database;Integrated Security=True;Connect Timeout=30;";
 
         public int ID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string FirstName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -19,6 +19,15 @@ namespace Server_Hosp
         public string Address { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string Gender { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string Status { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        int RPC.ID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string RPC.FirstName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string RPC.LastName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string RPC.PhoneNumber { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string RPC.Specialization { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        int RPC.DepartmentId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string RPC.Address { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string RPC.Gender { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string RPC.Status { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public string Add(string connectionString)
         {
@@ -30,12 +39,22 @@ namespace Server_Hosp
             throw new NotImplementedException();
         }
 
+        public string DeletePatient(string connectionString, int selectedPatientID)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<RPC> GetAll(string connectionString)
         {
             throw new NotImplementedException();
         }
 
         public List<string> GetDepartments(string connectionString)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<RPC> GetDoctors(string connectionString)
         {
             throw new NotImplementedException();
         }
@@ -51,6 +70,11 @@ namespace Server_Hosp
         }
 
         public void Initialize(string text1, string text2, string text3, int v, string text4, string text5, string text6, string text7)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Initialize(int patientId, string v1, string v2, string v3, string v4, DateTime value, string v5, string v6, int v7, int v8, string v9)
         {
             throw new NotImplementedException();
         }
@@ -130,6 +154,11 @@ namespace Server_Hosp
                 Console.WriteLine($"RegisterUser error: {ex.Message}");
                 return "An unexpected error occurred.";
             }
+        }
+
+        public string Update(string connectionString, int patientId, string v1, string v2, string v3, string v4, DateTime value, string v5, string v6, int v7, int v8, string v9)
+        {
+            throw new NotImplementedException();
         }
     }
 }
