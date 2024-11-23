@@ -103,21 +103,28 @@ namespace Client_Hosp
         {
             try
             {
-                TcpChannel existingChannel = null;
-                foreach (IChannel chan in ChannelServices.RegisteredChannels)
+                // First ensure server is reachable
+                using (var client = new System.Net.Sockets.TcpClient())
                 {
-                    if (chan is TcpChannel)
+                    try
                     {
-                        existingChannel = (TcpChannel)chan;
-                        break;
+                        client.Connect("localhost", 2222);
+                    }
+                    catch (Exception)
+                    {
+                        throw new Exception("Cannot connect to server. Please ensure the server is running.");
                     }
                 }
 
-                if (existingChannel == null)
+                // Unregister any existing channels
+                foreach (IChannel chan in ChannelServices.RegisteredChannels)
                 {
-                    TcpChannel channelDoctor = new TcpChannel();
-                    ChannelServices.RegisterChannel(channelDoctor, false);
+                    ChannelServices.UnregisterChannel(chan);
                 }
+
+                // Register new channel
+                TcpChannel channelDoctor = new TcpChannel();
+                ChannelServices.RegisterChannel(channelDoctor, false);
 
                 doctorRPC = (Middle_Hosp.RPC)Activator.GetObject(
                     typeof(Middle_Hosp.RPC),
@@ -128,6 +135,7 @@ namespace Client_Hosp
                     throw new Exception("Failed to connect to doctor service");
                 }
 
+                // Test the connection
                 try
                 {
                     List<RPC> doctors = doctorRPC.GetAll(connectionString);
