@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.listViewDoctors = new System.Windows.Forms.ListView();
+            this.listViewPatients = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -81,7 +81,7 @@
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.listViewDoctors);
+            this.panel1.Controls.Add(this.listViewPatients);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Location = new System.Drawing.Point(18, 25);
@@ -89,10 +89,10 @@
             this.panel1.Size = new System.Drawing.Size(839, 279);
             this.panel1.TabIndex = 5;
             // 
-            // listViewDoctors
+            // listViewPatients
             // 
-            this.listViewDoctors.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.listViewDoctors.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listViewPatients.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.listViewPatients.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
@@ -104,13 +104,14 @@
             this.columnHeader8,
             this.columnHeader10,
             this.columnHeader11});
-            this.listViewDoctors.HideSelection = false;
-            this.listViewDoctors.Location = new System.Drawing.Point(22, 59);
-            this.listViewDoctors.Name = "listViewDoctors";
-            this.listViewDoctors.Size = new System.Drawing.Size(798, 193);
-            this.listViewDoctors.TabIndex = 46;
-            this.listViewDoctors.UseCompatibleStateImageBehavior = false;
-            this.listViewDoctors.View = System.Windows.Forms.View.Details;
+            this.listViewPatients.HideSelection = false;
+            this.listViewPatients.Location = new System.Drawing.Point(22, 59);
+            this.listViewPatients.Name = "listViewPatients";
+            this.listViewPatients.Size = new System.Drawing.Size(798, 193);
+            this.listViewPatients.TabIndex = 46;
+            this.listViewPatients.UseCompatibleStateImageBehavior = false;
+            this.listViewPatients.View = System.Windows.Forms.View.Details;
+            this.listViewPatients.SelectedIndexChanged += new System.EventHandler(this.listViewDoctors_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -257,6 +258,7 @@
             this.GenPaF.TabIndex = 86;
             this.GenPaF.Text = "Female";
             this.GenPaF.UseVisualStyleBackColor = true;
+            this.GenPaF.CheckedChanged += new System.EventHandler(this.GenPaF_CheckedChanged);
             // 
             // GenPaM
             // 
@@ -410,7 +412,6 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(839, 215);
             this.panel3.TabIndex = 6;
-            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
             // dateTimePicker1
             // 
@@ -532,7 +533,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ListView listViewDoctors;
+        private System.Windows.Forms.ListView listViewPatients;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
