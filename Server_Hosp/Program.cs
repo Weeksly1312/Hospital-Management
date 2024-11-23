@@ -33,7 +33,7 @@ namespace Server_Hosp
                     WellKnownObjectMode.Singleton);
 
                 RemotingConfiguration.RegisterWellKnownServiceType(
-                   typeof(Patient),
+                   typeof(Server_Hosp.Patient),
                    "patient",
                    WellKnownObjectMode.Singleton);
 
