@@ -12,6 +12,7 @@ namespace Client_Hosp
 {
     public partial class MainForm : Form
     {
+       
         public MainForm()
         {
             InitializeComponent();
@@ -43,8 +44,9 @@ namespace Client_Hosp
         private void dashboard_btn_Click(object sender, EventArgs e)
         {
             dashboard1.Visible = true;
-            AddDoctor1.Visible = false;
-            //salary1.Visible = false;
+            addDoctor1.Visible = false;
+            addPatient1.Visible = false;
+            addRoom1.Visible = false;
 
             Dashboard dashForm = dashboard1 as Dashboard;
 
@@ -58,10 +60,13 @@ namespace Client_Hosp
         private void AddDoctor_btn_Click(object sender, EventArgs e)
         {
             dashboard1.Visible = false;
-            AddDoctor1.Visible = true;
+            addDoctor1.Visible = true;
+            addPatient1.Visible = false;
+            addRoom1.Visible = false;
+
             //salary1.Visible = false;
 
-            AddDoctor addEmForm = AddDoctor1 as AddDoctor;
+            AddDoctor addEmForm = addDoctor1 as AddDoctor;
 
             //if (addEmForm != null)
             //{
@@ -72,6 +77,49 @@ namespace Client_Hosp
         private void dashboard1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        
+
+        private void addDoctor2_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddDoctor1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddPatient_btn_Click(object sender, EventArgs e)
+        {
+            dashboard1.Visible = false;
+            addDoctor1.Visible = false;
+            addPatient1.Visible = true;
+            addRoom1.Visible = false;
+
+            AddPatient dashForm = addPatient1 as AddPatient;
+
+            //if (dashForm != null)
+            //{
+            //    dashForm.RefreshData();
+            //}
+        }
+
+        private void AddRoom_btn_Click(object sender, EventArgs e)
+        {
+            dashboard1.Visible = false;
+            addDoctor1.Visible = false;
+            addPatient1.Visible = false;
+            addRoom1.Visible = true;
+
+
+            AddRoom dashForm = addRoom1 as AddRoom;
+
+            //if (dashForm != null)
+            //{
+            //    dashForm.RefreshData();
+            //}
         }
     }
     }
