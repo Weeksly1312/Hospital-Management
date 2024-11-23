@@ -11,6 +11,7 @@ namespace Client_Hosp
     {
         #region Fields
         private Middle_Hosp.RPC patientRPC;
+        private Middle_Hosp.RPC doctorRPC;
         private readonly string connectionString = @"Data Source=DESKTOP-C03F80S\SQLEXPRESS01;Initial Catalog=DoctorManagements;Integrated Security=True;Connect Timeout=30;";
         private bool isEditing = false;
         #endregion
@@ -56,9 +57,13 @@ namespace Client_Hosp
                     typeof(Middle_Hosp.RPC),
                     "tcp://localhost:2222/patient");
 
-                if (patientRPC == null)
+                doctorRPC = (Middle_Hosp.RPC)Activator.GetObject(
+                    typeof(Middle_Hosp.RPC),
+                    "tcp://localhost:2222/doctor");
+
+                if (patientRPC == null || doctorRPC == null)
                 {
-                    throw new Exception("Failed to connect to patient service");
+                    throw new Exception("Failed to connect to one or more services");
                 }
             }
             catch (Exception ex)
@@ -79,11 +84,20 @@ namespace Client_Hosp
             // Setup doctors combo box
             try
             {
-                List<RPC> doctors = patientRPC.GetDoctors(connectionString);
                 ComDoctor.Items.Clear();
-                foreach (var doctor in doctors)
+                List<RPC> doctors = doctorRPC.GetAll(connectionString);
+                
+                if (doctors != null)
                 {
-                    ComDoctor.Items.Add($"{doctor.ID} - Dr. {doctor.FirstName} {doctor.LastName}");
+                    foreach (var doctor in doctors)
+                    {
+                        ComDoctor.Items.Add($"{doctor.ID} - Dr. {doctor.FirstName} {doctor.LastName}");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No doctors found in the system.", 
+                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
@@ -94,7 +108,6 @@ namespace Client_Hosp
 
             // Setup disease/diagnosis combo box
             ComDisease.Items.Clear();
-            // Add your diseases/diagnoses here
             ComDisease.Items.AddRange(new string[] {
                 "Flu",
                 "Pneumonia",
