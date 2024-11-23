@@ -32,17 +32,19 @@
             this.label2 = new System.Windows.Forms.Label();
             this.exit = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.AddRoom_btn = new System.Windows.Forms.Button();
             this.logout_btn = new System.Windows.Forms.Button();
-            this.salary_btn = new System.Windows.Forms.Button();
+            this.AddPatient_btn = new System.Windows.Forms.Button();
             this.AddDoctor_btn = new System.Windows.Forms.Button();
             this.dashboard_btn = new System.Windows.Forms.Button();
             this.greet_user = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.dashboard1 = new Client_Hosp.Dashboard();
-            this.AddDoctor1 = new Client_Hosp.AddDoctor();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.dashboard1 = new Client_Hosp.Dashboard();
+            this.addPatient1 = new Client_Hosp.AddPatient();
+            this.addDoctor1 = new Client_Hosp.AddDoctor();
+            this.addRoom1 = new Client_Hosp.AddRoom();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel3.SuspendLayout();
@@ -76,9 +78,9 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel2.Controls.Add(this.button1);
+            this.panel2.Controls.Add(this.AddRoom_btn);
             this.panel2.Controls.Add(this.logout_btn);
-            this.panel2.Controls.Add(this.salary_btn);
+            this.panel2.Controls.Add(this.AddPatient_btn);
             this.panel2.Controls.Add(this.AddDoctor_btn);
             this.panel2.Controls.Add(this.dashboard_btn);
             this.panel2.Controls.Add(this.greet_user);
@@ -89,26 +91,28 @@
             this.panel2.Size = new System.Drawing.Size(225, 565);
             this.panel2.TabIndex = 4;
             // 
-            // button1
+            // AddRoom_btn
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(11)))), ((int)(((byte)(97)))));
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(14, 390);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(200, 40);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "MANAGE PATIENTS";
-            this.button1.UseVisualStyleBackColor = false;
+            this.AddRoom_btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(11)))), ((int)(((byte)(97)))));
+            this.AddRoom_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.AddRoom_btn.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
+            this.AddRoom_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
+            this.AddRoom_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
+            this.AddRoom_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AddRoom_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AddRoom_btn.ForeColor = System.Drawing.Color.White;
+            this.AddRoom_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.AddRoom_btn.Location = new System.Drawing.Point(14, 390);
+            this.AddRoom_btn.Name = "AddRoom_btn";
+            this.AddRoom_btn.Size = new System.Drawing.Size(200, 40);
+            this.AddRoom_btn.TabIndex = 7;
+            this.AddRoom_btn.Text = "MANAGE ROOMS";
+            this.AddRoom_btn.UseVisualStyleBackColor = false;
+            this.AddRoom_btn.Click += new System.EventHandler(this.AddRoom_btn_Click);
             // 
             // logout_btn
             // 
+            this.logout_btn.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.logout_btn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.logout_btn.FlatAppearance.BorderSize = 0;
             this.logout_btn.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
@@ -121,26 +125,27 @@
             this.logout_btn.Size = new System.Drawing.Size(43, 35);
             this.logout_btn.TabIndex = 5;
             this.logout_btn.Text = "Close X";
-            this.logout_btn.UseVisualStyleBackColor = true;
+            this.logout_btn.UseVisualStyleBackColor = false;
             this.logout_btn.Click += new System.EventHandler(this.logout_btn_Click);
             // 
-            // salary_btn
+            // AddPatient_btn
             // 
-            this.salary_btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(11)))), ((int)(((byte)(97)))));
-            this.salary_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.salary_btn.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
-            this.salary_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
-            this.salary_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
-            this.salary_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.salary_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.salary_btn.ForeColor = System.Drawing.Color.White;
-            this.salary_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.salary_btn.Location = new System.Drawing.Point(14, 334);
-            this.salary_btn.Name = "salary_btn";
-            this.salary_btn.Size = new System.Drawing.Size(200, 40);
-            this.salary_btn.TabIndex = 4;
-            this.salary_btn.Text = "MANAGE PATIENTS";
-            this.salary_btn.UseVisualStyleBackColor = false;
+            this.AddPatient_btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(11)))), ((int)(((byte)(97)))));
+            this.AddPatient_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.AddPatient_btn.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
+            this.AddPatient_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
+            this.AddPatient_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
+            this.AddPatient_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AddPatient_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AddPatient_btn.ForeColor = System.Drawing.Color.White;
+            this.AddPatient_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.AddPatient_btn.Location = new System.Drawing.Point(14, 334);
+            this.AddPatient_btn.Name = "AddPatient_btn";
+            this.AddPatient_btn.Size = new System.Drawing.Size(200, 40);
+            this.AddPatient_btn.TabIndex = 4;
+            this.AddPatient_btn.Text = "MANAGE PATIENTS";
+            this.AddPatient_btn.UseVisualStyleBackColor = false;
+            this.AddPatient_btn.Click += new System.EventHandler(this.AddPatient_btn_Click);
             // 
             // AddDoctor_btn
             // 
@@ -204,27 +209,14 @@
             // panel3
             // 
             this.panel3.Controls.Add(this.dashboard1);
-            this.panel3.Controls.Add(this.AddDoctor1);
+            this.panel3.Controls.Add(this.addRoom1);
+            this.panel3.Controls.Add(this.addPatient1);
+            this.panel3.Controls.Add(this.addDoctor1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 35);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1100, 565);
             this.panel3.TabIndex = 5;
-            // 
-            // dashboard1
-            // 
-            this.dashboard1.Location = new System.Drawing.Point(222, 0);
-            this.dashboard1.Name = "dashboard1";
-            this.dashboard1.Size = new System.Drawing.Size(875, 565);
-            this.dashboard1.TabIndex = 1;
-            this.dashboard1.Load += new System.EventHandler(this.dashboard1_Load);
-            // 
-            // AddDoctor1
-            // 
-            this.AddDoctor1.Location = new System.Drawing.Point(222, 0);
-            this.AddDoctor1.Name = "AddDoctor1";
-            this.AddDoctor1.Size = new System.Drawing.Size(875, 565);
-            this.AddDoctor1.TabIndex = 0;
             // 
             // panel1
             // 
@@ -237,6 +229,34 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1100, 35);
             this.panel1.TabIndex = 3;
+            // 
+            // dashboard1
+            // 
+            this.dashboard1.Location = new System.Drawing.Point(225, 0);
+            this.dashboard1.Name = "dashboard1";
+            this.dashboard1.Size = new System.Drawing.Size(875, 562);
+            this.dashboard1.TabIndex = 2;
+            // 
+            // addPatient1
+            // 
+            this.addPatient1.Location = new System.Drawing.Point(225, 0);
+            this.addPatient1.Name = "addPatient1";
+            this.addPatient1.Size = new System.Drawing.Size(875, 562);
+            this.addPatient1.TabIndex = 1;
+            // 
+            // addDoctor1
+            // 
+            this.addDoctor1.Location = new System.Drawing.Point(225, 0);
+            this.addDoctor1.Name = "addDoctor1";
+            this.addDoctor1.Size = new System.Drawing.Size(875, 565);
+            this.addDoctor1.TabIndex = 0;
+            // 
+            // addRoom1
+            // 
+            this.addRoom1.Location = new System.Drawing.Point(225, 0);
+            this.addRoom1.Name = "addRoom1";
+            this.addRoom1.Size = new System.Drawing.Size(875, 562);
+            this.addRoom1.TabIndex = 2;
             // 
             // MainForm
             // 
@@ -267,15 +287,17 @@
         private System.Windows.Forms.Label exit;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button logout_btn;
-        private System.Windows.Forms.Button salary_btn;
+        private System.Windows.Forms.Button AddPatient_btn;
         private System.Windows.Forms.Button AddDoctor_btn;
         private System.Windows.Forms.Button dashboard_btn;
         private System.Windows.Forms.Label greet_user;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel1;
-        private Dashboard dashboard1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button1;
-        private AddDoctor AddDoctor1;
+        private System.Windows.Forms.Button AddRoom_btn;
+        private Dashboard dashboard1;
+        private AddPatient addPatient1;
+        private AddDoctor addDoctor1;
+        private AddRoom addRoom1;
     }
 }
