@@ -72,56 +72,6 @@ public class RegisterService : MarshalByRefObject, Middle_Hosp.RPC
         return $"Error: {ex.Message}";
     }
 }
-    //public string RegisterUser(string username, string password)
-    //{
-    //    if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
-    //        return "Please fill all blank fields.";
-
-    //    try
-    //    {
-    //        if (_connect.State != System.Data.ConnectionState.Open)
-    //        {
-    //            _connect.Open();
-    //        }
-
-    //        // Check if the user already exists
-    //        string selectUsername = "SELECT COUNT(id) FROM dbo.users WHERE username = @user";
-    //        using (SqlCommand checkUser = new SqlCommand(selectUsername, _connect))
-    //        {
-    //            checkUser.Parameters.AddWithValue("@user", username.Trim());
-    //            int count = (int)checkUser.ExecuteScalar();
-
-    //            if (count >= 1)
-    //            {
-    //                return $"{username.Trim()} is already taken.";
-    //            }
-    //        }
-
-    //        // Insert new user
-    //        string insertData = "INSERT INTO dbo.users (username, password) VALUES(@username, @password)";
-    //        using (SqlCommand cmd = new SqlCommand(insertData, _connect))
-    //        {
-    //            cmd.Parameters.AddWithValue("@username", username.Trim());
-    //            cmd.Parameters.AddWithValue("@password", password.Trim());
-    //            cmd.ExecuteNonQuery();
-    //        }
-
-    //        return "Registered successfully!";
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return $"Error: {ex.Message}";
-    //    }
-    //    finally
-    //    {
-    //        if (_connect.State == System.Data.ConnectionState.Open)
-    //        {
-    //            _connect.Close();
-    //        }
-    //    }
-    //}
-
-
 public bool Login(string username, string password)
     {
         throw new NotImplementedException();
@@ -166,126 +116,24 @@ public bool Login(string username, string password)
     {
         throw new NotImplementedException();
     }
+
+    public List<RPC> GetDoctors(string connectionString)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Initialize(int patientId, string v1, string v2, string v3, string v4, DateTime value, string v5, string v6, int v7, int v8, string v9)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string DeletePatient(string connectionString, int selectedPatientID)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string Update(string connectionString, int patientId, string v1, string v2, string v3, string v4, DateTime value, string v5, string v6, int v7, int v8, string v9)
+    {
+        throw new NotImplementedException();
+    }
 }
-
-//using System.Data.SqlClient;
-//using System.Drawing;
-//using System.Linq;
-//using System.Runtime.Remoting.Contexts;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows.Forms;
-
-//namespace HospitalAPP
-//{
-//    public partial class RegisterForm : Form
-//    {
-//        SqlConnection connect
-//            = new SqlConnection(@"Data Source=DESKTOP-MVIQ4R9\SQLEXPRESS01;Initial Catalog=New Database;Integrated Security=True;Connect Timeout=30");
-//        public RegisterForm()
-//        {
-//            InitializeComponent();
-//        }
-
-//        private void label7_Click(object sender, EventArgs e)
-//        {
-
-//        }
-
-//        private void exit_Click(object sender, EventArgs e)
-//        {
-//            Application.Exit();
-//        }
-
-//        private void login_showPass_CheckedChanged(object sender, EventArgs e)
-//        {
-
-//            signup_password.PasswordChar = signup_showPass.Checked ? '\0' : '*';
-
-
-//        }
-
-
-//        private void login_btn_Click(object sender, EventArgs e)
-//        {
-//            if (signup_username.Text == ""
-//                || signup_password.Text == "")
-//            {
-//                MessageBox.Show("Please fill all blank fields"
-//                    , "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-//            }
-//            else
-//            {
-//                if (connect.State != ConnectionState.Open)
-//                {
-//                    try
-//                    {
-//                        connect.Open();
-//                        // TO CHECK IF THE USER IS EXISTING ALREADY
-//                        string selectUsername = "SELECT COUNT(id) FROM dbo.users WHERE username = @user";
-
-//                        using (SqlCommand checkUser = new SqlCommand(selectUsername, connect))
-//                        {
-//                            checkUser.Parameters.AddWithValue("@user", signup_username.Text.Trim());
-//                            int count = (int)checkUser.ExecuteScalar();
-
-//                            if (count >= 1)
-//                            {
-//                                MessageBox.Show(signup_username.Text.Trim() + " is already taken"
-//                                    , "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-//                            }
-//                            else
-//                            {
-//                                DateTime today = DateTime.Today;
-
-//                                string insertData = "INSERT INTO dbo.users " +
-//                                    "(username, password ) " +
-//                                "VALUES(@username, @password)";
-
-//                                using (SqlCommand cmd = new SqlCommand(insertData, connect))
-//                                {
-//                                    cmd.Parameters.AddWithValue("@username", signup_username.Text.Trim());
-//                                    cmd.Parameters.AddWithValue("@password", signup_password.Text.Trim());
-//                                    //cmd.Parameters.AddWithValue("@dateReg", today);
-
-//                                    cmd.ExecuteNonQuery();
-
-//                                    MessageBox.Show("Registered successfully!"
-//                                        , "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-//                                    //Form1 loginForm = new Form1();
-//                                    //loginForm.Show();
-//                                    //this.Hide();
-//                                }
-//                            }
-//                        }
-
-
-
-//                    }
-//                    catch (Exception ex)
-//                    {
-//                        MessageBox.Show("Error: " + ex
-//                    , "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-//                    }
-//                    finally
-//                    {
-//                        connect.Close();
-//                    }
-//                }
-//            }
-//        }
-
-//        private void signup_loginBtn_Click(object sender, EventArgs e)
-//        {
-//            LoginForm regForm = new LoginForm();
-//            regForm.Show();
-//            this.Hide();
-//        }
-
-//        private void RegisterForm_Load(object sender, EventArgs e)
-//        {
-
-//        }
-//    }
-//}
