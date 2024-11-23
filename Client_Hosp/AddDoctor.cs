@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Channels;
 using Middle_Hosp;
+using System.IO;
 
 namespace Client_Hosp
 {
@@ -238,7 +239,7 @@ namespace Client_Hosp
         /// Handles the Add button click event.
         /// Validates and adds a new doctor to the system.
         /// </summary>
-        private void btnAdd_Click(object sender, EventArgs e)
+        private void btnAdd_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -309,7 +310,7 @@ namespace Client_Hosp
         /// Handles the Modify button click event.
         /// Toggles between edit mode and save mode for modifying doctor information.
         /// </summary>
-        private void btnModify_Click(object sender, EventArgs e)
+        private void btnModify_Click_1(object sender, EventArgs e)
         {
             if (listViewDoctors.SelectedItems.Count == 0)
             {
@@ -410,7 +411,7 @@ namespace Client_Hosp
         /// Handles the Delete button click event.
         /// Deletes the selected doctor after confirmation.
         /// </summary>
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void btnDelete_Click_1(object sender, EventArgs e)
         {
             if(listViewDoctors.SelectedItems.Count > 0)
             {
@@ -560,6 +561,30 @@ namespace Client_Hosp
 
         private void listViewDoctors_SelectedIndexChanged_1(object sender, EventArgs e)
         {
+
+        }
+
+        private void panel3_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            //private void ExportToCSV()
+            //{
+            //    string filePath = "export.csv";
+            //    using (StreamWriter writer = new StreamWriter(filePath))
+            //    {
+            //        writer.WriteLine("ID, FirstName, LastName, Age, Gender, Blood, Doctor, Room, Address, Disease");
+            //        foreach (DataGridViewRow row in dataGridView.Rows)
+            //        {
+            //            string line = string.Join(",", row.Cells.Cast<DataGridViewCell>().Select(cell => cell.Value?.ToString()));
+            //            writer.WriteLine(line);
+            //        }
+            //    }
+            //    MessageBox.Show("Data exported successfully!");
+            //}
 
         }
     }
