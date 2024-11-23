@@ -215,6 +215,7 @@
             this.btnDelete.TabIndex = 89;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnModify
             // 
@@ -233,6 +234,7 @@
             this.btnModify.TabIndex = 88;
             this.btnModify.Text = "Modify";
             this.btnModify.UseVisualStyleBackColor = false;
+            this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
             // 
             // ComDisease
             // 
@@ -363,7 +365,6 @@
             this.txtPaLast.Name = "txtPaLast";
             this.txtPaLast.Size = new System.Drawing.Size(100, 20);
             this.txtPaLast.TabIndex = 69;
-            this.txtPaLast.TextChanged += new System.EventHandler(this.txtPaLast_TextChanged);
             // 
             // txtPaID
             // 
@@ -371,7 +372,6 @@
             this.txtPaID.Name = "txtPaID";
             this.txtPaID.Size = new System.Drawing.Size(46, 20);
             this.txtPaID.TabIndex = 68;
-            this.txtPaID.TextChanged += new System.EventHandler(this.txtPatientID_TextChanged);
             // 
             // panel3
             // 
@@ -503,6 +503,7 @@
             this.btnAdd.TabIndex = 14;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // panel4
             // 
