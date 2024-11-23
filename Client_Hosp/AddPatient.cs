@@ -17,19 +17,25 @@ namespace Client_Hosp
             InitializeComponent();
         }
 
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnModify_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void panel3_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
-        private void txtPatientID_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtPaLast_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
