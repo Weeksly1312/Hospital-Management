@@ -397,6 +397,26 @@ namespace Server_Hosp
             throw new NotImplementedException();
         }
 
+        public List<RPC> GetDoctors(string connectionString)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Initialize(int patientId, string v1, string v2, string v3, string v4, DateTime value, string v5, string v6, int v7, int v8, string v9)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string DeletePatient(string connectionString, int selectedPatientID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Update(string connectionString, int patientId, string v1, string v2, string v3, string v4, DateTime value, string v5, string v6, int v7, int v8, string v9)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }
