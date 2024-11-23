@@ -424,10 +424,13 @@
             // ComRoom
             // 
             this.ComRoom.FormattingEnabled = true;
+            this.ComRoom.Items.AddRange(new object[] {
+            "1"});
             this.ComRoom.Location = new System.Drawing.Point(598, 70);
             this.ComRoom.Name = "ComRoom";
             this.ComRoom.Size = new System.Drawing.Size(100, 21);
             this.ComRoom.TabIndex = 102;
+            this.ComRoom.SelectedIndexChanged += new System.EventHandler(this.ComRoom_SelectedIndexChanged);
             // 
             // label11
             // 
