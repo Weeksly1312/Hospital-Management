@@ -32,6 +32,11 @@ namespace Server_Hosp
                     "doctor",
                     WellKnownObjectMode.Singleton);
 
+                RemotingConfiguration.RegisterWellKnownServiceType(
+                   typeof(Patient),
+                   "patient",
+                   WellKnownObjectMode.Singleton);
+
                 Console.WriteLine("Server is running on port 2222!");
                 Console.WriteLine("Press Enter to exit...");
                 Console.ReadLine();
