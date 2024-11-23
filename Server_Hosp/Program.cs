@@ -11,29 +11,35 @@ namespace Server_Hosp
         {
             try
             {
-                // Register both services on a single channel
+                // Unregister any existing channels first
+                foreach (var channel in ChannelServices.RegisteredChannels)
+                {
+                    ChannelServices.UnregisterChannel(channel);
+                }
+
+                // Create and register new TCP channel
                 TcpChannel channel = new TcpChannel(2222);
                 ChannelServices.RegisterChannel(channel, false);
 
-                // Register both service types
+                // Register service types
                 RemotingConfiguration.RegisterWellKnownServiceType(
-                    typeof(LoginService), 
-                    "login", 
+                    typeof(LoginService),
+                    "login",
                     WellKnownObjectMode.Singleton);
 
                 RemotingConfiguration.RegisterWellKnownServiceType(
-                    typeof(Doctor), 
-                    "doctor", 
+                    typeof(Doctor),
+                    "doctor",
                     WellKnownObjectMode.Singleton);
 
-                Console.WriteLine("Server is running!");
-                Console.WriteLine("Both services running on port 2222");
+                Console.WriteLine("Server is running on port 2222!");
                 Console.WriteLine("Press Enter to exit...");
                 Console.ReadLine();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error starting server: {ex.Message}");
+                Console.WriteLine("Press Enter to exit...");
                 Console.ReadLine();
             }
         }
