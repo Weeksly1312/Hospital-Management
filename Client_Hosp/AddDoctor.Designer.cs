@@ -48,6 +48,7 @@ namespace Client_Hosp
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -64,7 +65,6 @@ namespace Client_Hosp
             this.GenF = new System.Windows.Forms.RadioButton();
             this.GenM = new System.Windows.Forms.RadioButton();
             this.ComDepartment = new System.Windows.Forms.ComboBox();
-            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // label9
@@ -189,7 +189,7 @@ namespace Client_Hosp
             this.listViewDoctors.TabIndex = 45;
             this.listViewDoctors.UseCompatibleStateImageBehavior = false;
             this.listViewDoctors.View = System.Windows.Forms.View.Details;
-            this.listViewDoctors.SelectedIndexChanged += new System.EventHandler(this.listViewDoctors_SelectedIndexChanged);
+            this.listViewDoctors.SelectedIndexChanged += new System.EventHandler(this.listViewDoctors_SelectedIndexChanged_1);
             // 
             // columnHeader1
             // 
@@ -209,6 +209,11 @@ namespace Client_Hosp
             // 
             this.columnHeader4.Text = "Phone Number";
             this.columnHeader4.Width = 80;
+            // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "Specialization";
+            this.columnHeader9.Width = 100;
             // 
             // columnHeader5
             // 
@@ -341,12 +346,6 @@ namespace Client_Hosp
             this.ComDepartment.Name = "ComDepartment";
             this.ComDepartment.Size = new System.Drawing.Size(100, 21);
             this.ComDepartment.TabIndex = 67;
-            // 
-            // columnHeader9
-            // 
-            this.columnHeader9.DisplayIndex = 5;
-            this.columnHeader9.Text = "Specialization";
-            this.columnHeader9.Width = 100;
             // 
             // AddDoctor
             // 
