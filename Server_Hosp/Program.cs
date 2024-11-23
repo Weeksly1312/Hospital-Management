@@ -12,10 +12,10 @@ namespace Server_Hosp
             try
             {
                 // Unregister any existing channels first
-                foreach (var channel in ChannelServices.RegisteredChannels)
-                {
-                    ChannelServices.UnregisterChannel(channel);
-                }
+                //foreach (var channel in ChannelServices.RegisteredChannels)
+                //{
+                //    ChannelServices.UnregisterChannel(channel);
+                //}
 
                 // Create and register new TCP channel
                 TcpChannel channel = new TcpChannel(2222);
