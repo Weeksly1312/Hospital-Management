@@ -116,6 +116,18 @@ namespace Client_Hosp
                 "Asthma",
                 // Add more diseases as needed
             });
+
+            // Setup room combo box
+            ComRoom.Items.Clear();
+            // Hardcoded room options for testing
+            string[] rooms = {
+                "1 - Living Room",
+                "2 - Bedroom",
+                "3 - Kitchen",
+                "4 - Bathroom",
+                "5 - Office"
+            };
+            ComRoom.Items.AddRange(rooms);
         }
         #endregion
 
@@ -147,7 +159,7 @@ namespace Client_Hosp
                     txtPaPhone.Text.Trim(),
                     textPaAdress.Text.Trim(),
                     GetSelectedDoctorId(),
-                    0, // Room ID is not used in your UI
+                    GetSelectedRoomId(),
                     ComDisease.SelectedItem.ToString()
                 );
 
@@ -239,6 +251,7 @@ namespace Client_Hosp
                 ComBlood.SelectedIndex == -1 ||
                 (!GenPaM.Checked && !GenPaF.Checked) ||
                 ComDoctor.SelectedIndex == -1 ||
+                ComRoom.SelectedIndex == -1 ||
                 ComDisease.SelectedIndex == -1)
             {
                 MessageBox.Show("Please fill in all required fields",
@@ -302,6 +315,16 @@ namespace Client_Hosp
             {
                 string doctorText = ComDoctor.SelectedItem.ToString();
                 return int.Parse(doctorText.Split('-')[0].Trim());
+            }
+            return -1;
+        }
+
+        private int GetSelectedRoomId()
+        {
+            if (ComRoom.SelectedItem != null)
+            {
+                string roomText = ComRoom.SelectedItem.ToString();
+                return int.Parse(roomText.Split('-')[0].Trim());
             }
             return -1;
         }
@@ -429,6 +452,11 @@ namespace Client_Hosp
         }
 
         private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void ComRoom_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
