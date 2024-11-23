@@ -557,5 +557,10 @@ namespace Client_Hosp
         }
 
         #endregion
+
+        private void listViewDoctors_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
