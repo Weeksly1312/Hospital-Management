@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Channels;
 using Middle_Hosp;
@@ -65,4 +65,4 @@ namespace Client_Hosp.Utils
                 System.Windows.Forms.MessageBoxIcon.Information);
         }
     }
-} 
+}
