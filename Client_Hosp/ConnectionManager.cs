@@ -2,6 +2,7 @@
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Channels;
 using Middle_Hosp;
+using System.Windows.Forms;
 
 namespace Client_Hosp.Utils
 {
@@ -63,6 +64,16 @@ namespace Client_Hosp.Utils
                 title,
                 System.Windows.Forms.MessageBoxButtons.OK,
                 System.Windows.Forms.MessageBoxIcon.Information);
+        }
+
+        internal static void Show(string deletionResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void ShowError(string v1, string v2, MessageBoxButtons oK, MessageBoxIcon error)
+        {
+            throw new NotImplementedException();
         }
     }
 }
