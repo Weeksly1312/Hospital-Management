@@ -11,22 +11,17 @@ namespace Client_Hosp
 {
     public partial class AddPatient : UserControl
     {
-        bool isEditing = false;
-        #region Fields
+        private bool isEditing = false;
         private Middle_Hosp.RPC patientRPC;
         private Middle_Hosp.RPC doctorRPC;
-        #endregion
 
-        #region Constructor
         public AddPatient()
         {
             InitializeComponent();
             InitializeRPCConnection();
             SetupComboBoxes();
         }
-        #endregion
 
-        #region Initialization Methods
         private void InitializeRPCConnection()
         {
             try
@@ -42,13 +37,11 @@ namespace Client_Hosp
 
         private void SetupComboBoxes()
         {
-            // Setup blood type combo box
             ComBlood.Items.Clear();
             ComBlood.Items.AddRange(new string[] {
                 "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"
             });
 
-            // Setup doctors combo box
             try
             {
                 ComDoctor.Items.Clear();
@@ -73,20 +66,12 @@ namespace Client_Hosp
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            // Setup disease/diagnosis combo box
             ComDisease.Items.Clear();
             ComDisease.Items.AddRange(new string[] {
-                "Flu",
-                "Pneumonia",
-                "Diabetes",
-                "Hypertension",
-                "Asthma",
-                // Add more diseases as needed
+                "Flu", "Pneumonia", "Diabetes", "Hypertension", "Asthma"
             });
 
-            // Setup room combo box
             ComRoom.Items.Clear();
-            // Hardcoded room options for testing
             string[] rooms = {
                 "1 - Living Room",
                 "2 - Bedroom",
@@ -96,9 +81,7 @@ namespace Client_Hosp
             };
             ComRoom.Items.AddRange(rooms);
         }
-        #endregion
 
-        #region Event Handlers
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
@@ -110,7 +93,6 @@ namespace Client_Hosp
                     return;
                 }
 
-                // Check if ID already exists
                 List<RPC> patients = patientRPC.GetAll(ConnectionManager.ConnectionString);
                 if (patients.Any(p => p.ID == patientId))
                 {
@@ -177,12 +159,10 @@ namespace Client_Hosp
 
             if (!isEditing)
             {
-                // Load patient data into form
                 LoadPatientDataForEditing();
             }
             else
             {
-                // Save modifications
                 SavePatientModifications();
             }
         }
@@ -214,12 +194,9 @@ namespace Client_Hosp
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        #endregion
 
-        #region Helper Methods
         private bool ValidateFormInputs()
         {
-            // Check ID field
             if (string.IsNullOrWhiteSpace(txtPaID.Text))
             {
                 MessageBox.Show("Please enter a Patient ID",
@@ -227,7 +204,6 @@ namespace Client_Hosp
                 return false;
             }
 
-            // Check if ID is numeric
             if (!int.TryParse(txtPaID.Text, out _))
             {
                 MessageBox.Show("Patient ID must be a valid number",
@@ -235,7 +211,6 @@ namespace Client_Hosp
                 return false;
             }
 
-            // Check required personal information
             if (string.IsNullOrWhiteSpace(txtPaName.Text))
             {
                 MessageBox.Show("Please enter the patient's first name",
@@ -257,7 +232,6 @@ namespace Client_Hosp
                 return false;
             }
 
-            // Check gender selection
             if (!GenPaM.Checked && !GenPaF.Checked)
             {
                 MessageBox.Show("Please select the patient's gender",
@@ -265,7 +239,6 @@ namespace Client_Hosp
                 return false;
             }
 
-            // Check blood type
             if (ComBlood.SelectedIndex == -1)
             {
                 MessageBox.Show("Please select the patient's blood type",
@@ -273,7 +246,6 @@ namespace Client_Hosp
                 return false;
             }
 
-            // Check date of birth
             if (dateTimePicker1.Value > DateTime.Now)
             {
                 MessageBox.Show("Date of birth cannot be in the future",
@@ -281,7 +253,6 @@ namespace Client_Hosp
                 return false;
             }
 
-            // Check doctor assignment
             if (ComDoctor.SelectedIndex == -1)
             {
                 MessageBox.Show("Please assign a doctor to the patient",
@@ -289,7 +260,6 @@ namespace Client_Hosp
                 return false;
             }
 
-            // Check room assignment
             if (ComRoom.SelectedIndex == -1)
             {
                 MessageBox.Show("Please assign a room to the patient",
@@ -297,7 +267,6 @@ namespace Client_Hosp
                 return false;
             }
 
-            // Check diagnosis/disease
             if (ComDisease.SelectedIndex == -1)
             {
                 MessageBox.Show("Please select the patient's diagnosis",
@@ -305,7 +274,6 @@ namespace Client_Hosp
                 return false;
             }
 
-            // Phone number format validation
             if (!System.Text.RegularExpressions.Regex.IsMatch(txtPaPhone.Text.Trim(), @"^\+?[\d\s-]+$"))
             {
                 MessageBox.Show("Please enter a valid phone number format",
@@ -398,13 +366,11 @@ namespace Client_Hosp
                 txtPaPhone.Text = selectedPatient.PhoneNumber;
                 textPaAdress.Text = selectedPatient.Address;
                 
-                // Set the values from the ListView instead of RPC object
                 ComDisease.Text = listViewPatients.SelectedItems[0].SubItems[10].Text;
                 ComBlood.Text = listViewPatients.SelectedItems[0].SubItems[4].Text;
                 ComRoom.Text = listViewPatients.SelectedItems[0].SubItems[9].Text;
                 SetSelectedGender(selectedPatient.Gender);
 
-                // Set doctor selection using the ID from ListView
                 string doctorId = listViewPatients.SelectedItems[0].SubItems[8].Text.Split('-')[0].Trim();
                 SetSelectedDoctor(doctorId);
 
@@ -474,14 +440,6 @@ namespace Client_Hosp
             GenPaF.Checked = gender.ToUpper() == "F";
         }
 
-        private int CalculateAge(DateTime dateOfBirth)
-        {
-            var today = DateTime.Today;
-            var age = today.Year - dateOfBirth.Year;
-            if (dateOfBirth.Date > today.AddYears(-age)) age--;
-            return age;
-        }
-
         private void SetSelectedDoctor(string doctorId)
         {
             for (int i = 0; i < ComDoctor.Items.Count; i++)
@@ -493,27 +451,6 @@ namespace Client_Hosp
                     break;
                 }
             }
-        }
-        #endregion
-
-        private void GenPaF_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listViewDoctors_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void ComRoom_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
