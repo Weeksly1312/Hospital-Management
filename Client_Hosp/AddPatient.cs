@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Channels;
 using Middle_Hosp;
+using Client_Hosp.Utils;
 
 namespace Client_Hosp
 {
@@ -12,8 +13,6 @@ namespace Client_Hosp
         #region Fields
         private Middle_Hosp.RPC patientRPC;
         private Middle_Hosp.RPC doctorRPC;
-        private readonly string connectionString = @"Data Source=DESKTOP-C03F80S\SQLEXPRESS01;Initial Catalog=DoctorManagements;Integrated Security=True;Connect Timeout=30;";
-        private bool isEditing = false;
         #endregion
 
         #region Constructor
@@ -30,46 +29,12 @@ namespace Client_Hosp
         {
             try
             {
-                // First ensure server is reachable
-                using (var client = new System.Net.Sockets.TcpClient())
-                {
-                    try
-                    {
-                        client.Connect("localhost", 2222);
-                    }
-                    catch (Exception)
-                    {
-                        throw new Exception("Cannot connect to server. Please ensure the server is running.");
-                    }
-                }
-
-                // Unregister any existing channels
-                foreach (IChannel chan in ChannelServices.RegisteredChannels)
-                {
-                    ChannelServices.UnregisterChannel(chan);
-                }
-
-                // Register new channel
-                TcpChannel channelPatient = new TcpChannel();
-                ChannelServices.RegisterChannel(channelPatient, false);
-
-                patientRPC = (Middle_Hosp.RPC)Activator.GetObject(
-                    typeof(Middle_Hosp.RPC),
-                    "tcp://localhost:2222/patient");
-
-                doctorRPC = (Middle_Hosp.RPC)Activator.GetObject(
-                    typeof(Middle_Hosp.RPC),
-                    "tcp://localhost:2222/doctor");
-
-                if (patientRPC == null || doctorRPC == null)
-                {
-                    throw new Exception("Failed to connect to one or more services");
-                }
+                patientRPC = ConnectionManager.InitializeRPCConnection("patient");
+                doctorRPC = ConnectionManager.InitializeRPCConnection("doctor");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to initialize RPC connection: {ex.Message}",
-                    "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ConnectionManager.ShowError(ex.Message);
             }
         }
 
@@ -85,7 +50,7 @@ namespace Client_Hosp
             try
             {
                 ComDoctor.Items.Clear();
-                List<RPC> doctors = doctorRPC.GetAll(connectionString);
+                List<RPC> doctors = doctorRPC.GetAll(ConnectionManager.ConnectionString);
                 
                 if (doctors != null)
                 {
@@ -163,7 +128,7 @@ namespace Client_Hosp
                     ComDisease.SelectedItem.ToString()
                 );
 
-                string result = patientRPC.Add(connectionString);
+                string result = patientRPC.Add(ConnectionManager.ConnectionString);
 
                 if (!result.Contains("Error"))
                 {
@@ -226,7 +191,7 @@ namespace Client_Hosp
 
                     if (result == DialogResult.Yes)
                     {
-                        string deletionResult = patientRPC.DeletePatient(connectionString, selectedPatientID);
+                        string deletionResult = patientRPC.DeletePatient(ConnectionManager.ConnectionString, selectedPatientID);
                         RefreshPatientsList();
                         MessageBox.Show(deletionResult);
                     }
@@ -264,7 +229,7 @@ namespace Client_Hosp
         private void RefreshPatientsList()
         {
             listViewPatients.Items.Clear();
-            List<RPC> patients = patientRPC.GetAll(connectionString);
+            List<RPC> patients = patientRPC.GetAll(ConnectionManager.ConnectionString);
 
             if (patients != null)
             {
@@ -331,7 +296,7 @@ namespace Client_Hosp
 
         private void LoadPatientDataForEditing()
         {
-            List<RPC> patients = patientRPC.GetAll(connectionString);
+            List<RPC> patients = patientRPC.GetAll(ConnectionManager.ConnectionString);
             var selectedPatient = patients.Find(pat =>
                 pat.ID.ToString() == listViewPatients.SelectedItems[0].Text);
 
@@ -379,7 +344,7 @@ namespace Client_Hosp
                 lblStatus.Text = "Updating patient...";
 
                 string modificationResult = patientRPC.Update(
-                    connectionString,
+                    ConnectionManager.ConnectionString,
                     patientId,
                     txtPaName.Text.Trim(),
                     txtPaLast.Text.Trim(),
