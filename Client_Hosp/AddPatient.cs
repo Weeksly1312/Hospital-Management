@@ -438,7 +438,7 @@ namespace Client_Hosp
                     txtPaPhone.Text.Trim(),
                     textPaAdress.Text.Trim(),
                     GetSelectedDoctorId(),
-                    int.Parse(ComRoom.Text),
+                    GetSelectedRoomId(),
                     ComDisease.SelectedItem.ToString()
                 );
 
