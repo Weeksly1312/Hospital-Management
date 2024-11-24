@@ -5,6 +5,7 @@ using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Channels;
 using Middle_Hosp;
 using Client_Hosp.Utils;
+using System.Linq;
 
 namespace Client_Hosp
 {
@@ -102,15 +103,24 @@ namespace Client_Hosp
         {
             try
             {
-                if (!ValidateFormInputs())
-                    return;
-
                 if (!int.TryParse(txtPaID.Text, out int patientId))
                 {
                     MessageBox.Show("Please enter a valid numeric ID",
                         "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+
+                // Check if ID already exists
+                List<RPC> patients = patientRPC.GetAll(ConnectionManager.ConnectionString);
+                if (patients.Any(p => p.ID == patientId))
+                {
+                    MessageBox.Show("A patient with this ID already exists. Please use a different ID.",
+                        "Duplicate ID", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!ValidateFormInputs())
+                    return;
 
                 Cursor = Cursors.WaitCursor;
                 lblStatus.Text = "Adding patient...";
