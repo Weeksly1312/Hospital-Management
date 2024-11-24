@@ -33,7 +33,6 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -73,6 +72,7 @@
             this.lblStatus = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
@@ -127,46 +127,39 @@
             this.columnHeader3.Text = "Last Name";
             this.columnHeader3.Width = 80;
             // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Gender";
-            this.columnHeader4.Width = 52;
-            // 
             // columnHeader9
             // 
-            this.columnHeader9.DisplayIndex = 4;
-            this.columnHeader9.Text = "Doctor";
+            this.columnHeader9.DisplayIndex = 3;
+            this.columnHeader9.Text = "Diagnosis";
             this.columnHeader9.Width = 100;
             // 
             // columnHeader5
             // 
-            this.columnHeader5.DisplayIndex = 5;
-            this.columnHeader5.Text = "Blood Type";
+            this.columnHeader5.Text = "Gender";
             this.columnHeader5.Width = 90;
             // 
             // columnHeader6
             // 
-            this.columnHeader6.DisplayIndex = 6;
-            this.columnHeader6.Text = "Date Birth";
+            this.columnHeader6.Text = "Birth date";
             // 
             // columnHeader7
             // 
-            this.columnHeader7.DisplayIndex = 7;
-            this.columnHeader7.Text = "Phone Number";
+            this.columnHeader7.Text = "Address";
             // 
             // columnHeader8
             // 
-            this.columnHeader8.DisplayIndex = 8;
-            this.columnHeader8.Text = "Address";
+            this.columnHeader8.Text = "Doctor";
             this.columnHeader8.Width = 65;
             // 
             // columnHeader10
             // 
-            this.columnHeader10.Text = "Room";
+            this.columnHeader10.DisplayIndex = 8;
+            this.columnHeader10.Text = "Blood Type";
             // 
             // columnHeader11
             // 
-            this.columnHeader11.Text = "Diagnosis";
+            this.columnHeader11.DisplayIndex = 9;
+            this.columnHeader11.Text = "Room";
             // 
             // label1
             // 
@@ -520,6 +513,10 @@
             this.panel4.Size = new System.Drawing.Size(839, 226);
             this.panel4.TabIndex = 1;
             // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Phone Number";
+            // 
             // AddPatient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -544,7 +541,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader9;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader6;
@@ -584,5 +580,6 @@
         private System.Windows.Forms.TextBox textPaAdress;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
     }
 }
