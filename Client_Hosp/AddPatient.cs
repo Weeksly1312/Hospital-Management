@@ -436,5 +436,51 @@ namespace Client_Hosp
                 }
             }
         }
+
+        private void AddPatient_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                if (patientRPC == null)
+                {
+                    InitializeRPCConnection();
+                }
+
+                if (patientRPC != null)
+                {
+                    RefreshPatientsList();
+                }
+                else
+                {
+                    MessageBox.Show("Could not connect to the patient service. Please try again.",
+                        "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                ConnectionManager.ShowError($"Error loading patients: {ex.Message}");
+            }
+        }
+
+        private void btnView_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                lblStatus.Text = "Refreshing patients list...";
+                RefreshPatientsList();
+                lblStatus.Text = "Patients list refreshed";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error refreshing patients list: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                lblStatus.Text = "Error refreshing list";
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
     }
 }
