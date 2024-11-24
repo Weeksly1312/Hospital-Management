@@ -11,12 +11,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Middle_Hosp;
+using Client_Hosp.Utils;
 
 namespace Client_Hosp
 {
     public partial class LoginForm : Form
     {
-        RPC ep;
+        private RPC ep;
+
         public LoginForm()
         {
             InitializeComponent();
@@ -26,40 +28,14 @@ namespace Client_Hosp
         {
             try
             {
-                // Check if we already have a TCP channel registered
-                TcpChannel existingChannel = null;
-                foreach (IChannel chan in ChannelServices.RegisteredChannels)
-                {
-                    if (chan is TcpChannel)
-                    {
-                        existingChannel = (TcpChannel)chan;
-                        break;
-                    }
-                }
-
-                // Only create and register a new channel if one doesn't exist
-                if (existingChannel == null)
-                {
-                    TcpChannel chnl = new TcpChannel();
-                    ChannelServices.RegisterChannel(chnl, false);
-                }
-
-                // Get the remote object (RPC object)
-                ep = (Middle_Hosp.RPC)Activator.GetObject(
-                    typeof(Middle_Hosp.RPC),
-                    "tcp://localhost:2222/login");
-
-                if (ep == null)
-                {
-                    throw new Exception("Failed to connect to RPC server");
-                }
+                ep = ConnectionManager.InitializeRPCConnection("login");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to initialize connection: {ex.Message}", "Connection Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ConnectionManager.ShowError(ex.Message);
             }
         }
+
         private void login_btn_Click(object sender, EventArgs e)
         {
             string username = login_username.Text.Trim();
@@ -67,40 +43,34 @@ namespace Client_Hosp
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Please fill all fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ConnectionManager.ShowError("Please fill all fields.");
                 return;
             }
 
             try
             {
-                // Call the server's Login method
                 bool isLoggedIn = ep.Login(username, password);
-
                 if (isLoggedIn)
                 {
-                    MessageBox.Show("Login successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    // Proceed to the next form
-
+                    ConnectionManager.ShowSuccess("Login successful!");
                     MainForm mForm = new MainForm();
                     mForm.Show();
                     this.Hide();
                 }
                 else
                 {
-                    MessageBox.Show("Incorrect username or password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ConnectionManager.ShowError("Incorrect username or password.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ConnectionManager.ShowError(ex.Message);
             }
         }
 
-        
-
         private void login_showPass_CheckedChanged_1(object sender, EventArgs e)
         {
-           login_password.PasswordChar = login_showPass.Checked ? '\0' : '*';
+            login_password.PasswordChar = login_showPass.Checked ? '\0' : '*';
         }
 
         private void button1_Click(object sender, EventArgs e)
