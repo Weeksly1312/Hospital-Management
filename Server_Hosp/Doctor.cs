@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Net.NetworkInformation;
 using Middle_Hosp;
+using Server_Hosp.Utils;
 
 namespace Server_Hosp
 {
@@ -80,7 +81,7 @@ namespace Server_Hosp
                     (ID, first_name, last_name, phone_number, specialization_id, department_id, address, gender, status) 
                     VALUES (@ID, @FirstName, @LastName, @PhoneNumber, @SpecializationId, @DepartmentId, @Address, @Gender, @Status)";
 
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = ServerManager.CreateConnection())
                 {
                     conn.Open();
                     using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -102,15 +103,15 @@ namespace Server_Hosp
             }
             catch (SqlException ex)
             {
-                if (ex.Number == 2627) // Unique constraint violation
-                {
-                    return "Error: A doctor with this ID already exists.";
-                }
-                return $"Error: {ex.Message}";
+                string result = string.Empty;
+                ServerManager.HandleSqlException(ex, ref result);
+                return result;
             }
             catch (Exception ex)
             {
-                return $"Error: {ex.Message}";
+                string result = string.Empty;
+                ServerManager.HandleException(ex, ref result);
+                return result;
             }
         }
 
@@ -126,7 +127,7 @@ namespace Server_Hosp
             {
                 string query = "DELETE FROM dbo.Doctors WHERE id = @ID";
 
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = ServerManager.CreateConnection())
                 {
                     conn.Open();
                     using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -160,7 +161,7 @@ namespace Server_Hosp
                                 FROM dbo.Doctors d
                                 LEFT JOIN dbo.Specializations s ON d.specialization_id = s.ID";
 
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = ServerManager.CreateConnection())
                 {
                     conn.Open();
                     using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -224,7 +225,7 @@ namespace Server_Hosp
                         status = @Status
                     WHERE id = @ID";
 
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = ServerManager.CreateConnection())
                 {
                     conn.Open();
                     using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -261,7 +262,7 @@ namespace Server_Hosp
             try
             {
                 string query = "SELECT ID, Name FROM Departments ORDER BY ID";
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = ServerManager.CreateConnection())
                 {
                     conn.Open();
                     using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -296,7 +297,7 @@ namespace Server_Hosp
             try
             {
                 string query = "SELECT ID, Name FROM Specializations ORDER BY ID";
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = ServerManager.CreateConnection())
                 {
                     conn.Open();
                     using (SqlCommand cmd = new SqlCommand(query, conn))
