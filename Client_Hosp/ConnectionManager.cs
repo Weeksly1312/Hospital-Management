@@ -8,7 +8,11 @@ namespace Client_Hosp.Utils
 {
     public static class ConnectionManager
     {
+        //soufiane DB:
         public static readonly string ConnectionString = @"Data Source=DESKTOP-C03F80S\SQLEXPRESS01;Initial Catalog=DoctorManagements;Integrated Security=True;Connect Timeout=30;";
+        
+        //med DB:
+        //public static readonly string ConnectionString = @"Data Source=DESKTOP-MVIQ4R9\SQLEXPRESS01;Initial Catalog=New Database;Integrated Security=True;Connect Timeout=30;";
 
         public static RPC InitializeRPCConnection(string serviceName)
         {
