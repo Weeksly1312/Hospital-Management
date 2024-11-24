@@ -46,7 +46,7 @@ namespace Server_Hosp
             var patients = new List<RPC>();
             try
             {
-                using (SqlConnection connection = new SqlConnection(ServerManager.ConnectionString))
+                using (SqlConnection connection = ServerManager.CreateConnection())
                 {
                     connection.Open();
                     string query = "SELECT * FROM Patients";
@@ -78,8 +78,10 @@ namespace Server_Hosp
                 }
                 return patients;
             }
-            catch
+            catch (Exception ex)
             {
+                string result = string.Empty;
+                ServerManager.HandleException(ex, ref result);
                 return null;
             }
         }
@@ -119,7 +121,7 @@ namespace Server_Hosp
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ServerManager.ConnectionString))
+                using (SqlConnection connection = ServerManager.CreateConnection())
                 {
                     connection.Open();
                     string query = "DELETE FROM Patients WHERE id = @id";
@@ -134,7 +136,9 @@ namespace Server_Hosp
             }
             catch (Exception ex)
             {
-                return $"Error: {ex.Message}";
+                string result = string.Empty;
+                ServerManager.HandleException(ex, ref result);
+                return result;
             }
         }
         #endregion
