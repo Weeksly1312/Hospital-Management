@@ -97,11 +97,11 @@
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4,
-            this.columnHeader9,
             this.columnHeader5,
             this.columnHeader6,
             this.columnHeader7,
             this.columnHeader8,
+            this.columnHeader9,
             this.columnHeader10,
             this.columnHeader11});
             this.listViewPatients.HideSelection = false;
@@ -129,30 +129,35 @@
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "Age";
+            this.columnHeader4.Text = "Gender";
             this.columnHeader4.Width = 52;
             // 
             // columnHeader9
             // 
-            this.columnHeader9.Text = "Phone Number";
+            this.columnHeader9.DisplayIndex = 4;
+            this.columnHeader9.Text = "Doctor";
             this.columnHeader9.Width = 100;
             // 
             // columnHeader5
             // 
-            this.columnHeader5.Text = "Disease";
+            this.columnHeader5.DisplayIndex = 5;
+            this.columnHeader5.Text = "Blood Type";
             this.columnHeader5.Width = 90;
             // 
             // columnHeader6
             // 
-            this.columnHeader6.Text = "Gender";
+            this.columnHeader6.DisplayIndex = 6;
+            this.columnHeader6.Text = "Date Birth";
             // 
             // columnHeader7
             // 
-            this.columnHeader7.Text = "Blood";
+            this.columnHeader7.DisplayIndex = 7;
+            this.columnHeader7.Text = "Phone Number";
             // 
             // columnHeader8
             // 
-            this.columnHeader8.Text = "Doctor";
+            this.columnHeader8.DisplayIndex = 8;
+            this.columnHeader8.Text = "Address";
             this.columnHeader8.Width = 65;
             // 
             // columnHeader10
@@ -161,7 +166,7 @@
             // 
             // columnHeader11
             // 
-            this.columnHeader11.Text = "Address";
+            this.columnHeader11.Text = "Diagnosis";
             // 
             // label1
             // 
