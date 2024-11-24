@@ -215,7 +215,16 @@ namespace Client_Hosp
                     txtLast.Text = selectedDoctor.LastName;
                     txtPhone.Text = selectedDoctor.PhoneNumber;
                     textAdress.Text = selectedDoctor.Address;
-                    ComSpecialization.Text = selectedDoctor.Specialization;
+                    
+                    foreach (var item in ComSpecialization.Items)
+                    {
+                        if (item.ToString().StartsWith(selectedDoctor.Specialization))
+                        {
+                            ComSpecialization.SelectedItem = item;
+                            break;
+                        }
+                    }
+                    
                     SetSelectedGender(selectedDoctor.Gender);
                     ComStatus.Text = selectedDoctor.Status;
 
@@ -292,7 +301,7 @@ namespace Client_Hosp
 
         private void btnDelete_Click_1(object sender, EventArgs e)
         {
-            if(listViewDoctors.SelectedItems.Count > 0)
+            if (listViewDoctors.SelectedItems.Count > 0)
             {
                 if (int.TryParse(listViewDoctors.SelectedItems[0].Text, out int selectedDoctorID))
                 {
@@ -410,6 +419,16 @@ namespace Client_Hosp
         }
 
         private void listViewDoctors_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void ComSpecialization_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
