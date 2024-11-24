@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using Middle_Hosp;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Channels;
+using Client_Hosp.Utils;
 
 namespace Client_Hosp
 {
@@ -19,38 +20,11 @@ namespace Client_Hosp
         {
             try
             {
-                // Check if we already have a TCP channel registered
-                TcpChannel existingChannel = null;
-                foreach (IChannel chan in ChannelServices.RegisteredChannels)
-                {
-                    if (chan is TcpChannel)
-                    {
-                        existingChannel = (TcpChannel)chan;
-                        break;
-                    }
-                }
-
-                // Only create and register a new channel if one doesn't exist
-                if (existingChannel == null)
-                {
-                    TcpChannel chnl = new TcpChannel();
-                    ChannelServices.RegisterChannel(chnl, false);
-                }
-
-                // Get the remote object (RPC object)
-                ep = (Middle_Hosp.RPC)Activator.GetObject(
-                    typeof(Middle_Hosp.RPC),
-                    "tcp://localhost:2222/login");
-
-                if (ep == null)
-                {
-                    throw new Exception("Failed to connect to RPC server");
-                }
+                ep = ConnectionManager.InitializeRPCConnection("login");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to initialize connection: {ex.Message}", "Connection Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ConnectionManager.ShowError(ex.Message);
             }
         }
 
