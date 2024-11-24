@@ -283,11 +283,6 @@ namespace Server_Hosp
             throw new NotImplementedException();
         }
 
-        string RPC.Update(string connectionString, int patientId, string firstName, string lastName, string gender, string bloodType, DateTime dateOfBirth, string phoneNumber, string address, int doctorId, int roomId, string diagnosis)
-        {
-            throw new NotImplementedException();
-        }
-
         bool RPC.Login(string username, string password)
         {
             throw new NotImplementedException();
