@@ -33,11 +33,12 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label1 = new System.Windows.Forms.Label();
@@ -72,7 +73,6 @@
             this.lblStatus = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
@@ -127,11 +127,9 @@
             this.columnHeader3.Text = "Last Name";
             this.columnHeader3.Width = 80;
             // 
-            // columnHeader9
+            // columnHeader4
             // 
-            this.columnHeader9.DisplayIndex = 3;
-            this.columnHeader9.Text = "Diagnosis";
-            this.columnHeader9.Width = 100;
+            this.columnHeader4.Text = "Phone Number";
             // 
             // columnHeader5
             // 
@@ -151,14 +149,17 @@
             this.columnHeader8.Text = "Doctor";
             this.columnHeader8.Width = 65;
             // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "Diagnosis";
+            this.columnHeader9.Width = 100;
+            // 
             // columnHeader10
             // 
-            this.columnHeader10.DisplayIndex = 8;
             this.columnHeader10.Text = "Blood Type";
             // 
             // columnHeader11
             // 
-            this.columnHeader11.DisplayIndex = 9;
             this.columnHeader11.Text = "Room";
             // 
             // label1
@@ -286,9 +287,9 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(290, 95);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(45, 13);
+            this.label9.Size = new System.Drawing.Size(53, 13);
             this.label9.TabIndex = 82;
-            this.label9.Text = "Disease";
+            this.label9.Text = "Diagnosis";
             // 
             // label7
             // 
@@ -512,10 +513,6 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(839, 226);
             this.panel4.TabIndex = 1;
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Phone Number";
             // 
             // AddPatient
             // 
