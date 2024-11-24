@@ -13,6 +13,7 @@ using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Channels;
 using Middle_Hosp;
 using System.IO;
+using Client_Hosp.Utils;
 
 namespace Client_Hosp
 {
@@ -104,56 +105,11 @@ namespace Client_Hosp
         {
             try
             {
-                // First ensure server is reachable
-                using (var client = new System.Net.Sockets.TcpClient())
-                {
-                    try
-                    {
-                        client.Connect("localhost", 2222);
-                    }
-                    catch (Exception)
-                    {
-                        throw new Exception("Cannot connect to server. Please ensure the server is running.");
-                    }
-                }
-
-                // Unregister any existing channels
-                foreach (IChannel chan in ChannelServices.RegisteredChannels)
-                {
-                    ChannelServices.UnregisterChannel(chan);
-                }
-
-                // Register new channel
-                TcpChannel channelDoctor = new TcpChannel();
-                ChannelServices.RegisterChannel(channelDoctor, false);
-
-                doctorRPC = (Middle_Hosp.RPC)Activator.GetObject(
-                    typeof(Middle_Hosp.RPC),
-                    "tcp://localhost:2222/doctor");
-
-                if (doctorRPC == null)
-                {
-                    throw new Exception("Failed to connect to doctor service");
-                }
-
-                // Test the connection
-                try
-                {
-                    List<RPC> doctors = doctorRPC.GetAll(connectionString);
-                    if (doctors == null)
-                    {
-                        throw new Exception("Failed to retrieve doctors list");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error testing doctor service connection: {ex.Message}");
-                }
+                doctorRPC = ConnectionManager.InitializeRPCConnection("doctor");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to initialize RPC connection: {ex.Message}",
-                    "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ConnectionManager.ShowError(ex.Message);
             }
         }
 
