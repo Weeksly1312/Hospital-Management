@@ -1,43 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
-using System.Reflection;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Channels;
 using Middle_Hosp;
-using System.IO;
 using Client_Hosp.Utils;
+using System.Linq;
 
 namespace Client_Hosp
 {
-    /// <summary>
-    /// UserControl for managing doctor information including adding, modifying, and deleting doctors.
-    /// This control provides a complete interface for doctor management operations.
-    /// </summary>
     public partial class AddDoctor : UserControl
     {
-        #region Fields
-
         private Middle_Hosp.RPC doctorRPC;
         private readonly string connectionString = @"Data Source=DESKTOP-C03F80S\SQLEXPRESS01;Initial Catalog=DoctorManagements;Integrated Security=True;Connect Timeout=30;";
-        // Med Tamel // @"Data Source=DESKTOP-MVIQ4R9\SQLEXPRESS01;Initial Catalog=New Database;Integrated Security=True;Connect Timeout=30;";
         private bool isEditing = false;
 
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        /// Initializes a new instance of the AddDoctor UserControl.
-        /// Sets up the initial component and establishes RPC connection.
-        /// </summary>
         public AddDoctor()
         {
             InitializeComponent();
@@ -45,20 +22,21 @@ namespace Client_Hosp
             SetupComboBoxes();
         }
 
-        #endregion
+        private void InitializeRPCConnection()
+        {
+            try
+            {
+                doctorRPC = ConnectionManager.InitializeRPCConnection("doctor");
+            }
+            catch (Exception ex)
+            {
+                ConnectionManager.ShowError(ex.Message);
+            }
+        }
 
-        #region Initialization Methods
-
-        /// <summary>
-        /// Initializes the combo boxes with predefined values for specialization,
-        /// department, and status options.
-        /// </summary>
         private void SetupComboBoxes()
         {
-            // Remove the hardcoded specializations
             ComSpecialization.Items.Clear();
-
-            // Get specializations from database
             try
             {
                 List<string> specializations = doctorRPC.GetSpecializations(connectionString);
@@ -70,7 +48,6 @@ namespace Client_Hosp
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            // Setup departments (existing code)
             try
             {
                 List<string> departments = doctorRPC.GetDepartments(connectionString);
@@ -83,7 +60,6 @@ namespace Client_Hosp
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            // Status ComboBox setup (existing code)
             ComStatus.Items.Clear();
             ComStatus.Items.AddRange(new string[] {
                 "Available",
@@ -97,30 +73,6 @@ namespace Client_Hosp
             ComStatus.SelectedIndex = 0;
         }
 
-        /// <summary>
-        /// Initializes the RPC connection to the doctor service.
-        /// Handles channel registration and connection testing.
-        /// </summary>
-        private void InitializeRPCConnection()
-        {
-            try
-            {
-                doctorRPC = ConnectionManager.InitializeRPCConnection("doctor");
-            }
-            catch (Exception ex)
-            {
-                ConnectionManager.ShowError(ex.Message);
-            }
-        }
-
-        #endregion
-
-        #region Event Handlers
-
-        /// <summary>
-        /// Handles the Load event of the AddDoctor control.
-        /// Initializes connections and refreshes the doctors list.
-        /// </summary>
         private void AddDoctor_Load_1(object sender, EventArgs e)
         {
             try
@@ -147,15 +99,8 @@ namespace Client_Hosp
             }
         }
 
-        #region Validation Methods
-
-        /// <summary>
-        /// Performs client-side validation of form inputs before sending to server.
-        /// </summary>
-        /// <returns>True if validation passes, false otherwise</returns>
         private bool ValidateFormInputs()
         {
-            // Check ID field
             if (string.IsNullOrWhiteSpace(txtDoctorID.Text))
             {
                 MessageBox.Show("Please enter a Doctor ID",
@@ -163,7 +108,6 @@ namespace Client_Hosp
                 return false;
             }
 
-            // Check required fields
             if (string.IsNullOrWhiteSpace(txtName.Text) ||
                 string.IsNullOrWhiteSpace(txtLast.Text) ||
                 string.IsNullOrWhiteSpace(txtPhone.Text) ||
@@ -177,7 +121,6 @@ namespace Client_Hosp
                 return false;
             }
 
-            // Get department ID
             int departmentId = GetSelectedDepartmentId();
             if (departmentId <= 0)
             {
@@ -189,17 +132,10 @@ namespace Client_Hosp
             return true;
         }
 
-        #endregion
-
-        /// <summary>
-        /// Handles the Add button click event.
-        /// Validates and adds a new doctor to the system.
-        /// </summary>
         private void btnAdd_Click_1(object sender, EventArgs e)
         {
             try
             {
-                // Add ID validation
                 if (!int.TryParse(txtDoctorID.Text, out int doctorId))
                 {
                     MessageBox.Show("Please enter a valid numeric ID", 
@@ -207,7 +143,6 @@ namespace Client_Hosp
                     return;
                 }
 
-                // Check if ID already exists
                 List<RPC> doctors = doctorRPC.GetAll(connectionString);
                 if (doctors.Any(d => d.ID == doctorId))
                 {
@@ -223,7 +158,7 @@ namespace Client_Hosp
                 lblStatus.Text = "Adding doctor...";
 
                 doctorRPC.Initialize(
-                    doctorId, // Use the parsed ID
+                    doctorId,
                     txtName.Text.Trim(),
                     txtLast.Text.Trim(),
                     txtPhone.Text.Trim(),
@@ -262,10 +197,6 @@ namespace Client_Hosp
             }
         }
 
-        /// <summary>
-        /// Handles the Modify button click event.
-        /// Toggles between edit mode and save mode for modifying doctor information.
-        /// </summary>
         private void btnModify_Click_1(object sender, EventArgs e)
         {
             if (listViewDoctors.SelectedItems.Count == 0)
@@ -363,10 +294,6 @@ namespace Client_Hosp
             }
         }
 
-        /// <summary>
-        /// Handles the Delete button click event.
-        /// Deletes the selected doctor after confirmation.
-        /// </summary>
         private void btnDelete_Click_1(object sender, EventArgs e)
         {
             if(listViewDoctors.SelectedItems.Count > 0)
@@ -398,13 +325,8 @@ namespace Client_Hosp
                 MessageBox.Show("Please select a doctor to delete.",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        
-    }
+        }
 
-        /// <summary>
-        /// Handles the View button click event.
-        /// Refreshes the doctors list display.
-        /// </summary>
         private void btnView_Click(object sender, EventArgs e)
         {
             try
@@ -426,13 +348,6 @@ namespace Client_Hosp
             }
         }
 
-        #endregion
-
-        #region Helper Methods
-
-        /// <summary>
-        /// Refreshes the ListView control with the current list of doctors.
-        /// </summary>
         private void RefreshDoctorsList()
         {
             listViewDoctors.Items.Clear();
@@ -461,9 +376,6 @@ namespace Client_Hosp
             }
         }
 
-        /// <summary>
-        /// Clears all input fields and resets the form to its initial state.
-        /// </summary>
         private void ClearFields()
         {
             txtDoctorID.Clear();
@@ -478,10 +390,6 @@ namespace Client_Hosp
             txtDoctorID.ReadOnly = false;
         }
 
-        /// <summary>
-        /// Gets the selected gender from the radio buttons.
-        /// </summary>
-        /// <returns>String representing the selected gender ('M' or 'F')</returns>
         private string GetSelectedGender()
         {
             if (GenM.Checked) return "M";
@@ -489,20 +397,12 @@ namespace Client_Hosp
             return string.Empty;
         }
 
-        /// <summary>
-        /// Sets the gender radio buttons based on the provided gender value.
-        /// </summary>
-        /// <param name="gender">Gender value to set ('M' or 'F')</param>
         private void SetSelectedGender(string gender)
         {
             GenM.Checked = gender.ToUpper() == "M";
             GenF.Checked = gender.ToUpper() == "F";
         }
 
-        /// <summary>
-        /// Gets the selected department ID from the department combo box.
-        /// </summary>
-        /// <returns>Integer representing the selected department ID</returns>
         private int GetSelectedDepartmentId()
         {
             if (ComDepartment.SelectedItem != null)
@@ -511,23 +411,6 @@ namespace Client_Hosp
                 return int.Parse(departmentText.Split('-')[0].Trim());
             }
             return -1;
-        }
-
-        #endregion
-
-        private void listViewDoctors_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel3_Paint_1(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void btnExport_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
