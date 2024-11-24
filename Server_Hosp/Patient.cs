@@ -20,9 +20,6 @@ namespace Server_Hosp
         public int DoctorId { get; set; }
         public int RoomId { get; set; }
         public string Diagnosis { get; set; }
-        public string Specialization { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int DepartmentId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Status { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         #endregion
 
         #region Initialization Methods
@@ -30,10 +27,15 @@ namespace Server_Hosp
             string bloodType, DateTime dateOfBirth, string phoneNumber, string address,
             int doctorId, int roomId, string diagnosis)
         {
+            // Validate required fields
+            var (isValid, errorMessage) = ValidatePatient(firstName, lastName, gender, bloodType, phoneNumber, doctorId, roomId);
+            if (!isValid)
+                throw new ArgumentException(errorMessage);
+
             ID = patientId;
             FirstName = firstName;
             LastName = lastName;
-            Gender = gender;
+            Gender = gender.ToUpper();
             BloodType = bloodType;
             DateOfBirth = dateOfBirth;
             PhoneNumber = phoneNumber;
@@ -52,12 +54,7 @@ namespace Server_Hosp
                 using (SqlConnection connection = ServerManager.CreateConnection())
                 {
                     connection.Open();
-                    string query = @"INSERT INTO Patients (id, first_name, last_name, gender, 
-                        blood_type, date_of_birth, phone_number, address, doctor_id, room_id, diagnosis)
-                        VALUES (@id, @firstName, @lastName, @gender, @bloodType, @dateOfBirth,
-                        @phoneNumber, @address, @doctorId, @roomId, @diagnosis)";
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    using (SqlCommand command = new SqlCommand(GetInsertQuery(), connection))
                     {
                         AddParameters(command);
                         command.ExecuteNonQuery();
@@ -73,32 +70,6 @@ namespace Server_Hosp
             }
         }
 
-        public string ModifyPatient(string connectionString)
-        {
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(ServerManager.ConnectionString))
-                {
-                    connection.Open();
-                    string query = @"UPDATE Patients SET first_name = @firstName, last_name = @lastName,
-                        gender = @gender, blood_type = @bloodType, date_of_birth = @dateOfBirth,
-                        phone_number = @phoneNumber, address = @address, doctor_id = @doctorId,
-                        room_id = @roomId, diagnosis = @diagnosis WHERE id = @id";
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        AddParameters(command);
-                        command.ExecuteNonQuery();
-                    }
-                }
-                return "Patient modified successfully";
-            }
-            catch (Exception ex)
-            {
-                return $"Error: {ex.Message}";
-            }
-        }
-
         public string DeletePatient(string connectionString, int patientId)
         {
             try
@@ -106,56 +77,34 @@ namespace Server_Hosp
                 using (SqlConnection connection = ServerManager.CreateConnection())
                 {
                     connection.Open();
-                    string query = "DELETE FROM Patients WHERE id = @id";
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    using (SqlCommand command = new SqlCommand("DELETE FROM Patients WHERE id = @id", connection))
                     {
                         command.Parameters.AddWithValue("@id", patientId);
-                        command.ExecuteNonQuery();
+                        int rowsAffected = command.ExecuteNonQuery();
+                        return rowsAffected > 0 ? "Patient deleted successfully" : "No patient found with that ID";
                     }
                 }
-                return "Patient deleted successfully";
             }
             catch (Exception ex)
             {
-                string result = string.Empty;
-                ServerManager.HandleException(ex, ref result);
-                return result;
+                return $"Error: {ex.Message}";
             }
         }
 
         public List<RPC> GetAll(string connectionString)
         {
-            var patients = new List<RPC>();
+            List<RPC> patients = new List<RPC>();
             try
             {
                 using (SqlConnection connection = ServerManager.CreateConnection())
                 {
                     connection.Open();
-                    string query = "SELECT * FROM Patients";
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    using (SqlCommand command = new SqlCommand(GetSelectAllQuery(), connection))
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        while (reader.Read())
                         {
-                            while (reader.Read())
-                            {
-                                Patient patient = new Patient();
-                                patient.Initialize(
-                                    reader.GetInt32(0),
-                                    reader.GetString(1),
-                                    reader.GetString(2),
-                                    reader.GetString(3),
-                                    reader.GetString(4),
-                                    reader.GetDateTime(5),
-                                    reader.GetString(6),
-                                    reader.GetString(7),
-                                    reader.GetInt32(8),
-                                    reader.GetInt32(9),
-                                    reader.GetString(10)
-                                );
-                                patients.Add(patient);
-                            }
+                            patients.Add(CreatePatientFromReader(reader));
                         }
                     }
                 }
@@ -163,9 +112,49 @@ namespace Server_Hosp
             }
             catch (Exception ex)
             {
-                string result = string.Empty;
-                ServerManager.HandleException(ex, ref result);
+                Console.WriteLine($"Error in GetAll: {ex.Message}");
                 return null;
+            }
+        }
+
+        public string Update(string connectionString, int patientId, string firstName, string lastName, 
+            string gender, string bloodType, DateTime dateOfBirth, string phoneNumber, string address,
+            int doctorId, int roomId, string diagnosis)
+        {
+            try
+            {
+                // Set properties first
+                ID = patientId;
+                FirstName = firstName;
+                LastName = lastName;
+                Gender = gender;
+                BloodType = bloodType;
+                DateOfBirth = dateOfBirth;
+                PhoneNumber = phoneNumber;
+                Address = address;
+                DoctorId = doctorId;
+                RoomId = roomId;
+                Diagnosis = diagnosis;
+
+                // Then validate
+                var (isValid, errorMessage) = ValidatePatient(firstName, lastName, gender, bloodType, phoneNumber, doctorId, roomId);
+                if (!isValid)
+                    return $"Error: {errorMessage}";
+
+                using (SqlConnection connection = ServerManager.CreateConnection())
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(GetUpdateQuery(), connection))
+                    {
+                        AddParameters(command);
+                        int rowsAffected = command.ExecuteNonQuery();
+                        return rowsAffected > 0 ? "Patient updated successfully" : "No patient found with that ID";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Error: {ex.Message}";
             }
         }
         #endregion
@@ -176,65 +165,98 @@ namespace Server_Hosp
             command.Parameters.AddWithValue("@id", ID);
             command.Parameters.AddWithValue("@firstName", FirstName);
             command.Parameters.AddWithValue("@lastName", LastName);
-            command.Parameters.AddWithValue("@gender", Gender);
+            command.Parameters.AddWithValue("@gender", Gender?.ToUpper());
             command.Parameters.AddWithValue("@bloodType", BloodType);
             command.Parameters.AddWithValue("@dateOfBirth", DateOfBirth);
             command.Parameters.AddWithValue("@phoneNumber", PhoneNumber);
-            command.Parameters.AddWithValue("@address", Address);
+            command.Parameters.AddWithValue("@address", (object)Address ?? DBNull.Value);
             command.Parameters.AddWithValue("@doctorId", DoctorId);
             command.Parameters.AddWithValue("@roomId", RoomId);
-            command.Parameters.AddWithValue("@diagnosis", Diagnosis ?? (object)DBNull.Value);
+            command.Parameters.AddWithValue("@diagnosis", (object)Diagnosis ?? DBNull.Value);
         }
 
-        public void Initialize(int id, string firstName, string lastName, string phoneNumber, string specialization, int departmentId, string address, string gender, string status)
+        private Patient CreatePatientFromReader(SqlDataReader reader)
         {
-            throw new NotImplementedException();
+            return new Patient
+            {
+                ID = reader.GetInt32(0),
+                FirstName = reader.GetString(1),
+                LastName = reader.GetString(2),
+                Gender = reader.GetString(3),
+                BloodType = reader.GetString(4),
+                DateOfBirth = reader.GetDateTime(5),
+                PhoneNumber = reader.GetString(6),
+                Address = reader.GetString(7),
+                DoctorId = reader.GetInt32(8),
+                RoomId = reader.GetInt32(9),
+                Diagnosis = reader.GetString(10)
+            };
         }
 
-        public string DeleteDoctor(string connectionString, int doctorId)
+        private (bool isValid, string errorMessage) ValidatePatient(string firstName, string lastName, 
+            string gender, string bloodType, string phoneNumber, int doctorId, int roomId)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(firstName))
+                return (false, "First name cannot be empty");
+            if (string.IsNullOrWhiteSpace(lastName))
+                return (false, "Last name cannot be empty");
+            if (string.IsNullOrWhiteSpace(gender))
+                return (false, "Gender cannot be empty");
+            if (string.IsNullOrWhiteSpace(bloodType))
+                return (false, "Blood type cannot be empty");
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+                return (false, "Phone number cannot be empty");
+            if (doctorId <= 0)
+                return (false, "Invalid doctor ID");
+            if (roomId <= 0)
+                return (false, "Invalid room ID");
+            if (!System.Text.RegularExpressions.Regex.IsMatch(phoneNumber, @"^\+?[\d\s-]+$"))
+                return (false, "Invalid phone number format");
+            if (gender.ToUpper() != "M" && gender.ToUpper() != "F")
+                return (false, "Gender must be 'M' or 'F'");
+
+            return (true, string.Empty);
         }
 
-        public string ModifyDoctor(string connectionString, int doctorId, string firstName, string lastName, string phoneNumber, string specialization, int departmentId, string address, string gender, string status)
-        {
-            throw new NotImplementedException();
-        }
+        private string GetInsertQuery() => @"
+            INSERT INTO Patients 
+                (id, first_name, last_name, gender, blood_type, date_of_birth, 
+                phone_number, address, doctor_id, room_id, diagnosis)
+            VALUES 
+                (@id, @firstName, @lastName, @gender, @bloodType, @dateOfBirth,
+                @phoneNumber, @address, @doctorId, @roomId, @diagnosis)";
 
-        public bool Login(string username, string password)
-        {
-            throw new NotImplementedException();
-        }
+        private string GetUpdateQuery() => @"
+            UPDATE Patients 
+            SET first_name = @firstName,
+                last_name = @lastName,
+                gender = @gender,
+                blood_type = @bloodType,
+                date_of_birth = @dateOfBirth,
+                phone_number = @phoneNumber,
+                address = @address,
+                doctor_id = @doctorId,
+                room_id = @roomId,
+                diagnosis = @diagnosis
+            WHERE id = @id";
 
-        public string RegisterUser(string username, string password)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Initialize(string text1, string text2, string text3, int v, string text4, string text5, string text6, string text7)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<string> GetDepartments(string connectionString)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<string> GetSpecializations(string connectionString)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<RPC> GetDoctors(string connectionString)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string Update(string connectionString, int patientId, string v1, string v2, string v3, string v4, DateTime value, string v5, string v6, int v7, int v8, string v9)
-        {
-            throw new NotImplementedException();
-        }
+        private string GetSelectAllQuery() => @"
+            SELECT * FROM Patients";
         #endregion
 
-    } }
+        #region Not Implemented Interface Members
+        public string Specialization { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int DepartmentId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Status { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool Login(string username, string password) => throw new NotImplementedException();
+        public string RegisterUser(string username, string password) => throw new NotImplementedException();
+        public void Initialize(string text1, string text2, string text3, int v, string text4, string text5, string text6, string text7) => throw new NotImplementedException();
+        public List<string> GetDepartments(string connectionString) => throw new NotImplementedException();
+        public List<string> GetSpecializations(string connectionString) => throw new NotImplementedException();
+        public List<RPC> GetDoctors(string connectionString) => throw new NotImplementedException();
+        public void Initialize(int id, string firstName, string lastName, string phoneNumber, string specialization, int departmentId, string address, string gender, string status) => throw new NotImplementedException();
+        public string DeleteDoctor(string connectionString, int doctorId) => throw new NotImplementedException();
+        public string ModifyDoctor(string connectionString, int doctorId, string firstName, string lastName, string phoneNumber, string specialization, int departmentId, string address, string gender, string status) => throw new NotImplementedException();
+        #endregion
+    }
+}
