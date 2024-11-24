@@ -278,11 +278,6 @@ namespace Server_Hosp
         }
 
 
-        string RPC.DeletePatient(string connectionString, int patientId)
-        {
-            throw new NotImplementedException();
-        }
-
         bool RPC.Login(string username, string password)
         {
             throw new NotImplementedException();
