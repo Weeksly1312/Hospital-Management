@@ -152,7 +152,7 @@ namespace Client_Hosp
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(839, 215);
             this.panel3.TabIndex = 4;
-            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint_1);
+            //this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint_1);
             // 
             // btnExport
             // 
@@ -171,7 +171,7 @@ namespace Client_Hosp
             this.btnExport.TabIndex = 90;
             this.btnExport.Text = "Export .csv";
             this.btnExport.UseVisualStyleBackColor = false;
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            //this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // btnDelete
             // 
