@@ -111,7 +111,7 @@
             this.listViewPatients.TabIndex = 46;
             this.listViewPatients.UseCompatibleStateImageBehavior = false;
             this.listViewPatients.View = System.Windows.Forms.View.Details;
-            this.listViewPatients.SelectedIndexChanged += new System.EventHandler(this.listViewDoctors_SelectedIndexChanged);
+            //this.listViewPatients.SelectedIndexChanged += new System.EventHandler(this.listViewDoctors_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -258,7 +258,7 @@
             this.GenPaF.TabIndex = 86;
             this.GenPaF.Text = "Female";
             this.GenPaF.UseVisualStyleBackColor = true;
-            this.GenPaF.CheckedChanged += new System.EventHandler(this.GenPaF_CheckedChanged);
+            //this.GenPaF.CheckedChanged += new System.EventHandler(this.GenPaF_CheckedChanged);
             // 
             // GenPaM
             // 
@@ -412,7 +412,7 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(839, 215);
             this.panel3.TabIndex = 6;
-            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
+            //this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
             // dateTimePicker1
             // 
@@ -430,7 +430,7 @@
             this.ComRoom.Name = "ComRoom";
             this.ComRoom.Size = new System.Drawing.Size(100, 21);
             this.ComRoom.TabIndex = 102;
-            this.ComRoom.SelectedIndexChanged += new System.EventHandler(this.ComRoom_SelectedIndexChanged);
+            //this.ComRoom.SelectedIndexChanged += new System.EventHandler(this.ComRoom_SelectedIndexChanged);
             // 
             // label11
             // 
