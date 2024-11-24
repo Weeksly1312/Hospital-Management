@@ -64,7 +64,6 @@ namespace Client_Hosp
                 "On Break",
                 "Off Duty",
                 "In Surgery",
-                "Unavailable",
                 "Emergency"
             });
             ComStatus.SelectedIndex = 0;
