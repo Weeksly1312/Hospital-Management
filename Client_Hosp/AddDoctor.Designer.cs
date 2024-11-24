@@ -262,6 +262,7 @@ namespace Client_Hosp
             this.ComSpecialization.Name = "ComSpecialization";
             this.ComSpecialization.Size = new System.Drawing.Size(138, 21);
             this.ComSpecialization.TabIndex = 83;
+            this.ComSpecialization.SelectedIndexChanged += new System.EventHandler(this.ComSpecialization_SelectedIndexChanged);
             // 
             // label9
             // 
@@ -398,6 +399,7 @@ namespace Client_Hosp
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(839, 279);
             this.panel1.TabIndex = 3;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // listViewDoctors
             // 
