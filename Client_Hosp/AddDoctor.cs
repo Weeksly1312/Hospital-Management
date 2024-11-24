@@ -12,7 +12,6 @@ namespace Client_Hosp
     public partial class AddDoctor : UserControl
     {
         private Middle_Hosp.RPC doctorRPC;
-        private readonly string connectionString = @"Data Source=DESKTOP-C03F80S\SQLEXPRESS01;Initial Catalog=DoctorManagements;Integrated Security=True;Connect Timeout=30;";
         private bool isEditing = false;
 
         public AddDoctor()
@@ -39,25 +38,23 @@ namespace Client_Hosp
             ComSpecialization.Items.Clear();
             try
             {
-                List<string> specializations = doctorRPC.GetSpecializations(connectionString);
+                List<string> specializations = doctorRPC.GetSpecializations(ConnectionManager.ConnectionString);
                 ComSpecialization.Items.AddRange(specializations.ToArray());
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading specializations: {ex.Message}", 
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ConnectionManager.ShowError($"Error loading specializations: {ex.Message}");
             }
 
             try
             {
-                List<string> departments = doctorRPC.GetDepartments(connectionString);
+                List<string> departments = doctorRPC.GetDepartments(ConnectionManager.ConnectionString);
                 ComDepartment.Items.Clear();
                 ComDepartment.Items.AddRange(departments.ToArray());
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading departments: {ex.Message}", 
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ConnectionManager.ShowError($"Error loading departments: {ex.Message}");
             }
 
             ComStatus.Items.Clear();
@@ -94,8 +91,7 @@ namespace Client_Hosp
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading doctors: {ex.Message}",
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ConnectionManager.ShowError($"Error loading doctors: {ex.Message}");
             }
         }
 
@@ -143,7 +139,7 @@ namespace Client_Hosp
                     return;
                 }
 
-                List<RPC> doctors = doctorRPC.GetAll(connectionString);
+                List<RPC> doctors = doctorRPC.GetAll(ConnectionManager.ConnectionString);
                 if (doctors.Any(d => d.ID == doctorId))
                 {
                     MessageBox.Show("A doctor with this ID already exists. Please use a different ID.",
@@ -169,7 +165,7 @@ namespace Client_Hosp
                     ComStatus.SelectedItem.ToString()
                 );
 
-                string result = doctorRPC.Add(connectionString);
+                string result = doctorRPC.Add(ConnectionManager.ConnectionString);
                 
                 if (!result.Contains("Error"))
                 {
@@ -208,7 +204,7 @@ namespace Client_Hosp
 
             if (!isEditing)
             {
-                List<RPC> doctors = doctorRPC.GetAll(connectionString);
+                List<RPC> doctors = doctorRPC.GetAll(ConnectionManager.ConnectionString);
                 var selectedDoctor = doctors.Find(doc =>
                     doc.ID.ToString() == listViewDoctors.SelectedItems[0].Text);
 
@@ -257,7 +253,7 @@ namespace Client_Hosp
                     lblStatus.Text = "Updating doctor...";
 
                     string modificationResult = doctorRPC.ModifyDoctor(
-                        connectionString,
+                        ConnectionManager.ConnectionString,
                         doctorId,
                         txtName.Text.Trim(),
                         txtLast.Text.Trim(),
@@ -309,7 +305,7 @@ namespace Client_Hosp
 
                     if (result == DialogResult.Yes)
                     {
-                        string deletionResult = doctorRPC.DeleteDoctor(connectionString, selectedDoctorID);
+                        string deletionResult = doctorRPC.DeleteDoctor(ConnectionManager.ConnectionString, selectedDoctorID);
                         RefreshDoctorsList();
                         MessageBox.Show(deletionResult);
                     }
@@ -351,7 +347,7 @@ namespace Client_Hosp
         private void RefreshDoctorsList()
         {
             listViewDoctors.Items.Clear();
-            List<RPC> doctors = doctorRPC.GetAll(connectionString);
+            List<RPC> doctors = doctorRPC.GetAll(ConnectionManager.ConnectionString);
 
             if (doctors != null)
             {
