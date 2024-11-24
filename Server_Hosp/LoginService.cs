@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Middle_Hosp;
+using Server_Hosp.Utils;
 
 namespace Server_Hosp
 {
     public class LoginService : MarshalByRefObject, Middle_Hosp.RPC
     {
-        private string connectionString = @"Data Source=DESKTOP-C03F80S\SQLEXPRESS01;Initial Catalog=DoctorManagements;Integrated Security=True;Connect Timeout=30;";
-        //@"Data Source=DESKTOP-MVIQ4R9\SQLEXPRESS01;Initial Catalog=New Database;Integrated Security=True;Connect Timeout=30;";
+        private string connectionString = ServerManager.ConnectionString;
 
         public int ID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string FirstName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -83,11 +83,11 @@ namespace Server_Hosp
         {
             try
             {
-                string query = "SELECT COUNT(*) FROM dbo.users WHERE username = @username AND password = @password";
-
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (var conn = ServerManager.CreateConnection())
                 {
                     conn.Open();
+
+                    string query = "SELECT COUNT(*) FROM dbo.users WHERE username = @username AND password = @password";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
@@ -115,11 +115,11 @@ namespace Server_Hosp
         {
             try
             {
-                string query = "INSERT INTO dbo.users (username, password) VALUES (@username, @password)";
-
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (var conn = ServerManager.CreateConnection())
                 {
                     conn.Open();
+
+                    string query = "INSERT INTO dbo.users (username, password) VALUES (@username, @password)";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
@@ -140,19 +140,15 @@ namespace Server_Hosp
             }
             catch (SqlException ex)
             {
-                // Handle unique constraint errors or other SQL issues
-                if (ex.Number == 2627) // Unique constraint violation
-                {
-                    return $"Username '{username}' already exists.";
-                }
-
-                Console.WriteLine($"SQL error: {ex.Message}");
-                return "An error occurred during registration.";
+                string result = string.Empty;
+                ServerManager.HandleSqlException(ex, ref result);
+                return result;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"RegisterUser error: {ex.Message}");
-                return "An unexpected error occurred.";
+                string result = string.Empty;
+                ServerManager.HandleException(ex, ref result);
+                return result;
             }
         }
 
