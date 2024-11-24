@@ -278,19 +278,50 @@ namespace Client_Hosp
                     var item = new ListViewItem(patient.ID.ToString());
                     item.SubItems.Add(patient.FirstName);
                     item.SubItems.Add(patient.LastName);
-                    item.SubItems.Add(patient.Gender);
-                    item.SubItems.Add(ComBlood.Text);
-                    item.SubItems.Add(dateTimePicker1.Value.ToShortDateString());
                     item.SubItems.Add(patient.PhoneNumber);
-                    item.SubItems.Add(patient.Address);
-                    item.SubItems.Add(ComDoctor.Text);
-                    item.SubItems.Add(ComRoom.Text);
-                    item.SubItems.Add(ComDisease.Text);
+                    item.SubItems.Add(patient.Gender);   
+                    item.SubItems.Add(dateTimePicker1.Value.ToShortDateString());
+                    item.SubItems.Add(patient.Address ?? "-");
+
+                    // Format doctor information
+                    var doctors = doctorRPC.GetAll(ConnectionManager.ConnectionString);
+                    var doctor = doctors?.FirstOrDefault(d => d.ID == patient.DoctorId);
+                    string doctorInfo = doctor != null ?
+                    $"{doctor.ID} - Dr. {doctor.FirstName} {doctor.LastName}" : "-";
+                    item.SubItems.Add(doctorInfo);    
+                    // Get the actual diagnosis from the patient object
+                    string diagnosis = string.IsNullOrEmpty(patient.Diagnosis) ? "-" : patient.Diagnosis;
+                    item.SubItems.Add(diagnosis);
+                                     
+                    // Get blood type from the patient object directly
+                    string bloodType = string.IsNullOrEmpty(patient.BloodType) ? "-" : patient.BloodType;
+                    item.SubItems.Add(bloodType);
+
+                    // Format room information
+                    string roomInfo = GetRoomInfo(patient.RoomId);
+                    item.SubItems.Add(roomInfo);
+
+                   
 
                     listViewPatients.Items.Add(item);
                 }
             }
         }
+        private string GetRoomInfo(int roomId)
+        {
+            var rooms = new Dictionary<int, string>
+    {
+        { 1, "1 - Living Room" },
+        { 2, "2 - Bedroom" },
+        { 3, "3 - Kitchen" },
+        { 4, "4 - Bathroom" },
+        { 5, "5 - Office" }
+    };
+
+            return rooms.ContainsKey(roomId) ? rooms[roomId] : $"{roomId} - Unknown";
+        }
+
+
 
         private void ClearFields()
         {
@@ -329,13 +360,17 @@ namespace Client_Hosp
             if (ComRoom.SelectedItem != null)
             {
                 string roomText = ComRoom.SelectedItem.ToString();
-                return int.Parse(roomText.Split('-')[0].Trim());
+                string idStr = roomText.Split('-')[0].Trim();
+                if (int.TryParse(idStr, out int roomId))
+                    return roomId;
             }
             return -1;
         }
 
         private void LoadPatientDataForEditing()
         {
+            if (listViewPatients.SelectedItems.Count == 0) return;
+
             List<RPC> patients = patientRPC.GetAll(ConnectionManager.ConnectionString);
             var selectedPatient = patients.Find(pat =>
                 pat.ID.ToString() == listViewPatients.SelectedItems[0].Text);
@@ -343,20 +378,32 @@ namespace Client_Hosp
             if (selectedPatient != null)
             {
                 txtPaID.Text = selectedPatient.ID.ToString();
+                txtPaID.ReadOnly = true;
+
                 txtPaName.Text = selectedPatient.FirstName;
                 txtPaLast.Text = selectedPatient.LastName;
                 txtPaPhone.Text = selectedPatient.PhoneNumber;
-                textPaAdress.Text = selectedPatient.Address;
-                
-                ComDisease.Text = listViewPatients.SelectedItems[0].SubItems[10].Text;
-                ComBlood.Text = listViewPatients.SelectedItems[0].SubItems[4].Text;
-                ComRoom.Text = listViewPatients.SelectedItems[0].SubItems[9].Text;
+                textPaAdress.Text = selectedPatient.Address ?? string.Empty;
+
+                // Set Blood Type
+                int bloodIndex = ComBlood.Items.IndexOf(selectedPatient.BloodType);
+                ComBlood.SelectedIndex = bloodIndex != -1 ? bloodIndex : -1;
+
+                // Set Room
+                string roomText = GetRoomInfo(selectedPatient.RoomId);
+                int roomIndex = ComRoom.Items.IndexOf(roomText);
+                ComRoom.SelectedIndex = roomIndex != -1 ? roomIndex : -1;
+
+                // Set Disease/Diagnosis
+                int diseaseIndex = ComDisease.Items.IndexOf(selectedPatient.Diagnosis);
+                ComDisease.SelectedIndex = diseaseIndex != -1 ? diseaseIndex : -1;
+
+                // Set Gender
                 SetSelectedGender(selectedPatient.Gender);
 
-                string doctorId = listViewPatients.SelectedItems[0].SubItems[8].Text.Split('-')[0].Trim();
-                SetSelectedDoctor(doctorId);
+                // Set Doctor
+                SetSelectedDoctor(selectedPatient.DoctorId.ToString());
 
-                txtPaID.ReadOnly = true;
                 btnModify.Text = "Save Changes";
                 btnAdd.Enabled = false;
                 btnDelete.Enabled = false;
@@ -433,9 +480,10 @@ namespace Client_Hosp
                 if (item.StartsWith(doctorId + " -"))
                 {
                     ComDoctor.SelectedIndex = i;
-                    break;
+                    return;
                 }
             }
+            ComDoctor.SelectedIndex = -1; // If no match found
         }
 
         private void AddPatient_Load(object sender, EventArgs e)
