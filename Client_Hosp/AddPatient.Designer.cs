@@ -528,6 +528,8 @@
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.ResumeLayout(false);
+            this.Load += new System.EventHandler(this.AddPatient_Load);
+            //this.btnView.Click += new System.EventHandler(this.btnView_Click);
 
         }
 
