@@ -10,6 +10,7 @@ namespace Client_Hosp
 {
     public partial class AddPatient : UserControl
     {
+        bool isEditing = false;
         #region Fields
         private Middle_Hosp.RPC patientRPC;
         private Middle_Hosp.RPC doctorRPC;
