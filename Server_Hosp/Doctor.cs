@@ -19,6 +19,11 @@ namespace Server_Hosp
         public string Address { get; set; }
         public string Gender { get; set; }
         public string Status { get; set; }
+        string RPC.BloodType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        DateTime RPC.DateOfBirth { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        int RPC.DoctorId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        int RPC.RoomId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string RPC.Diagnosis { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         #endregion
 
         #region Initialization Methods
@@ -311,6 +316,36 @@ namespace Server_Hosp
         public void Initialize(int patientId, string v1, string v2, string v3, string v4, DateTime value, string v5, string v6, int v7, int v8, string v9) => throw new NotImplementedException();
         public string DeletePatient(string connectionString, int selectedPatientID) => throw new NotImplementedException();
         public string Update(string connectionString, int patientId, string v1, string v2, string v3, string v4, DateTime value, string v5, string v6, int v7, int v8, string v9) => throw new NotImplementedException();
+
+        List<RPC> RPC.GetDoctors(string connectionString)
+        {
+            throw new NotImplementedException();
+        }
+
+        void RPC.Initialize(int patientId, string firstName, string lastName, string gender, string bloodType, DateTime dateOfBirth, string phoneNumber, string address, int doctorId, int roomId, string diagnosis)
+        {
+            throw new NotImplementedException();
+        }
+
+        string RPC.DeletePatient(string connectionString, int patientId)
+        {
+            throw new NotImplementedException();
+        }
+
+        string RPC.Update(string connectionString, int patientId, string firstName, string lastName, string gender, string bloodType, DateTime dateOfBirth, string phoneNumber, string address, int doctorId, int roomId, string diagnosis)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool RPC.Login(string username, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        string RPC.RegisterUser(string username, string password)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }
