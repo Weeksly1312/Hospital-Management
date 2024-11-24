@@ -265,6 +265,7 @@ namespace Client_Hosp
             return true;
         }
 
+
         private void RefreshPatientsList()
         {
             listViewPatients.Items.Clear();
@@ -481,6 +482,11 @@ namespace Client_Hosp
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        private void listViewPatients_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
