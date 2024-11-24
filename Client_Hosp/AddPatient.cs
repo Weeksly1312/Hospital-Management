@@ -56,8 +56,7 @@ namespace Client_Hosp
                 }
                 else
                 {
-                    MessageBox.Show("No doctors found in the system.", 
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ConnectionManager.ShowError("No doctors found in the system.");
                 }
             }
             catch (Exception ex)
@@ -87,16 +86,14 @@ namespace Client_Hosp
             {
                 if (!int.TryParse(txtPaID.Text, out int patientId))
                 {
-                    MessageBox.Show("Please enter a valid numeric ID",
-                        "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ConnectionManager.ShowError("Please enter a valid numeric ID");
                     return;
                 }
 
                 List<RPC> patients = patientRPC.GetAll(ConnectionManager.ConnectionString);
                 if (patients.Any(p => p.ID == patientId))
                 {
-                    MessageBox.Show("A patient with this ID already exists. Please use a different ID.",
-                        "Duplicate ID", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ConnectionManager.ShowError("A patient with this ID already exists. Please use a different ID.");
                     return;
                 }
 
@@ -127,18 +124,17 @@ namespace Client_Hosp
                     ClearFields();
                     RefreshPatientsList();
                     lblStatus.Text = "Patient added successfully";
+                    ConnectionManager.ShowSuccess("Patient added successfully");
                 }
                 else
                 {
                     lblStatus.Text = "Error adding patient";
+                    ConnectionManager.ShowError(result);
                 }
-
-                MessageBox.Show(result);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while adding the patient: {ex.Message}",
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ConnectionManager.ShowError($"An error occurred while adding the patient: {ex.Message}");
                 lblStatus.Text = "Error occurred";
             }
             finally
@@ -151,8 +147,7 @@ namespace Client_Hosp
         {
             if (listViewPatients.SelectedItems.Count == 0)
             {
-                MessageBox.Show("Please select a patient to modify.",
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ConnectionManager.ShowError("Please select a patient to modify.");
                 return;
             }
 
@@ -183,14 +178,13 @@ namespace Client_Hosp
                     {
                         string deletionResult = patientRPC.DeletePatient(ConnectionManager.ConnectionString, selectedPatientID);
                         RefreshPatientsList();
-                        MessageBox.Show(deletionResult);
+                        ConnectionManager.Show(deletionResult);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Please select a patient to delete.",
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ConnectionManager.ShowError("Please select a patient to delete.");
             }
         }
 
@@ -198,85 +192,73 @@ namespace Client_Hosp
         {
             if (string.IsNullOrWhiteSpace(txtPaID.Text))
             {
-                MessageBox.Show("Please enter a Patient ID",
-                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ConnectionManager.ShowError("Please enter a Patient ID");
                 return false;
             }
 
             if (!int.TryParse(txtPaID.Text, out _))
             {
-                MessageBox.Show("Patient ID must be a valid number",
-                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ConnectionManager.ShowError("Patient ID must be a valid number");
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtPaName.Text))
             {
-                MessageBox.Show("Please enter the patient's first name",
-                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ConnectionManager.ShowError("Please enter the patient's first name");
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtPaLast.Text))
             {
-                MessageBox.Show("Please enter the patient's last name",
-                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ConnectionManager.ShowError("Please enter the patient's last name");
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtPaPhone.Text))
             {
-                MessageBox.Show("Please enter the patient's phone number",
-                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ConnectionManager.ShowError("Please enter the patient's phone number");
                 return false;
             }
 
             if (!GenPaM.Checked && !GenPaF.Checked)
             {
-                MessageBox.Show("Please select the patient's gender",
-                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ConnectionManager.ShowError("Please select the patient's gender");
                 return false;
             }
 
             if (ComBlood.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select the patient's blood type",
-                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ConnectionManager.ShowError("Please select the patient's blood type");
                 return false;
             }
 
             if (dateTimePicker1.Value > DateTime.Now)
             {
-                MessageBox.Show("Date of birth cannot be in the future",
-                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ConnectionManager.ShowError("Date of birth cannot be in the future");
                 return false;
             }
 
             if (ComDoctor.SelectedIndex == -1)
             {
-                MessageBox.Show("Please assign a doctor to the patient",
-                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ConnectionManager.ShowError("Please assign a doctor to the patient");
                 return false;
             }
 
             if (ComRoom.SelectedIndex == -1)
             {
-                MessageBox.Show("Please assign a room to the patient",
-                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ConnectionManager.ShowError("Please assign a room to the patient");
                 return false;
             }
 
             if (ComDisease.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select the patient's diagnosis",
-                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ConnectionManager.ShowError("Please select the patient's diagnosis");
                 return false;
             }
 
             if (!System.Text.RegularExpressions.Regex.IsMatch(txtPaPhone.Text.Trim(), @"^\+?[\d\s-]+$"))
             {
-                MessageBox.Show("Please enter a valid phone number format",
-                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ConnectionManager.ShowError("Please enter a valid phone number format");
                 return false;
             }
 
@@ -390,8 +372,7 @@ namespace Client_Hosp
 
                 if (!int.TryParse(txtPaID.Text, out int patientId))
                 {
-                    MessageBox.Show("Invalid ID format", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ConnectionManager.ShowError("Invalid ID format", "Error");
                     return;
                 }
 
@@ -420,11 +401,11 @@ namespace Client_Hosp
                 btnDelete.Enabled = true;
                 isEditing = false;
 
-                MessageBox.Show(modificationResult);
+                ConnectionManager.Show(modificationResult);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error updating patient: {ex.Message}",
+                ConnectionManager.ShowError($"Error updating patient: {ex.Message}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
