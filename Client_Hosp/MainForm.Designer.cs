@@ -33,7 +33,6 @@
             this.exit = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.AddRoom_btn = new System.Windows.Forms.Button();
-            this.logout_btn = new System.Windows.Forms.Button();
             this.AddPatient_btn = new System.Windows.Forms.Button();
             this.AddDoctor_btn = new System.Windows.Forms.Button();
             this.dashboard_btn = new System.Windows.Forms.Button();
@@ -41,10 +40,11 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.logout_btn = new System.Windows.Forms.Button();
             this.dashboard1 = new Client_Hosp.Dashboard();
+            this.addRoom1 = new Client_Hosp.AddRoom();
             this.addPatient1 = new Client_Hosp.AddPatient();
             this.addDoctor1 = new Client_Hosp.AddDoctor();
-            this.addRoom1 = new Client_Hosp.AddRoom();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel3.SuspendLayout();
@@ -66,11 +66,11 @@
             // 
             this.exit.AutoSize = true;
             this.exit.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.exit.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.exit.ForeColor = System.Drawing.Color.White;
-            this.exit.Location = new System.Drawing.Point(1079, 8);
+            this.exit.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exit.ForeColor = System.Drawing.Color.Black;
+            this.exit.Location = new System.Drawing.Point(1075, 6);
             this.exit.Name = "exit";
-            this.exit.Size = new System.Drawing.Size(15, 16);
+            this.exit.Size = new System.Drawing.Size(18, 19);
             this.exit.TabIndex = 0;
             this.exit.Text = "X";
             this.exit.Click += new System.EventHandler(this.exit_Click);
@@ -101,6 +101,7 @@
             this.AddRoom_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddRoom_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddRoom_btn.ForeColor = System.Drawing.Color.White;
+            this.AddRoom_btn.Image = ((System.Drawing.Image)(resources.GetObject("AddRoom_btn.Image")));
             this.AddRoom_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.AddRoom_btn.Location = new System.Drawing.Point(14, 390);
             this.AddRoom_btn.Name = "AddRoom_btn";
@@ -109,24 +110,6 @@
             this.AddRoom_btn.Text = "MANAGE ROOMS";
             this.AddRoom_btn.UseVisualStyleBackColor = false;
             this.AddRoom_btn.Click += new System.EventHandler(this.AddRoom_btn_Click);
-            // 
-            // logout_btn
-            // 
-            this.logout_btn.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.logout_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.logout_btn.FlatAppearance.BorderSize = 0;
-            this.logout_btn.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
-            this.logout_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
-            this.logout_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
-            this.logout_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.logout_btn.ForeColor = System.Drawing.Color.Black;
-            this.logout_btn.Location = new System.Drawing.Point(11, 517);
-            this.logout_btn.Name = "logout_btn";
-            this.logout_btn.Size = new System.Drawing.Size(43, 35);
-            this.logout_btn.TabIndex = 5;
-            this.logout_btn.Text = "Close X";
-            this.logout_btn.UseVisualStyleBackColor = false;
-            this.logout_btn.Click += new System.EventHandler(this.logout_btn_Click);
             // 
             // AddPatient_btn
             // 
@@ -138,12 +121,13 @@
             this.AddPatient_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddPatient_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddPatient_btn.ForeColor = System.Drawing.Color.White;
+            this.AddPatient_btn.Image = ((System.Drawing.Image)(resources.GetObject("AddPatient_btn.Image")));
             this.AddPatient_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.AddPatient_btn.Location = new System.Drawing.Point(14, 334);
             this.AddPatient_btn.Name = "AddPatient_btn";
             this.AddPatient_btn.Size = new System.Drawing.Size(200, 40);
             this.AddPatient_btn.TabIndex = 4;
-            this.AddPatient_btn.Text = "MANAGE PATIENTS";
+            this.AddPatient_btn.Text = "    MANAGE PATIENTS";
             this.AddPatient_btn.UseVisualStyleBackColor = false;
             this.AddPatient_btn.Click += new System.EventHandler(this.AddPatient_btn_Click);
             // 
@@ -157,12 +141,13 @@
             this.AddDoctor_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddDoctor_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddDoctor_btn.ForeColor = System.Drawing.Color.White;
+            this.AddDoctor_btn.Image = ((System.Drawing.Image)(resources.GetObject("AddDoctor_btn.Image")));
             this.AddDoctor_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.AddDoctor_btn.Location = new System.Drawing.Point(14, 277);
             this.AddDoctor_btn.Name = "AddDoctor_btn";
             this.AddDoctor_btn.Size = new System.Drawing.Size(200, 40);
             this.AddDoctor_btn.TabIndex = 3;
-            this.AddDoctor_btn.Text = "MANAGE DOCTORS";
+            this.AddDoctor_btn.Text = "    MANAGE DOCTORS";
             this.AddDoctor_btn.UseVisualStyleBackColor = false;
             this.AddDoctor_btn.Click += new System.EventHandler(this.AddDoctor_btn_Click);
             // 
@@ -176,6 +161,7 @@
             this.dashboard_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.dashboard_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dashboard_btn.ForeColor = System.Drawing.Color.White;
+            this.dashboard_btn.Image = ((System.Drawing.Image)(resources.GetObject("dashboard_btn.Image")));
             this.dashboard_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.dashboard_btn.Location = new System.Drawing.Point(14, 220);
             this.dashboard_btn.Name = "dashboard_btn";
@@ -230,12 +216,37 @@
             this.panel1.Size = new System.Drawing.Size(1100, 35);
             this.panel1.TabIndex = 3;
             // 
+            // logout_btn
+            // 
+            this.logout_btn.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.logout_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.logout_btn.FlatAppearance.BorderSize = 0;
+            this.logout_btn.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
+            this.logout_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
+            this.logout_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
+            this.logout_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.logout_btn.ForeColor = System.Drawing.Color.Black;
+            this.logout_btn.Image = ((System.Drawing.Image)(resources.GetObject("logout_btn.Image")));
+            this.logout_btn.Location = new System.Drawing.Point(14, 520);
+            this.logout_btn.Name = "logout_btn";
+            this.logout_btn.Size = new System.Drawing.Size(39, 29);
+            this.logout_btn.TabIndex = 5;
+            this.logout_btn.UseVisualStyleBackColor = false;
+            this.logout_btn.Click += new System.EventHandler(this.logout_btn_Click);
+            // 
             // dashboard1
             // 
             this.dashboard1.Location = new System.Drawing.Point(225, 0);
             this.dashboard1.Name = "dashboard1";
             this.dashboard1.Size = new System.Drawing.Size(875, 562);
             this.dashboard1.TabIndex = 2;
+            // 
+            // addRoom1
+            // 
+            this.addRoom1.Location = new System.Drawing.Point(225, 0);
+            this.addRoom1.Name = "addRoom1";
+            this.addRoom1.Size = new System.Drawing.Size(875, 562);
+            this.addRoom1.TabIndex = 2;
             // 
             // addPatient1
             // 
@@ -250,13 +261,6 @@
             this.addDoctor1.Name = "addDoctor1";
             this.addDoctor1.Size = new System.Drawing.Size(875, 565);
             this.addDoctor1.TabIndex = 0;
-            // 
-            // addRoom1
-            // 
-            this.addRoom1.Location = new System.Drawing.Point(225, 0);
-            this.addRoom1.Name = "addRoom1";
-            this.addRoom1.Size = new System.Drawing.Size(875, 562);
-            this.addRoom1.TabIndex = 2;
             // 
             // MainForm
             // 
@@ -286,7 +290,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label exit;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button logout_btn;
         private System.Windows.Forms.Button AddPatient_btn;
         private System.Windows.Forms.Button AddDoctor_btn;
         private System.Windows.Forms.Button dashboard_btn;
@@ -299,5 +302,6 @@
         private AddPatient addPatient1;
         private AddDoctor addDoctor1;
         private AddRoom addRoom1;
+        private System.Windows.Forms.Button logout_btn;
     }
 }
