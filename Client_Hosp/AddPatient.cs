@@ -62,8 +62,7 @@ namespace Client_Hosp
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading doctors: {ex.Message}",
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ConnectionManager.ShowError($"Error loading doctors: {ex.Message}");
             }
 
             ComDisease.Items.Clear();
