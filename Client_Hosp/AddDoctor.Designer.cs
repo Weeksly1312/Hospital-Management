@@ -40,17 +40,25 @@ namespace Client_Hosp
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnModify = new System.Windows.Forms.Button();
             this.ComDepartment = new System.Windows.Forms.ComboBox();
+            this.GenF = new System.Windows.Forms.RadioButton();
+            this.GenM = new System.Windows.Forms.RadioButton();
             this.ComStatus = new System.Windows.Forms.ComboBox();
             this.ComSpecialization = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.textAdress = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.txtPhone = new System.Windows.Forms.TextBox();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.txtLast = new System.Windows.Forms.TextBox();
+            this.txtDoctorID = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.listViewDoctors = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -62,14 +70,6 @@ namespace Client_Hosp
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.txtLast = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtDoctorID = new System.Windows.Forms.TextBox();
-            this.textAdress = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.GenM = new System.Windows.Forms.RadioButton();
-            this.GenF = new System.Windows.Forms.RadioButton();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -83,7 +83,7 @@ namespace Client_Hosp
             this.btnAdd.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
             this.btnAdd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAdd.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAdd.ForeColor = System.Drawing.Color.White;
             this.btnAdd.Location = new System.Drawing.Point(174, 159);
             this.btnAdd.Name = "btnAdd";
@@ -152,7 +152,6 @@ namespace Client_Hosp
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(839, 215);
             this.panel3.TabIndex = 4;
-            //this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint_1);
             // 
             // btnExport
             // 
@@ -163,7 +162,7 @@ namespace Client_Hosp
             this.btnExport.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
             this.btnExport.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
             this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExport.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExport.ForeColor = System.Drawing.Color.White;
             this.btnExport.Location = new System.Drawing.Point(583, 159);
             this.btnExport.Name = "btnExport";
@@ -171,7 +170,6 @@ namespace Client_Hosp
             this.btnExport.TabIndex = 90;
             this.btnExport.Text = "Export .csv";
             this.btnExport.UseVisualStyleBackColor = false;
-            //this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // btnDelete
             // 
@@ -182,7 +180,7 @@ namespace Client_Hosp
             this.btnDelete.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
             this.btnDelete.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDelete.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.Color.White;
             this.btnDelete.Location = new System.Drawing.Point(464, 159);
             this.btnDelete.Name = "btnDelete";
@@ -201,7 +199,7 @@ namespace Client_Hosp
             this.btnModify.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
             this.btnModify.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
             this.btnModify.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnModify.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnModify.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnModify.ForeColor = System.Drawing.Color.White;
             this.btnModify.Location = new System.Drawing.Point(293, 159);
             this.btnModify.Name = "btnModify";
@@ -218,6 +216,36 @@ namespace Client_Hosp
             this.ComDepartment.Name = "ComDepartment";
             this.ComDepartment.Size = new System.Drawing.Size(100, 21);
             this.ComDepartment.TabIndex = 87;
+            // 
+            // GenF
+            // 
+            this.GenF.AutoSize = true;
+            this.GenF.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(82)))), ((int)(((byte)(163)))));
+            this.GenF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.GenF.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GenF.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(24)))), ((int)(((byte)(32)))));
+            this.GenF.Location = new System.Drawing.Point(521, 66);
+            this.GenF.Name = "GenF";
+            this.GenF.Size = new System.Drawing.Size(63, 19);
+            this.GenF.TabIndex = 86;
+            this.GenF.Text = "Female";
+            this.GenF.UseVisualStyleBackColor = true;
+            // 
+            // GenM
+            // 
+            this.GenM.AutoSize = true;
+            this.GenM.Checked = true;
+            this.GenM.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(82)))), ((int)(((byte)(163)))));
+            this.GenM.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.GenM.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GenM.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(24)))), ((int)(((byte)(32)))));
+            this.GenM.Location = new System.Drawing.Point(463, 66);
+            this.GenM.Name = "GenM";
+            this.GenM.Size = new System.Drawing.Size(52, 19);
+            this.GenM.TabIndex = 85;
+            this.GenM.TabStop = true;
+            this.GenM.Text = "Male";
+            this.GenM.UseVisualStyleBackColor = true;
             // 
             // ComStatus
             // 
@@ -253,6 +281,15 @@ namespace Client_Hosp
             this.label7.TabIndex = 81;
             this.label7.Text = "Status ";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(461, 50);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(45, 13);
+            this.label8.TabIndex = 80;
+            this.label8.Text = "Gender ";
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -261,6 +298,13 @@ namespace Client_Hosp
             this.label6.Size = new System.Drawing.Size(75, 13);
             this.label6.TabIndex = 79;
             this.label6.Text = "Specialization ";
+            // 
+            // textAdress
+            // 
+            this.textAdress.Location = new System.Drawing.Point(464, 112);
+            this.textAdress.Name = "textAdress";
+            this.textAdress.Size = new System.Drawing.Size(221, 20);
+            this.textAdress.TabIndex = 78;
             // 
             // label5
             // 
@@ -298,6 +342,15 @@ namespace Client_Hosp
             this.label2.TabIndex = 74;
             this.label2.Text = "First Name ";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(171, 25);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(18, 13);
+            this.label10.TabIndex = 73;
+            this.label10.Text = "ID";
+            // 
             // txtPhone
             // 
             this.txtPhone.Location = new System.Drawing.Point(174, 111);
@@ -312,6 +365,27 @@ namespace Client_Hosp
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(0, 13);
             this.lblStatus.TabIndex = 71;
+            // 
+            // txtName
+            // 
+            this.txtName.Location = new System.Drawing.Point(174, 66);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(100, 20);
+            this.txtName.TabIndex = 70;
+            // 
+            // txtLast
+            // 
+            this.txtLast.Location = new System.Drawing.Point(293, 66);
+            this.txtLast.Name = "txtLast";
+            this.txtLast.Size = new System.Drawing.Size(100, 20);
+            this.txtLast.TabIndex = 69;
+            // 
+            // txtDoctorID
+            // 
+            this.txtDoctorID.Location = new System.Drawing.Point(206, 21);
+            this.txtDoctorID.Name = "txtDoctorID";
+            this.txtDoctorID.Size = new System.Drawing.Size(186, 20);
+            this.txtDoctorID.TabIndex = 68;
             // 
             // panel1
             // 
@@ -345,6 +419,7 @@ namespace Client_Hosp
             this.listViewDoctors.TabIndex = 46;
             this.listViewDoctors.UseCompatibleStateImageBehavior = false;
             this.listViewDoctors.View = System.Windows.Forms.View.Details;
+            this.listViewDoctors.SelectedIndexChanged += new System.EventHandler(this.listViewDoctors_SelectedIndexChanged_1);
             // 
             // columnHeader1
             // 
@@ -387,82 +462,6 @@ namespace Client_Hosp
             // 
             this.columnHeader8.Text = "Departement ID";
             this.columnHeader8.Width = 90;
-            // 
-            // txtName
-            // 
-            this.txtName.Location = new System.Drawing.Point(174, 66);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(100, 20);
-            this.txtName.TabIndex = 70;
-            // 
-            // txtLast
-            // 
-            this.txtLast.Location = new System.Drawing.Point(293, 66);
-            this.txtLast.Name = "txtLast";
-            this.txtLast.Size = new System.Drawing.Size(100, 20);
-            this.txtLast.TabIndex = 69;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(171, 25);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(18, 13);
-            this.label10.TabIndex = 73;
-            this.label10.Text = "ID";
-            // 
-            // txtDoctorID
-            // 
-            this.txtDoctorID.Location = new System.Drawing.Point(206, 21);
-            this.txtDoctorID.Name = "txtDoctorID";
-            this.txtDoctorID.Size = new System.Drawing.Size(186, 20);
-            this.txtDoctorID.TabIndex = 68;
-            // 
-            // textAdress
-            // 
-            this.textAdress.Location = new System.Drawing.Point(464, 112);
-            this.textAdress.Name = "textAdress";
-            this.textAdress.Size = new System.Drawing.Size(221, 20);
-            this.textAdress.TabIndex = 78;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(461, 50);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(45, 13);
-            this.label8.TabIndex = 80;
-            this.label8.Text = "Gender ";
-            // 
-            // GenM
-            // 
-            this.GenM.AutoSize = true;
-            this.GenM.Checked = true;
-            this.GenM.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(82)))), ((int)(((byte)(163)))));
-            this.GenM.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.GenM.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GenM.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(24)))), ((int)(((byte)(32)))));
-            this.GenM.Location = new System.Drawing.Point(463, 66);
-            this.GenM.Name = "GenM";
-            this.GenM.Size = new System.Drawing.Size(52, 19);
-            this.GenM.TabIndex = 85;
-            this.GenM.TabStop = true;
-            this.GenM.Text = "Male";
-            this.GenM.UseVisualStyleBackColor = true;
-            // 
-            // GenF
-            // 
-            this.GenF.AutoSize = true;
-            this.GenF.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(82)))), ((int)(((byte)(163)))));
-            this.GenF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.GenF.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GenF.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(24)))), ((int)(((byte)(32)))));
-            this.GenF.Location = new System.Drawing.Point(521, 66);
-            this.GenF.Name = "GenF";
-            this.GenF.Size = new System.Drawing.Size(63, 19);
-            this.GenF.TabIndex = 86;
-            this.GenF.Text = "Female";
-            this.GenF.UseVisualStyleBackColor = true;
             // 
             // AddDoctor
             // 
