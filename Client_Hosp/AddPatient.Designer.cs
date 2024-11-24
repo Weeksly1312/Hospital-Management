@@ -111,7 +111,7 @@
             this.listViewPatients.TabIndex = 46;
             this.listViewPatients.UseCompatibleStateImageBehavior = false;
             this.listViewPatients.View = System.Windows.Forms.View.Details;
-            //this.listViewPatients.SelectedIndexChanged += new System.EventHandler(this.listViewPatients_SelectedIndexChanged);
+            this.listViewPatients.SelectedIndexChanged += new System.EventHandler(this.listViewPatients_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -523,13 +523,12 @@
             this.Controls.Add(this.panel3);
             this.Name = "AddPatient";
             this.Size = new System.Drawing.Size(875, 565);
+            this.Load += new System.EventHandler(this.AddPatient_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.ResumeLayout(false);
-            this.Load += new System.EventHandler(this.AddPatient_Load);
-            //this.btnView.Click += new System.EventHandler(this.btnView_Click);
 
         }
 
