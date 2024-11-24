@@ -298,10 +298,9 @@ namespace Server_Hosp
 
         private string GetSelectAllQuery() => @"
             SELECT d.id, d.first_name, d.last_name, d.phone_number, 
-                   s.Name as specialization, d.department_id, d.address, 
+                   d.specialization_id as specialization, d.department_id, d.address, 
                    d.gender, d.status 
-            FROM dbo.Doctors d
-            LEFT JOIN dbo.Specializations s ON d.specialization_id = s.ID";
+            FROM dbo.Doctors d";
         #endregion
 
         #region Not Implemented Interface Members
