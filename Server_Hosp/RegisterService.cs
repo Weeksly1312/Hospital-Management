@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using Middle_Hosp;
+using Server_Hosp.Utils;
 
 public class RegisterService : MarshalByRefObject, Middle_Hosp.RPC
 {
-    private readonly string connectionString = @"Data Source=DESKTOP-C03F80S\SQLEXPRESS01;Initial Catalog=DoctorManagements;Integrated Security=True;Connect Timeout=30;";
-    //@"Data Source=DESKTOP-MVIQ4R9\SQLEXPRESS01;Initial Catalog=New Database;Integrated Security=True;Connect Timeout=30";
+    private readonly string connectionString = ServerManager.ConnectionString;
     public int ID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public string FirstName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public string LastName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -26,14 +26,13 @@ public class RegisterService : MarshalByRefObject, Middle_Hosp.RPC
 {
     try
     {
-        // Check if username already exists
-        string checkQuery = "SELECT COUNT(*) FROM dbo.users WHERE username = @username";
-        
-        using (SqlConnection conn = new SqlConnection(connectionString))
+        using (var conn = ServerManager.CreateConnection())
         {
             conn.Open();
 
-            // First, check if username is already taken
+            // Check if username already exists
+            string checkQuery = "SELECT COUNT(*) FROM dbo.users WHERE username = @username";
+            
             using (SqlCommand checkCmd = new SqlCommand(checkQuery, conn))
             {
                 checkCmd.Parameters.AddWithValue("@username", username);
@@ -66,10 +65,17 @@ public class RegisterService : MarshalByRefObject, Middle_Hosp.RPC
             }
         }
     }
+    catch (SqlException ex)
+    {
+        string result = string.Empty;
+        ServerManager.HandleSqlException(ex, ref result);
+        return result;
+    }
     catch (Exception ex)
     {
-        Console.WriteLine($"Registration error: {ex.Message}");
-        return $"Error: {ex.Message}";
+        string result = string.Empty;
+        ServerManager.HandleException(ex, ref result);
+        return result;
     }
 }
 public bool Login(string username, string password)
