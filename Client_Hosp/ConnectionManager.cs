@@ -48,13 +48,20 @@ namespace Client_Hosp.Utils
             }
         }
 
-        public static void ShowError(string message, string title = "Error")
+        public static void Show(string message, string title = "Information")
         {
-            System.Windows.Forms.MessageBox.Show(
+            MessageBox.Show(
                 message,
                 title,
-                System.Windows.Forms.MessageBoxButtons.OK,
-                System.Windows.Forms.MessageBoxIcon.Error);
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+        }
+
+        public static void ShowError(string message, string title = "Error", 
+            MessageBoxButtons buttons = MessageBoxButtons.OK, 
+            MessageBoxIcon icon = MessageBoxIcon.Error)
+        {
+            MessageBox.Show(message, title, buttons, icon);
         }
 
         public static void ShowSuccess(string message, string title = "Success")
@@ -66,14 +73,5 @@ namespace Client_Hosp.Utils
                 System.Windows.Forms.MessageBoxIcon.Information);
         }
 
-        internal static void Show(string deletionResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static void ShowError(string v1, string v2, MessageBoxButtons oK, MessageBoxIcon error)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
