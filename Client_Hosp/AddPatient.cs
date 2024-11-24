@@ -20,6 +20,7 @@ namespace Client_Hosp
             InitializeComponent();
             InitializeRPCConnection();
             SetupComboBoxes();
+            this.Load += AddPatient_Load;
         }
 
         private void InitializeRPCConnection()
@@ -431,6 +432,35 @@ namespace Client_Hosp
                     break;
                 }
             }
+        }
+
+        private void AddPatient_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                if (patientRPC == null)
+                {
+                    InitializeRPCConnection();
+                }
+
+                if (patientRPC != null)
+                {
+                    RefreshPatientsList();
+                }
+                else
+                {
+                    ConnectionManager.ShowError("Could not connect to the patient service. Please try again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                ConnectionManager.ShowError($"Error loading patients: {ex.Message}");
+            }
+        }
+
+        private void listViewPatients_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
