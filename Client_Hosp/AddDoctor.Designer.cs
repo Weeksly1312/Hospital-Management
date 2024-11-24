@@ -262,7 +262,6 @@ namespace Client_Hosp
             this.ComSpecialization.Name = "ComSpecialization";
             this.ComSpecialization.Size = new System.Drawing.Size(138, 21);
             this.ComSpecialization.TabIndex = 83;
-            this.ComSpecialization.SelectedIndexChanged += new System.EventHandler(this.ComSpecialization_SelectedIndexChanged);
             // 
             // label9
             // 
