@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Middle_Hosp;
+using Server_Hosp.Utils;
 
 namespace Server_Hosp
 {
@@ -45,7 +46,7 @@ namespace Server_Hosp
             var patients = new List<RPC>();
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(ServerManager.ConnectionString))
                 {
                     connection.Open();
                     string query = "SELECT * FROM Patients";
@@ -118,7 +119,7 @@ namespace Server_Hosp
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(ServerManager.ConnectionString))
                 {
                     connection.Open();
                     string query = "DELETE FROM Patients WHERE id = @id";
@@ -143,7 +144,7 @@ namespace Server_Hosp
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = ServerManager.CreateConnection())
                 {
                     connection.Open();
                     string query = @"INSERT INTO Patients (id, first_name, last_name, gender, 
@@ -161,7 +162,9 @@ namespace Server_Hosp
             }
             catch (Exception ex)
             {
-                return $"Error: {ex.Message}";
+                string result = string.Empty;
+                ServerManager.HandleException(ex, ref result);
+                return result;
             }
         }
 
@@ -169,7 +172,7 @@ namespace Server_Hosp
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(ServerManager.ConnectionString))
                 {
                     connection.Open();
                     string query = @"UPDATE Patients SET first_name = @firstName, last_name = @lastName,
