@@ -209,21 +209,100 @@ namespace Client_Hosp
         #region Helper Methods
         private bool ValidateFormInputs()
         {
-            if (string.IsNullOrWhiteSpace(txtPaID.Text) ||
-                string.IsNullOrWhiteSpace(txtPaName.Text) ||
-                string.IsNullOrWhiteSpace(txtPaLast.Text) ||
-                string.IsNullOrWhiteSpace(txtPaPhone.Text) ||
-                string.IsNullOrWhiteSpace(dateTimePicker1.Text) ||
-                ComBlood.SelectedIndex == -1 ||
-                (!GenPaM.Checked && !GenPaF.Checked) ||
-                ComDoctor.SelectedIndex == -1 ||
-                ComRoom.SelectedIndex == -1 ||
-                ComDisease.SelectedIndex == -1)
+            // Check ID field
+            if (string.IsNullOrWhiteSpace(txtPaID.Text))
             {
-                MessageBox.Show("Please fill in all required fields",
+                MessageBox.Show("Please enter a Patient ID",
                     "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
+
+            // Check if ID is numeric
+            if (!int.TryParse(txtPaID.Text, out _))
+            {
+                MessageBox.Show("Patient ID must be a valid number",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // Check required personal information
+            if (string.IsNullOrWhiteSpace(txtPaName.Text))
+            {
+                MessageBox.Show("Please enter the patient's first name",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPaLast.Text))
+            {
+                MessageBox.Show("Please enter the patient's last name",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPaPhone.Text))
+            {
+                MessageBox.Show("Please enter the patient's phone number",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // Check gender selection
+            if (!GenPaM.Checked && !GenPaF.Checked)
+            {
+                MessageBox.Show("Please select the patient's gender",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // Check blood type
+            if (ComBlood.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select the patient's blood type",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // Check date of birth
+            if (dateTimePicker1.Value > DateTime.Now)
+            {
+                MessageBox.Show("Date of birth cannot be in the future",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // Check doctor assignment
+            if (ComDoctor.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please assign a doctor to the patient",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // Check room assignment
+            if (ComRoom.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please assign a room to the patient",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // Check diagnosis/disease
+            if (ComDisease.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select the patient's diagnosis",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // Phone number format validation
+            if (!System.Text.RegularExpressions.Regex.IsMatch(txtPaPhone.Text.Trim(), @"^\+?[\d\s-]+$"))
+            {
+                MessageBox.Show("Please enter a valid phone number format",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
             return true;
         }
 
