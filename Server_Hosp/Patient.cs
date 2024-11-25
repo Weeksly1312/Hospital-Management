@@ -26,6 +26,7 @@ namespace Server_Hosp
         int RPC.DepartmentId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         string RPC.Status { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         DateTime RPC.DateOfBirth { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string DepartmentName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         #endregion
 
         #region Initialization and Validation
