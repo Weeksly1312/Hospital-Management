@@ -8,9 +8,12 @@ namespace Client_Hosp
 {
     public partial class Dashboard : UserControl
     {
+        #region Fields and Properties
         private Middle_Hosp.RPC doctorRPC;
         private Middle_Hosp.RPC patientRPC;
+        #endregion
 
+        #region Constructor and Initialization
         public Dashboard()
         {
             InitializeComponent();
@@ -29,7 +32,9 @@ namespace Client_Hosp
                 ConnectionManager.ShowError(ex.Message);
             }
         }
+        #endregion
 
+        #region Data Update Methods
         public void RefreshData()
         {
             if (InvokeRequired)
@@ -95,7 +100,9 @@ namespace Client_Hosp
                 ConnectionManager.ShowError($"Error updating patient count: {ex.Message}");
             }
         }
+        #endregion
 
+        #region Event Handlers
         private void Dashboard_Load(object sender, EventArgs e)
         {
             RefreshData();
@@ -110,5 +117,6 @@ namespace Client_Hosp
         {
             RefreshData();
         }
+        #endregion
     }
 }
