@@ -9,7 +9,7 @@ namespace Server_Hosp
 {
     public class Doctor : MarshalByRefObject, Middle_Hosp.RPC
     {
-        #region Properties
+        #region Properties and Fields
         public int ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -19,6 +19,8 @@ namespace Server_Hosp
         public string Address { get; set; }
         public string Gender { get; set; }
         public string Status { get; set; }
+
+        // Interface Properties
         string RPC.BloodType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         DateTime RPC.DateOfBirth { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         int RPC.DoctorId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -26,7 +28,7 @@ namespace Server_Hosp
         string RPC.Diagnosis { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         #endregion
 
-        #region Initialization Methods
+        #region Initialization and Validation
         public void Initialize(int id, string firstName, string lastName, string phoneNumber,
             string specialization, int departmentId, string address, string gender, string status)
         {
@@ -51,9 +53,41 @@ namespace Server_Hosp
             Gender = gender.ToUpper();
             Status = status ?? "Available";
         }
+
+        private (bool isValid, string errorMessage) ValidateDoctor(string firstName, string lastName, 
+            string phoneNumber, int departmentId, string gender, string status)
+        {
+            if (string.IsNullOrWhiteSpace(firstName))
+                return (false, "First name cannot be empty");
+            if (string.IsNullOrWhiteSpace(lastName))
+                return (false, "Last name cannot be empty");
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+                return (false, "Phone number cannot be empty");
+            if (string.IsNullOrWhiteSpace(gender))
+                return (false, "Gender cannot be empty");
+            if (departmentId <= 0)
+                return (false, "Invalid department ID");
+            if (!System.Text.RegularExpressions.Regex.IsMatch(phoneNumber, @"^\+?[\d\s-]+$"))
+                return (false, "Invalid phone number format");
+            if (gender.ToUpper() != "M" && gender.ToUpper() != "F")
+                return (false, "Gender must be 'M' or 'F'");
+            if (!IsValidStatus(status))
+                return (false, "Invalid status value");
+
+            return (true, string.Empty);
+        }
+
+        private bool IsValidStatus(string status)
+        {
+            string[] validStatuses = {
+                "Available", "In Consultation", "On Break",
+                "Off Duty", "In Surgery", "Unavailable", "Emergency"
+            };
+            return validStatuses.Contains(status);
+        }
         #endregion
 
-        #region Database Operations
+        #region Core Database Operations
         public string Add(string connectionString)
         {
             try
@@ -179,7 +213,9 @@ namespace Server_Hosp
                 return $"Error: {ex.Message}";
             }
         }
+        #endregion
 
+        #region Lookup Data Operations
         public List<string> GetDepartments(string connectionString)
         {
             return GetLookupData("SELECT ID, Name FROM Departments ORDER BY ID");
@@ -188,37 +224,6 @@ namespace Server_Hosp
         public List<string> GetSpecializations(string connectionString)
         {
             return GetLookupData("SELECT ID, Name FROM Specializations ORDER BY ID");
-        }
-        #endregion
-
-        #region Helper Methods
-        private void AddParameters(SqlCommand cmd, int specializationId)
-        {
-            cmd.Parameters.AddWithValue("@ID", ID);
-            cmd.Parameters.AddWithValue("@FirstName", FirstName);
-            cmd.Parameters.AddWithValue("@LastName", LastName);
-            cmd.Parameters.AddWithValue("@PhoneNumber", PhoneNumber);
-            cmd.Parameters.AddWithValue("@SpecializationId", specializationId);
-            cmd.Parameters.AddWithValue("@DepartmentId", DepartmentId);
-            cmd.Parameters.AddWithValue("@Address", (object)Address ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Gender", Gender.ToUpper());
-            cmd.Parameters.AddWithValue("@Status", Status);
-        }
-
-        private Doctor CreateDoctorFromReader(SqlDataReader reader)
-        {
-            return new Doctor
-            {
-                ID = Convert.ToInt32(reader["id"]),
-                FirstName = reader["first_name"].ToString(),
-                LastName = reader["last_name"].ToString(),
-                PhoneNumber = reader["phone_number"].ToString(),
-                Specialization = reader["specialization"].ToString(),
-                DepartmentId = Convert.ToInt32(reader["department_id"]),
-                Address = reader["address"].ToString(),
-                Gender = reader["gender"].ToString(),
-                Status = reader["status"].ToString()
-            };
         }
 
         private List<string> GetLookupData(string query)
@@ -246,37 +251,36 @@ namespace Server_Hosp
                 return new List<string>();
             }
         }
+        #endregion
 
-        private (bool isValid, string errorMessage) ValidateDoctor(string firstName, string lastName, 
-            string phoneNumber, int departmentId, string gender, string status)
+        #region SQL Helpers
+        private void AddParameters(SqlCommand cmd, int specializationId)
         {
-            if (string.IsNullOrWhiteSpace(firstName))
-                return (false, "First name cannot be empty");
-            if (string.IsNullOrWhiteSpace(lastName))
-                return (false, "Last name cannot be empty");
-            if (string.IsNullOrWhiteSpace(phoneNumber))
-                return (false, "Phone number cannot be empty");
-            if (string.IsNullOrWhiteSpace(gender))
-                return (false, "Gender cannot be empty");
-            if (departmentId <= 0)
-                return (false, "Invalid department ID");
-            if (!System.Text.RegularExpressions.Regex.IsMatch(phoneNumber, @"^\+?[\d\s-]+$"))
-                return (false, "Invalid phone number format");
-            if (gender.ToUpper() != "M" && gender.ToUpper() != "F")
-                return (false, "Gender must be 'M' or 'F'");
-            if (!IsValidStatus(status))
-                return (false, "Invalid status value");
-
-            return (true, string.Empty);
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@FirstName", FirstName);
+            cmd.Parameters.AddWithValue("@LastName", LastName);
+            cmd.Parameters.AddWithValue("@PhoneNumber", PhoneNumber);
+            cmd.Parameters.AddWithValue("@SpecializationId", specializationId);
+            cmd.Parameters.AddWithValue("@DepartmentId", DepartmentId);
+            cmd.Parameters.AddWithValue("@Address", (object)Address ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Gender", Gender.ToUpper());
+            cmd.Parameters.AddWithValue("@Status", Status);
         }
 
-        private bool IsValidStatus(string status)
+        private Doctor CreateDoctorFromReader(SqlDataReader reader)
         {
-            string[] validStatuses = {
-                "Available", "In Consultation", "On Break",
-                "Off Duty", "In Surgery", "Unavailable", "Emergency"
+            return new Doctor
+            {
+                ID = Convert.ToInt32(reader["id"]),
+                FirstName = reader["first_name"].ToString(),
+                LastName = reader["last_name"].ToString(),
+                PhoneNumber = reader["phone_number"].ToString(),
+                Specialization = reader["specialization"].ToString(),
+                DepartmentId = Convert.ToInt32(reader["department_id"]),
+                Address = reader["address"].ToString(),
+                Gender = reader["gender"].ToString(),
+                Status = reader["status"].ToString()
             };
-            return validStatuses.Contains(status);
         }
 
         private string GetInsertQuery() => @"
@@ -315,35 +319,12 @@ namespace Server_Hosp
         public string DeletePatient(string connectionString, int selectedPatientID) => throw new NotImplementedException();
         public string Update(string connectionString, int patientId, string v1, string v2, string v3, string v4, DateTime value, string v5, string v6, int v7, int v8, string v9) => throw new NotImplementedException();
 
-        List<RPC> RPC.GetDoctors(string connectionString)
-        {
-            throw new NotImplementedException();
-        }
-
-        void RPC.Initialize(int patientId, string firstName, string lastName, string gender, string bloodType, DateTime dateOfBirth, string phoneNumber, string address, int doctorId, int roomId, string diagnosis)
-        {
-            throw new NotImplementedException();
-        }
-
-        string RPC.DeletePatient(string connectionString, int patientId)
-        {
-            throw new NotImplementedException();
-        }
-
-        string RPC.Update(string connectionString, int patientId, string firstName, string lastName, string gender, string bloodType, DateTime dateOfBirth, string phoneNumber, string address, int doctorId, int roomId, string diagnosis)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool RPC.Login(string username, string password)
-        {
-            throw new NotImplementedException();
-        }
-
-        string RPC.RegisterUser(string username, string password)
-        {
-            throw new NotImplementedException();
-        }
+        List<RPC> RPC.GetDoctors(string connectionString) => throw new NotImplementedException();
+        void RPC.Initialize(int patientId, string firstName, string lastName, string gender, string bloodType, DateTime dateOfBirth, string phoneNumber, string address, int doctorId, int roomId, string diagnosis) => throw new NotImplementedException();
+        string RPC.DeletePatient(string connectionString, int patientId) => throw new NotImplementedException();
+        string RPC.Update(string connectionString, int patientId, string firstName, string lastName, string gender, string bloodType, DateTime dateOfBirth, string phoneNumber, string address, int doctorId, int roomId, string diagnosis) => throw new NotImplementedException();
+        bool RPC.Login(string username, string password) => throw new NotImplementedException();
+        string RPC.RegisterUser(string username, string password) => throw new NotImplementedException();
         #endregion
     }
 }
