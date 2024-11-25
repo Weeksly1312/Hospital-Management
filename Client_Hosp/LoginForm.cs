@@ -75,9 +75,7 @@ namespace Client_Hosp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //RegisterForm regForm = new RegisterForm();
-            //regForm.Show();
-            //this.Hide();
+            
         }
 
         private void exit_Click_1(object sender, EventArgs e)
