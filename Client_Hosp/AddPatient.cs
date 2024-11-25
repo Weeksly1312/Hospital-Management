@@ -80,7 +80,19 @@ namespace Client_Hosp
 
             ComDisease.Items.Clear();
             ComDisease.Items.AddRange(new string[] {
-        "Flu", "Pneumonia", "Diabetes", "Hypertension", "Asthma"
+        "Arrhythmia",
+        "Asthma",
+        "Cancer",
+        "Diabetes",
+        "Dislocation",
+        "Epilepsy",
+        "Fever",
+        "Flu",
+        "Fracture",
+        "Hypertension",
+        "Migraine",
+        "Pneumonia",
+        "Tumor"
     });
 
             ComRoom.Items.Clear();
