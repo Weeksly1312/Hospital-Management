@@ -439,7 +439,6 @@ namespace Client_Hosp
         {
             try
             {
-                // Create a SaveFileDialog to allow the user to specify the file location
                 using (SaveFileDialog saveFileDialog = new SaveFileDialog())
                 {
                     saveFileDialog.Filter = "CSV files (.csv)|.csv";
