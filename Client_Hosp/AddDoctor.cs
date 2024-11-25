@@ -7,6 +7,7 @@ using Middle_Hosp;
 using Client_Hosp.Utils;
 using System.Linq;
 using Server_Hosp;
+using System.IO;
 
 namespace Client_Hosp
 {
@@ -433,5 +434,44 @@ namespace Client_Hosp
             return -1;
         }
         #endregion
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                {
+                    saveFileDialog.Filter = "CSV files (.csv)|.csv";
+                    saveFileDialog.Title = "Export Doctors List to CSV";
+                    saveFileDialog.FileName = "DoctorsList.csv";
+
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+
+                        using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
+                        {
+                            
+                            writer.WriteLine("ID,First Name,Last Name,Phone,Specialization,Address,Gender,Status,Department ID");
+                          
+                            foreach (ListViewItem item in listViewDoctors.Items)
+                            {
+                                string[] row = new string[item.SubItems.Count];
+                                for (int i = 0; i < item.SubItems.Count; i++)
+                                {
+                                    row[i] = item.SubItems[i].Text;
+                                }
+
+                                writer.WriteLine(string.Join(",", row));
+                            }
+                        }
+
+                        MessageBox.Show("Doctors list exported successfully!", "Export Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred during export: {ex.Message}", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
