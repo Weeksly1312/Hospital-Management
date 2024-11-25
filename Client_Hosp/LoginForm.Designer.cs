@@ -322,7 +322,7 @@
             this.login_password.PasswordChar = '*';
             this.login_password.Size = new System.Drawing.Size(261, 30);
             this.login_password.TabIndex = 51;
-            this.login_password.TextChanged += new System.EventHandler(this.login_password_TextChanged);
+            //this.login_password.TextChanged += new System.EventHandler(this.login_password_TextChanged);
             // 
             // login_username
             // 
