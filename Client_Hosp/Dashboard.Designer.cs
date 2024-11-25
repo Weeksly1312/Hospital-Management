@@ -31,15 +31,15 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.dashboard_IE = new System.Windows.Forms.Label();
+            this.dashboard_TR = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.dashboard_AE = new System.Windows.Forms.Label();
+            this.dashboard_TP = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.dashboard_TE = new System.Windows.Forms.Label();
+            this.dashboard_TD = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -70,7 +70,7 @@
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.Blue;
-            this.panel5.Controls.Add(this.dashboard_IE);
+            this.panel5.Controls.Add(this.dashboard_TR);
             this.panel5.Controls.Add(this.label6);
             this.panel5.Controls.Add(this.pictureBox3);
             this.panel5.Location = new System.Drawing.Point(573, 27);
@@ -78,16 +78,16 @@
             this.panel5.Size = new System.Drawing.Size(236, 123);
             this.panel5.TabIndex = 2;
             // 
-            // dashboard_IE
+            // dashboard_TR
             // 
-            this.dashboard_IE.AutoSize = true;
-            this.dashboard_IE.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dashboard_IE.ForeColor = System.Drawing.Color.White;
-            this.dashboard_IE.Location = new System.Drawing.Point(193, 27);
-            this.dashboard_IE.Name = "dashboard_IE";
-            this.dashboard_IE.Size = new System.Drawing.Size(23, 25);
-            this.dashboard_IE.TabIndex = 6;
-            this.dashboard_IE.Text = "0";
+            this.dashboard_TR.AutoSize = true;
+            this.dashboard_TR.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dashboard_TR.ForeColor = System.Drawing.Color.White;
+            this.dashboard_TR.Location = new System.Drawing.Point(193, 27);
+            this.dashboard_TR.Name = "dashboard_TR";
+            this.dashboard_TR.Size = new System.Drawing.Size(23, 25);
+            this.dashboard_TR.TabIndex = 6;
+            this.dashboard_TR.Text = "0";
             // 
             // label6
             // 
@@ -113,7 +113,7 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.MidnightBlue;
-            this.panel4.Controls.Add(this.dashboard_AE);
+            this.panel4.Controls.Add(this.dashboard_TP);
             this.panel4.Controls.Add(this.label4);
             this.panel4.Controls.Add(this.pictureBox2);
             this.panel4.Location = new System.Drawing.Point(302, 27);
@@ -121,16 +121,16 @@
             this.panel4.Size = new System.Drawing.Size(236, 123);
             this.panel4.TabIndex = 1;
             // 
-            // dashboard_AE
+            // dashboard_TP
             // 
-            this.dashboard_AE.AutoSize = true;
-            this.dashboard_AE.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dashboard_AE.ForeColor = System.Drawing.Color.White;
-            this.dashboard_AE.Location = new System.Drawing.Point(194, 27);
-            this.dashboard_AE.Name = "dashboard_AE";
-            this.dashboard_AE.Size = new System.Drawing.Size(23, 25);
-            this.dashboard_AE.TabIndex = 4;
-            this.dashboard_AE.Text = "0";
+            this.dashboard_TP.AutoSize = true;
+            this.dashboard_TP.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dashboard_TP.ForeColor = System.Drawing.Color.White;
+            this.dashboard_TP.Location = new System.Drawing.Point(194, 27);
+            this.dashboard_TP.Name = "dashboard_TP";
+            this.dashboard_TP.Size = new System.Drawing.Size(23, 25);
+            this.dashboard_TP.TabIndex = 4;
+            this.dashboard_TP.Text = "0";
             // 
             // label4
             // 
@@ -156,7 +156,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(8)))), ((int)(((byte)(138)))));
-            this.panel3.Controls.Add(this.dashboard_TE);
+            this.panel3.Controls.Add(this.dashboard_TD);
             this.panel3.Controls.Add(this.label1);
             this.panel3.Controls.Add(this.pictureBox1);
             this.panel3.Location = new System.Drawing.Point(32, 27);
@@ -164,16 +164,17 @@
             this.panel3.Size = new System.Drawing.Size(236, 123);
             this.panel3.TabIndex = 0;
             // 
-            // dashboard_TE
+            // dashboard_TD
             // 
-            this.dashboard_TE.AutoSize = true;
-            this.dashboard_TE.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dashboard_TE.ForeColor = System.Drawing.Color.White;
-            this.dashboard_TE.Location = new System.Drawing.Point(196, 27);
-            this.dashboard_TE.Name = "dashboard_TE";
-            this.dashboard_TE.Size = new System.Drawing.Size(23, 25);
-            this.dashboard_TE.TabIndex = 2;
-            this.dashboard_TE.Text = "0";
+            this.dashboard_TD.AutoSize = true;
+            this.dashboard_TD.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dashboard_TD.ForeColor = System.Drawing.Color.White;
+            this.dashboard_TD.Location = new System.Drawing.Point(196, 27);
+            this.dashboard_TD.Name = "dashboard_TD";
+            this.dashboard_TD.Size = new System.Drawing.Size(23, 25);
+            this.dashboard_TD.TabIndex = 2;
+            this.dashboard_TD.Text = "0";
+            this.dashboard_TD.Click += new System.EventHandler(this.dashboard_TE_Click);
             // 
             // label1
             // 
@@ -246,15 +247,15 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Label dashboard_IE;
+        private System.Windows.Forms.Label dashboard_TR;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Label dashboard_AE;
+        private System.Windows.Forms.Label dashboard_TP;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label dashboard_TE;
+        private System.Windows.Forms.Label dashboard_TD;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel2;
