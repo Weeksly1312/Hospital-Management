@@ -20,8 +20,16 @@ namespace Client_Hosp
             InitializeComponent();
             InitializeRPCConnection();
             SetupComboBoxes();
+            this.VisibleChanged += AddPatient_VisibleChanged;
         }
-
+        //test method
+        private void AddPatient_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                SetupComboBoxes();
+            }
+        }
         private void InitializeRPCConnection()
         {
             try
@@ -35,23 +43,34 @@ namespace Client_Hosp
             }
         }
 
+        
+
+
         private void SetupComboBoxes()
         {
             ComBlood.Items.Clear();
             ComBlood.Items.AddRange(new string[] {
-                "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"
-            });
+        "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"
+        });
 
             try
             {
                 ComDoctor.Items.Clear();
-                List<RPC> doctors = doctorRPC.GetAll(ConnectionManager.ConnectionString);
-                
-                if (doctors != null)
+                List<RPC> allDoctors = doctorRPC.GetAll(ConnectionManager.ConnectionString);
+
+                if (allDoctors != null)
                 {
-                    foreach (var doctor in doctors)
+                    
+                    var availableDoctors = allDoctors.Where(doctor => doctor.Status?.ToUpper() == "AVAILABLE");
+
+                    foreach (var doctor in availableDoctors)
                     {
                         ComDoctor.Items.Add($"{doctor.ID} - Dr. {doctor.FirstName} {doctor.LastName}");
+                    }
+
+                    if (ComDoctor.Items.Count == 0)
+                    {
+                        ConnectionManager.ShowError("No available doctors found in the system.");
                     }
                 }
                 else
@@ -66,17 +85,17 @@ namespace Client_Hosp
 
             ComDisease.Items.Clear();
             ComDisease.Items.AddRange(new string[] {
-                "Flu", "Pneumonia", "Diabetes", "Hypertension", "Asthma"
-            });
+        "Flu", "Pneumonia", "Diabetes", "Hypertension", "Asthma"
+    });
 
             ComRoom.Items.Clear();
             string[] rooms = {
-                "1 - Living Room",
-                "2 - Bedroom",
-                "3 - Kitchen",
-                "4 - Bathroom",
-                "5 - Office"
-            };
+        "1 - Living Room",
+        "2 - Bedroom",
+        "3 - Kitchen",
+        "4 - Bathroom",
+        "5 - Office"
+    };
             ComRoom.Items.AddRange(rooms);
         }
 
@@ -498,6 +517,7 @@ namespace Client_Hosp
                 if (patientRPC != null)
                 {
                     RefreshPatientsList();
+                     
                 }
                 else
                 {
