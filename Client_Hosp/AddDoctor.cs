@@ -439,6 +439,7 @@ namespace Client_Hosp
         {
             try
             {
+                // Create a SaveFileDialog to allow the user to specify the file location
                 using (SaveFileDialog saveFileDialog = new SaveFileDialog())
                 {
                     saveFileDialog.Filter = "CSV files (.csv)|.csv";
@@ -446,12 +447,11 @@ namespace Client_Hosp
                     saveFileDialog.FileName = "DoctorsList.csv";
 
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
-
+                    {                        
                         using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
-                        {
-                            
+                        {                          
                             writer.WriteLine("ID,First Name,Last Name,Phone,Specialization,Address,Gender,Status,Department ID");
-                          
+                         
                             foreach (ListViewItem item in listViewDoctors.Items)
                             {
                                 string[] row = new string[item.SubItems.Count];
