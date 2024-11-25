@@ -22,7 +22,7 @@ The system is built on a robust three-tier architecture:
 ### 2️⃣ Server Layer (Server_Hosp)
 Core business logic implementation:
 - `Doctor.cs`: Doctor management operations
-- `Patient.cs`: Patient data handling
+- `Patient.cs`: Patient management operations
 - `LoginService.cs`: Authentication services
 - `RegisterService.cs`: User registration
 - `ServerManager.cs`: Server configuration and management
