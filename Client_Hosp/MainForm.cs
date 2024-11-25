@@ -97,10 +97,7 @@ namespace Client_Hosp
 
             AddPatient dashForm = addPatient1 as AddPatient;
 
-            //if (dashForm != null)
-            //{
-            //    dashForm.RefreshData();
-            //}
+          
         }
 
         private void AddRoom_btn_Click(object sender, EventArgs e)
@@ -113,10 +110,7 @@ namespace Client_Hosp
 
             AddRoom dashForm = addRoom1 as AddRoom;
 
-            //if (dashForm != null)
-            //{
-            //    dashForm.RefreshData();
-            //}
+            
         }
     }
     }
