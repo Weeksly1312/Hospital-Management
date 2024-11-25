@@ -6,6 +6,7 @@ using System.Runtime.Remoting.Channels;
 using Middle_Hosp;
 using Client_Hosp.Utils;
 using System.Linq;
+using Server_Hosp;
 
 namespace Client_Hosp
 {
@@ -195,7 +196,8 @@ namespace Client_Hosp
                     
                     foreach (var item in ComSpecialization.Items)
                     {
-                        if (item.ToString().StartsWith(selectedDoctor.Specialization))
+                        string itemName = item.ToString().Split('-')[1].Trim();
+                        if (itemName == selectedDoctor.Specialization)
                         {
                             ComSpecialization.SelectedItem = item;
                             break;
@@ -347,7 +349,7 @@ namespace Client_Hosp
                     item.SubItems.Add(doc.Address);
                     item.SubItems.Add(doc.Gender);
                     item.SubItems.Add(doc.Status);
-                    item.SubItems.Add(doc.DepartmentId.ToString());
+                    item.SubItems.Add(((Doctor)doc).DepartmentName);
 
                     listViewDoctors.Items.Add(item);
                 }
