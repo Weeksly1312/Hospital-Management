@@ -17,8 +17,11 @@ namespace Client_Hosp
 {
     public partial class LoginForm : Form
     {
+        #region Fields and Properties
         private RPC ep;
+        #endregion
 
+        #region Constructor and Initialization
         public LoginForm()
         {
             InitializeComponent();
@@ -35,7 +38,9 @@ namespace Client_Hosp
                 ConnectionManager.ShowError(ex.Message);
             }
         }
+        #endregion
 
+        #region Authentication Methods
         private void login_btn_Click(object sender, EventArgs e)
         {
             string username = login_username.Text.Trim();
@@ -68,31 +73,24 @@ namespace Client_Hosp
             }
         }
 
-        private void login_showPass_CheckedChanged_1(object sender, EventArgs e)
-        {
-            login_password.PasswordChar = login_showPass.Checked ? '\0' : '*';
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void exit_Click_1(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void button1_Click_1(object sender, EventArgs e)
         {
             RegisterForm regForm = new RegisterForm();
             regForm.Show();
             this.Hide();
         }
+        #endregion
 
-        private void login_password_TextChanged(object sender, EventArgs e)
+        #region UI Event Handlers
+        private void login_showPass_CheckedChanged_1(object sender, EventArgs e)
         {
-
+            login_password.PasswordChar = login_showPass.Checked ? '\0' : '*';
         }
+
+        private void exit_Click_1(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+        #endregion
     }
 }
