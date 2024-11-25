@@ -19,6 +19,7 @@ namespace Server_Hosp
         public string Address { get; set; }
         public string Gender { get; set; }
         public string Status { get; set; }
+        public string DepartmentName { get; set; }
 
         // Interface Properties
         string RPC.BloodType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -279,7 +280,8 @@ namespace Server_Hosp
                 DepartmentId = Convert.ToInt32(reader["department_id"]),
                 Address = reader["address"].ToString(),
                 Gender = reader["gender"].ToString(),
-                Status = reader["status"].ToString()
+                Status = reader["status"].ToString(),
+                DepartmentName = reader["department_name"].ToString()
             };
         }
 
@@ -305,9 +307,12 @@ namespace Server_Hosp
 
         private string GetSelectAllQuery() => @"
             SELECT d.id, d.first_name, d.last_name, d.phone_number, 
-                   d.specialization_id as specialization, d.department_id, d.address, 
+                   s.Name as specialization, d.department_id,
+                   dep.Name as department_name, d.address, 
                    d.gender, d.status 
-            FROM dbo.Doctors d";
+            FROM dbo.Doctors d
+            LEFT JOIN dbo.Specializations s ON d.specialization_id = s.ID
+            LEFT JOIN dbo.Departments dep ON d.department_id = dep.ID";
         #endregion
 
         #region Not Implemented Interface Members
