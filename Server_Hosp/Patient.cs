@@ -54,10 +54,10 @@ namespace Server_Hosp
         {
             try
             {
-                using (SqlConnection connection = ServerManager.CreateConnection())
+                using (SqlConnection conn = ServerManager.CreateConnection())
                 {
-                    connection.Open();
-                    using (SqlCommand command = new SqlCommand(GetInsertQuery(), connection))
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(GetInsertQuery(), conn))
                     {
                         AddParameters(command);
                         command.ExecuteNonQuery();
@@ -77,10 +77,10 @@ namespace Server_Hosp
         {
             try
             {
-                using (SqlConnection connection = ServerManager.CreateConnection())
+                using (SqlConnection conn = ServerManager.CreateConnection())
                 {
-                    connection.Open();
-                    using (SqlCommand command = new SqlCommand("DELETE FROM Patients WHERE id = @id", connection))
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand("DELETE FROM Patients WHERE id = @id", conn))
                     {
                         command.Parameters.AddWithValue("@id", patientId);
                         int rowsAffected = command.ExecuteNonQuery();
@@ -99,10 +99,10 @@ namespace Server_Hosp
             List<RPC> patients = new List<RPC>();
             try
             {
-                using (SqlConnection connection = ServerManager.CreateConnection())
+                using (SqlConnection conn = ServerManager.CreateConnection())
                 {
-                    connection.Open();
-                    using (SqlCommand command = new SqlCommand(GetSelectAllQuery(), connection))
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(GetSelectAllQuery(), conn))
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -142,10 +142,10 @@ namespace Server_Hosp
                 if (!isValid)
                     return $"Error: {errorMessage}";
 
-                using (SqlConnection connection = ServerManager.CreateConnection())
+                using (SqlConnection conn = ServerManager.CreateConnection())
                 {
-                    connection.Open();
-                    using (SqlCommand command = new SqlCommand(GetUpdateQuery(), connection))
+                    conn.Open();
+                    using (SqlCommand command = new SqlCommand(GetUpdateQuery(), conn))
                     {
                         AddParameters(command);
                         int rowsAffected = command.ExecuteNonQuery();
