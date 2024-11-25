@@ -6,6 +6,7 @@ using System.Runtime.Remoting.Channels;
 using Middle_Hosp;
 using Client_Hosp.Utils;
 using System.Linq;
+using System.IO;
 
 namespace Client_Hosp
 {
@@ -584,5 +585,44 @@ namespace Client_Hosp
             ComDoctor.SelectedIndex = -1; // If no match found
         }
         #endregion
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                {
+                    saveFileDialog.Filter = "CSV files (.csv)|.csv";
+                    saveFileDialog.Title = "Export Patients List to CSV";
+                    saveFileDialog.FileName = "PatientsList.csv";
+
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
+                        {
+                            writer.WriteLine("ID,First Name,Last Name,Gender,Date of Birth,Phone Number,Address,Blood Type,Doctor,Room,Disease");
+
+                            foreach (ListViewItem item in listViewPatients.Items)
+                            {
+                                string[] row = new string[item.SubItems.Count];
+                                for (int i = 0; i < item.SubItems.Count; i++)
+                                {
+                                    row[i] = item.SubItems[i].Text.Replace(",", ";"); 
+                                }
+
+                                writer.WriteLine(string.Join(",", row));
+                            }
+                        }
+
+                        MessageBox.Show("Patients list exported successfully!", "Export Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred during export: {ex.Message}", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }
