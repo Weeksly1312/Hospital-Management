@@ -16,9 +16,6 @@ namespace Client_Hosp
         {
             InitializeComponent();
 
-            //displayTE();
-            //displayAE();
-            //displayIE();
         }
         public void RefreshData()
         {
@@ -28,11 +25,14 @@ namespace Client_Hosp
                 return;
             }
 
-            //displayTE();
-            //displayAE();
-            //displayIE();
+           
         }
         private void Dashboard_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dashboard_TE_Click(object sender, EventArgs e)
         {
 
         }
