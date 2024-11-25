@@ -33,7 +33,6 @@ namespace Client_Hosp
             string username = signup_username.Text.Trim();
             string password = signup_password.Text.Trim();
 
-            // Validate input
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Please fill all fields.", "Error",
@@ -41,7 +40,6 @@ namespace Client_Hosp
                 return;
             }
 
-            // Check password length
             if (password.Length < 4)
             {
                 MessageBox.Show("Password must be at least 4 characters long.", "Error",
@@ -51,7 +49,6 @@ namespace Client_Hosp
 
             try
             {
-                // Call the server's RegisterUser method
                 string result = ep.RegisterUser(username, password);
 
                 if (result.Contains("successfully"))
@@ -59,7 +56,6 @@ namespace Client_Hosp
                     MessageBox.Show(result, "Success",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // Return to login form
                     LoginForm loginForm = new LoginForm();
                     loginForm.Show();
                     this.Close();
@@ -79,7 +75,6 @@ namespace Client_Hosp
 
         private void signup_loginBtn_Click(object sender, EventArgs e)
         {
-            // Return to login form
             LoginForm loginForm = new LoginForm();
             loginForm.Show();
             this.Close();
