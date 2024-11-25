@@ -170,6 +170,7 @@ namespace Client_Hosp
             this.btnExport.TabIndex = 90;
             this.btnExport.Text = "Export .csv";
             this.btnExport.UseVisualStyleBackColor = false;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // btnDelete
             // 
@@ -398,7 +399,6 @@ namespace Client_Hosp
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(839, 279);
             this.panel1.TabIndex = 3;
-            //this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // listViewDoctors
             // 
@@ -420,7 +420,6 @@ namespace Client_Hosp
             this.listViewDoctors.TabIndex = 46;
             this.listViewDoctors.UseCompatibleStateImageBehavior = false;
             this.listViewDoctors.View = System.Windows.Forms.View.Details;
-            //this.listViewDoctors.SelectedIndexChanged += new System.EventHandler(this.listViewDoctors_SelectedIndexChanged_1);
             // 
             // columnHeader1
             // 
