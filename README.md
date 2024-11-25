@@ -123,6 +123,31 @@ Modern Windows Forms interfaces:
 
 > 📝 **Note**: SQL scripts can be found in the `Database` folder of the repository.
 
+## 📊 Database Schema
+
+The system uses a relational database with the following structure:
+
+[![Database Schema](https://dbdiagram.io/d/6744e4a8e9daa85acaacca9d)](https://dbdiagram.io/d/6744e4a8e9daa85acaacca9d)
+
+### Key Tables:
+- **Departments**: Manages hospital departments
+- **Specializations**: Tracks medical specializations
+- **Rooms**: Handles room management with capacity and equipment tracking
+- **Doctors**: Stores doctor information and their assignments
+- **Patients**: Maintains patient records and medical information
+- **Users**: Manages system authentication
+
+### Key Relationships:
+- Doctors are assigned to Departments and Specializations
+- Patients are linked to their assigned Doctors and Rooms
+- Rooms are associated with specific Departments
+
+### Database Features:
+- Comprehensive tracking of room capacity and equipment
+- Full patient medical history support
+- Doctor status and assignment management
+- Integrated user authentication system
+
 ### Server Configuration
 1. Open the solution in Visual Studio
 2. Set `Server_Hosp` as the startup project
