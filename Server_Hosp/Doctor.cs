@@ -143,7 +143,6 @@ namespace Server_Hosp
         {
             try
             {
-                // Set the properties first
                 ID = doctorId;
                 FirstName = firstName;
                 LastName = lastName;
@@ -154,7 +153,6 @@ namespace Server_Hosp
                 Gender = gender;
                 Status = status;
 
-                // Then validate
                 var (isValid, errorMessage) = ValidateDoctor(FirstName, LastName, PhoneNumber, 
                     DepartmentId, Gender, Status);
                 
