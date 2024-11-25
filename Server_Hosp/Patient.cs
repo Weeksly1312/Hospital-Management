@@ -8,7 +8,7 @@ namespace Server_Hosp
 {
     public class Patient : MarshalByRefObject, Middle_Hosp.RPC
     {
-        #region Properties
+        #region Properties and Fields
         public int ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -20,13 +20,15 @@ namespace Server_Hosp
         public int DoctorId { get; set; }
         public int RoomId { get; set; }
         public string Diagnosis { get; set; }
+
+        // Interface Properties
         string RPC.Specialization { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         int RPC.DepartmentId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         string RPC.Status { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         DateTime RPC.DateOfBirth { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         #endregion
 
-        #region Initialization Methods
+        #region Initialization and Validation
         public void Initialize(int patientId, string firstName, string lastName, string gender,
             string bloodType, DateTime dateOfBirth, string phoneNumber, string address,
             int doctorId, int roomId, string diagnosis)
@@ -47,9 +49,34 @@ namespace Server_Hosp
             RoomId = roomId;
             Diagnosis = diagnosis;
         }
+
+        private (bool isValid, string errorMessage) ValidatePatient(string firstName, string lastName,
+            string gender, string bloodType, string phoneNumber, int doctorId, int roomId)
+        {
+            if (string.IsNullOrWhiteSpace(firstName))
+                return (false, "First name cannot be empty");
+            if (string.IsNullOrWhiteSpace(lastName))
+                return (false, "Last name cannot be empty");
+            if (string.IsNullOrWhiteSpace(gender))
+                return (false, "Gender cannot be empty");
+            if (string.IsNullOrWhiteSpace(bloodType))
+                return (false, "Blood type cannot be empty");
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+                return (false, "Phone number cannot be empty");
+            if (doctorId <= 0)
+                return (false, "Invalid doctor ID");
+            if (roomId <= 0)
+                return (false, "Invalid room ID");
+            if (!System.Text.RegularExpressions.Regex.IsMatch(phoneNumber, @"^\+?[\d\s-]+$"))
+                return (false, "Invalid phone number format");
+            if (gender.ToUpper() != "M" && gender.ToUpper() != "F")
+                return (false, "Gender must be 'M' or 'F'");
+
+            return (true, string.Empty);
+        }
         #endregion
 
-        #region Database Operations
+        #region Core Database Operations
         public string Add(string connectionString)
         {
             try
@@ -160,7 +187,7 @@ namespace Server_Hosp
         }
         #endregion
 
-        #region Helper Methods
+        #region SQL Helpers
         private void AddParameters(SqlCommand command)
         {
             command.Parameters.AddWithValue("@id", ID);
@@ -194,31 +221,6 @@ namespace Server_Hosp
             };
         }
 
-        private (bool isValid, string errorMessage) ValidatePatient(string firstName, string lastName,
-            string gender, string bloodType, string phoneNumber, int doctorId, int roomId)
-        {
-            if (string.IsNullOrWhiteSpace(firstName))
-                return (false, "First name cannot be empty");
-            if (string.IsNullOrWhiteSpace(lastName))
-                return (false, "Last name cannot be empty");
-            if (string.IsNullOrWhiteSpace(gender))
-                return (false, "Gender cannot be empty");
-            if (string.IsNullOrWhiteSpace(bloodType))
-                return (false, "Blood type cannot be empty");
-            if (string.IsNullOrWhiteSpace(phoneNumber))
-                return (false, "Phone number cannot be empty");
-            if (doctorId <= 0)
-                return (false, "Invalid doctor ID");
-            if (roomId <= 0)
-                return (false, "Invalid room ID");
-            if (!System.Text.RegularExpressions.Regex.IsMatch(phoneNumber, @"^\+?[\d\s-]+$"))
-                return (false, "Invalid phone number format");
-            if (gender.ToUpper() != "M" && gender.ToUpper() != "F")
-                return (false, "Gender must be 'M' or 'F'");
-
-            return (true, string.Empty);
-        }
-
         private string GetInsertQuery() => @"
             INSERT INTO Patients 
                 (id, first_name, last_name, gender, blood_type, date_of_birth, 
@@ -243,8 +245,11 @@ namespace Server_Hosp
 
         private string GetSelectAllQuery() => @"
             SELECT * FROM Patients";
+        #endregion
 
-        void RPC.Initialize(int id, string firstName, string lastName, string phoneNumber, string specialization, int departmentId, string address, string gender, string status)
+        #region Not Implemented Interface Members
+        void RPC.Initialize(int id, string firstName, string lastName, string phoneNumber, 
+            string specialization, int departmentId, string address, string gender, string status)
         {
             throw new NotImplementedException();
         }
@@ -254,7 +259,8 @@ namespace Server_Hosp
             throw new NotImplementedException();
         }
 
-        string RPC.ModifyDoctor(string connectionString, int doctorId, string firstName, string lastName, string phoneNumber, string specialization, int departmentId, string address, string gender, string status)
+        string RPC.ModifyDoctor(string connectionString, int doctorId, string firstName, string lastName, 
+            string phoneNumber, string specialization, int departmentId, string address, string gender, string status)
         {
             throw new NotImplementedException();
         }
@@ -274,7 +280,6 @@ namespace Server_Hosp
             throw new NotImplementedException();
         }
 
-
         bool RPC.Login(string username, string password)
         {
             throw new NotImplementedException();
@@ -284,7 +289,6 @@ namespace Server_Hosp
         {
             throw new NotImplementedException();
         }
-
         #endregion
     }
 }
