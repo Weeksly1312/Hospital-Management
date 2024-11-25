@@ -50,6 +50,8 @@ namespace Middle_Hosp
             string address, int doctorId, int roomId, string diagnosis);
         #endregion
 
+
+
         #region Common Methods
         string Add(string connectionString);
         List<RPC> GetAll(string connectionString);
