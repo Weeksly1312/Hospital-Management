@@ -5,6 +5,7 @@ namespace Middle_Hosp
 {
     public interface RPC
     {
+        // Basic personal information properties for both doctors and patients
         #region Common Properties
         int ID { get; set; }
         string FirstName { get; set; }
@@ -14,12 +15,14 @@ namespace Middle_Hosp
         string Gender { get; set; }
         #endregion
 
+        // Properties specific to doctors only
         #region Doctor Specific Properties
         string Specialization { get; set; }
         int DepartmentId { get; set; }
         string Status { get; set; }
         #endregion
 
+        // Properties specific to patients only
         #region Patient Specific Properties
         string BloodType { get; set; }
         DateTime DateOfBirth { get; set; }
@@ -28,6 +31,7 @@ namespace Middle_Hosp
         string Diagnosis { get; set; }
         #endregion
 
+        // Methods for managing doctors (add, update, delete, get)
         #region Doctor Methods
         void Initialize(int id, string firstName, string lastName, string phoneNumber,
             string specialization, int departmentId, string address, string gender, string status);
@@ -40,6 +44,7 @@ namespace Middle_Hosp
         List<RPC> GetDoctors(string connectionString);
         #endregion
 
+        // Methods for managing patients (add, update, delete)
         #region Patient Methods
         void Initialize(int patientId, string firstName, string lastName, string gender,
             string bloodType, DateTime dateOfBirth, string phoneNumber, string address,
@@ -50,8 +55,7 @@ namespace Middle_Hosp
             string address, int doctorId, int roomId, string diagnosis);
         #endregion
 
-
-
+        // Shared methods for authentication and general operations
         #region Common Methods
         string Add(string connectionString);
         List<RPC> GetAll(string connectionString);
