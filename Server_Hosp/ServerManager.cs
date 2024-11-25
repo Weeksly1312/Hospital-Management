@@ -16,12 +16,10 @@ namespace Server_Hosp.Utils
         {
             try
             {
-                // Create and register new TCP channel
                 System.Runtime.Remoting.Channels.Tcp.TcpChannel channel =
                     new System.Runtime.Remoting.Channels.Tcp.TcpChannel(2222);
                 System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(channel, false);
 
-                // Register service types
                 System.Runtime.Remoting.RemotingConfiguration.RegisterWellKnownServiceType(
                     typeof(LoginService),
                     "login",
@@ -53,7 +51,7 @@ namespace Server_Hosp.Utils
 
         public static void HandleSqlException(SqlException ex, ref string result)
         {
-            if (ex.Number == 2627) // Unique constraint violation
+            if (ex.Number == 2627) 
             {
                 result = "Error: A record with this ID already exists.";
             }

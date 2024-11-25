@@ -100,7 +100,7 @@ namespace Server_Hosp
                         cmd.Parameters.AddWithValue("@password", password);
 
                         int count = (int)cmd.ExecuteScalar();
-                        return count > 0; // Returns true if credentials are correct
+                        return count > 0; 
                     }
                 }
             }

@@ -31,7 +31,6 @@ namespace Server_Hosp
             string bloodType, DateTime dateOfBirth, string phoneNumber, string address,
             int doctorId, int roomId, string diagnosis)
         {
-            // Validate required fields
             var (isValid, errorMessage) = ValidatePatient(firstName, lastName, gender, bloodType, phoneNumber, doctorId, roomId);
             if (!isValid)
                 throw new ArgumentException(errorMessage);
@@ -127,7 +126,6 @@ namespace Server_Hosp
         {
             try
             {
-                // Set properties first
                 ID = patientId;
                 FirstName = firstName;
                 LastName = lastName;
@@ -140,7 +138,6 @@ namespace Server_Hosp
                 RoomId = roomId;
                 Diagnosis = diagnosis;
 
-                // Then validate
                 var (isValid, errorMessage) = ValidatePatient(firstName, lastName, gender, bloodType, phoneNumber, doctorId, roomId);
                 if (!isValid)
                     return $"Error: {errorMessage}";

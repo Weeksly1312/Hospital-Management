@@ -44,7 +44,6 @@ public class RegisterService : MarshalByRefObject, Middle_Hosp.RPC
         {
             conn.Open();
 
-            // Check if username already exists
             string checkQuery = "SELECT COUNT(*) FROM dbo.users WHERE username = @username";
             
             using (SqlCommand checkCmd = new SqlCommand(checkQuery, conn))
@@ -58,7 +57,6 @@ public class RegisterService : MarshalByRefObject, Middle_Hosp.RPC
                 }
             }
 
-            // If username is unique, proceed with registration
             string insertQuery = "INSERT INTO dbo.users (username, password) VALUES (@username, @password)";
             
             using (SqlCommand insertCmd = new SqlCommand(insertQuery, conn))
