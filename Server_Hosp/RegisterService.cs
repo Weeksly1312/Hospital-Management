@@ -29,6 +29,7 @@ public class RegisterService : MarshalByRefObject, Middle_Hosp.RPC
     int RPC.DoctorId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     int RPC.RoomId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     string RPC.Diagnosis { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public string DepartmentName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     #endregion
 
     #region Registration Methods
