@@ -8,7 +8,6 @@ namespace Client_Hosp.Utils
 {
     public static class ConnectionManager
     {
-        //soufiane DB:
         public static readonly string ConnectionString = @"Data Source=DESKTOP-C03F80S\SQLEXPRESS01;Initial Catalog=DoctorManagements;Integrated Security=True;Connect Timeout=30;";
         
         //med DB:
@@ -18,7 +17,6 @@ namespace Client_Hosp.Utils
         {
             try
             {
-                // Check for existing TCP channel
                 TcpChannel existingChannel = null;
                 foreach (IChannel chan in ChannelServices.RegisteredChannels)
                 {
@@ -29,14 +27,12 @@ namespace Client_Hosp.Utils
                     }
                 }
 
-                // Register new channel if needed
                 if (existingChannel == null)
                 {
                     TcpChannel channel = new TcpChannel();
                     ChannelServices.RegisterChannel(channel, false);
                 }
 
-                // Get remote object
                 RPC rpc = (RPC)Activator.GetObject(
                     typeof(RPC),
                     $"tcp://localhost:2222/{serviceName}");
@@ -76,6 +72,5 @@ namespace Client_Hosp.Utils
                 System.Windows.Forms.MessageBoxButtons.OK,
                 System.Windows.Forms.MessageBoxIcon.Information);
         }
-
     }
 }
