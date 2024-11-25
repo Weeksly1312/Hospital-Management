@@ -44,6 +44,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.dashboard_TE = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -131,6 +132,7 @@
             this.dashboard_TP.Size = new System.Drawing.Size(23, 25);
             this.dashboard_TP.TabIndex = 4;
             this.dashboard_TP.Text = "0";
+            this.dashboard_TP.Click += new System.EventHandler(this.dashboard_TP_Click);
             // 
             // label4
             // 
@@ -218,6 +220,17 @@
             this.pictureBox4.TabIndex = 0;
             this.pictureBox4.TabStop = false;
             // 
+            // dashboard_TE
+            // 
+            this.dashboard_TE.AutoSize = true;
+            this.dashboard_TE.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dashboard_TE.Location = new System.Drawing.Point(20, 20);
+            this.dashboard_TE.Name = "dashboard_TE";
+            this.dashboard_TE.Size = new System.Drawing.Size(109, 20);
+            this.dashboard_TE.TabIndex = 0;
+            this.dashboard_TE.Text = "Total Doctors: 0";
+            this.dashboard_TE.Click += new System.EventHandler(this.dashboard_TE_Click);
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -260,5 +273,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.Label dashboard_TE;
     }
 }
