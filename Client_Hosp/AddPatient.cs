@@ -85,11 +85,16 @@ namespace Client_Hosp
 
             ComRoom.Items.Clear();
             string[] rooms = {
-        "1 - Living Room",
-        "2 - Bedroom",
-        "3 - Kitchen",
-        "4 - Bathroom",
-        "5 - Office"
+        "1 - General Ward",
+    "2 - Intensive Care Unit",
+    "3 - Emergency Room",
+    "4 - Surgery Recovery",
+    "5 - Isolation Room",
+    "6 - Room A",
+    "7 - Room B",
+    "8 - Room C",
+    "9 - Room D",
+    "10 - Room E"
     };
             ComRoom.Items.AddRange(rooms);
         }
@@ -538,11 +543,16 @@ namespace Client_Hosp
         {
             var rooms = new Dictionary<int, string>
     {
-        { 1, "1 - Living Room" },
-        { 2, "2 - Bedroom" },
-        { 3, "3 - Kitchen" },
-        { 4, "4 - Bathroom" },
-        { 5, "5 - Office" }
+        { 1, "1 - General Ward" },
+        { 2, "2 - Intensive Care Unit" },
+        { 3, "3 - Emergency Room" },
+        { 4, "4 - Surgery Recovery" },
+        { 5, "5 - Isolation Room" },
+        { 6, "6 - Room A" },
+        { 7, "7 - Room B" },
+        { 8, "8 - Room C" },
+        { 9, "9 - Room D" },
+        { 10, "10 - Room E" }
     };
 
             return rooms.ContainsKey(roomId) ? rooms[roomId] : $"{roomId} - Unknown";
