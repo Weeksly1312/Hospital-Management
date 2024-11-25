@@ -62,5 +62,8 @@ namespace Middle_Hosp
         bool Login(string username, string password);
         string RegisterUser(string username, string password);
         #endregion
+
+        // Add this property to the RPC interface
+        string DepartmentName { get; set; }
     }
 }
