@@ -107,17 +107,21 @@ Modern Windows Forms interfaces:
 
 ### Database Setup
 1. Create a new SQL Server database
-2. Execute the following schema setup scripts (in `Database` folder):
-   - `01_CreateTables.sql`
-   - `02_InitialData.sql`
+2. Execute the SQL scripts from the `Database` folder in order:
+   - `01_CreateTables.sql` - Creates the database schema (tables and relationships)
+   - `02_InitialData.sql` - Populates initial data (departments, specializations, rooms, admin user)
+
 3. Update connection string in `ServerManager.cs`:
    ```csharp
    private const string YOUR_DB = @"Data Source=YOUR_SERVER\SQLEXPRESS;Initial Catalog=YOUR_DATABASE;Integrated Security=True;Connect Timeout=30;";
    ```
+
 4. Set your connection string as active:
    ```csharp
    public static readonly string ConnectionString = YOUR_DB;
    ```
+
+> 📝 **Note**: SQL scripts can be found in the `Database` folder of the repository.
 
 ### Server Configuration
 1. Open the solution in Visual Studio
