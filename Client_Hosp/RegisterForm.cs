@@ -9,8 +9,11 @@ namespace Client_Hosp
 {
     public partial class RegisterForm : Form
     {
-        RPC ep;
+        #region Fields and Properties
+        private RPC ep;
+        #endregion
 
+        #region Constructor and Initialization
         public RegisterForm()
         {
             InitializeComponent();
@@ -27,7 +30,9 @@ namespace Client_Hosp
                 ConnectionManager.ShowError(ex.Message);
             }
         }
+        #endregion
 
+        #region Authentication Methods
         private void signup_btn_Click(object sender, EventArgs e)
         {
             string username = signup_username.Text.Trim();
@@ -79,7 +84,9 @@ namespace Client_Hosp
             loginForm.Show();
             this.Close();
         }
+        #endregion
 
+        #region UI Event Handlers
         private void exit_Click_1(object sender, EventArgs e)
         {
             Application.Exit();
@@ -89,5 +96,6 @@ namespace Client_Hosp
         {
             signup_password.PasswordChar = signup_showPass.Checked ? '\0' : '*';
         }
+        #endregion
     }
 }
