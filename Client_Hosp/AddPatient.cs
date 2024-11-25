@@ -11,10 +11,15 @@ namespace Client_Hosp
 {
     public partial class AddPatient : UserControl
     {
+        // Fields and Properties
+        #region Fields and Properties
         private bool isEditing = false;
         private Middle_Hosp.RPC patientRPC;
         private Middle_Hosp.RPC doctorRPC;
+        #endregion
 
+        // Constructor and Initialization
+        #region Constructor and Initialization
         public AddPatient()
         {
             InitializeComponent();
@@ -22,13 +27,7 @@ namespace Client_Hosp
             SetupComboBoxes();
             this.VisibleChanged += AddPatient_VisibleChanged;
         }
-        private void AddPatient_VisibleChanged(object sender, EventArgs e)
-        {
-            if (this.Visible)
-            {
-                SetupComboBoxes();
-            }
-        }
+
         private void InitializeRPCConnection()
         {
             try
@@ -41,9 +40,6 @@ namespace Client_Hosp
                 ConnectionManager.ShowError(ex.Message);
             }
         }
-
-        
-
 
         private void SetupComboBoxes()
         {
@@ -98,6 +94,43 @@ namespace Client_Hosp
             ComRoom.Items.AddRange(rooms);
         }
 
+        private void AddPatient_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                if (patientRPC == null)
+                {
+                    InitializeRPCConnection();
+                }
+
+                if (patientRPC != null)
+                {
+                    RefreshPatientsList();
+                     
+                }
+                else
+                {
+                    MessageBox.Show("Could not connect to the patient service. Please try again.",
+                        "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                ConnectionManager.ShowError($"Error loading patients: {ex.Message}");
+            }
+        }
+
+        private void AddPatient_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                SetupComboBoxes();
+            }
+        }
+        #endregion
+
+        // CRUD Operations
+        #region CRUD Operations
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
@@ -206,183 +239,25 @@ namespace Client_Hosp
             }
         }
 
-        private bool ValidateFormInputs()
+        private void btnView_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtPaID.Text))
+            try
             {
-                ConnectionManager.ShowError("Please enter a Patient ID");
-                return false;
+                Cursor = Cursors.WaitCursor;
+                lblStatus.Text = "Refreshing patients list...";
+                RefreshPatientsList();
+                lblStatus.Text = "Patients list refreshed";
             }
-
-            if (!int.TryParse(txtPaID.Text, out _))
+            catch (Exception ex)
             {
-                ConnectionManager.ShowError("Patient ID must be a valid number");
-                return false;
+                MessageBox.Show($"Error refreshing patients list: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                lblStatus.Text = "Error refreshing list";
             }
-
-            if (string.IsNullOrWhiteSpace(txtPaName.Text))
+            finally
             {
-                ConnectionManager.ShowError("Please enter the patient's first name");
-                return false;
+                Cursor = Cursors.Default;
             }
-
-            if (string.IsNullOrWhiteSpace(txtPaLast.Text))
-            {
-                ConnectionManager.ShowError("Please enter the patient's last name");
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtPaPhone.Text))
-            {
-                ConnectionManager.ShowError("Please enter the patient's phone number");
-                return false;
-            }
-
-            if (!GenPaM.Checked && !GenPaF.Checked)
-            {
-                ConnectionManager.ShowError("Please select the patient's gender");
-                return false;
-            }
-
-            if (ComBlood.SelectedIndex == -1)
-            {
-                ConnectionManager.ShowError("Please select the patient's blood type");
-                return false;
-            }
-
-            if (dateTimePicker1.Value > DateTime.Now)
-            {
-                ConnectionManager.ShowError("Date of birth cannot be in the future");
-                return false;
-            }
-
-            if (ComDoctor.SelectedIndex == -1)
-            {
-                ConnectionManager.ShowError("Please assign a doctor to the patient");
-                return false;
-            }
-
-            if (ComRoom.SelectedIndex == -1)
-            {
-                ConnectionManager.ShowError("Please assign a room to the patient");
-                return false;
-            }
-
-            if (ComDisease.SelectedIndex == -1)
-            {
-                ConnectionManager.ShowError("Please select the patient's diagnosis");
-                return false;
-            }
-
-            if (!System.Text.RegularExpressions.Regex.IsMatch(txtPaPhone.Text.Trim(), @"^\+?[\d\s-]+$"))
-            {
-                ConnectionManager.ShowError("Please enter a valid phone number format");
-                return false;
-            }
-
-            return true;
-        }
-
-
-        private void RefreshPatientsList()
-        {
-            listViewPatients.Items.Clear();
-            List<RPC> patients = patientRPC.GetAll(ConnectionManager.ConnectionString);
-
-            if (patients != null)
-            {
-                foreach (var patient in patients)
-                {
-                    var item = new ListViewItem(patient.ID.ToString());
-                    item.SubItems.Add(patient.FirstName);
-                    item.SubItems.Add(patient.LastName);
-                    item.SubItems.Add(patient.PhoneNumber);
-                    item.SubItems.Add(patient.Gender);   
-                    item.SubItems.Add(dateTimePicker1.Value.ToShortDateString());
-                    item.SubItems.Add(patient.Address ?? "-");
-
-                    // Format doctor information
-                    var doctors = doctorRPC.GetAll(ConnectionManager.ConnectionString);
-                    var doctor = doctors?.FirstOrDefault(d => d.ID == patient.DoctorId);
-                    string doctorInfo = doctor != null ?
-                    $"{doctor.ID} - Dr. {doctor.FirstName} {doctor.LastName}" : "-";
-                    item.SubItems.Add(doctorInfo);    
-                    // Get the actual diagnosis from the patient object
-                    string diagnosis = string.IsNullOrEmpty(patient.Diagnosis) ? "-" : patient.Diagnosis;
-                    item.SubItems.Add(diagnosis);
-                                     
-                    // Get blood type from the patient object directly
-                    string bloodType = string.IsNullOrEmpty(patient.BloodType) ? "-" : patient.BloodType;
-                    item.SubItems.Add(bloodType);
-
-                    // Format room information
-                    string roomInfo = GetRoomInfo(patient.RoomId);
-                    item.SubItems.Add(roomInfo);
-
-                   
-
-                    listViewPatients.Items.Add(item);
-                }
-            }
-        }
-        private string GetRoomInfo(int roomId)
-        {
-            var rooms = new Dictionary<int, string>
-    {
-        { 1, "1 - Living Room" },
-        { 2, "2 - Bedroom" },
-        { 3, "3 - Kitchen" },
-        { 4, "4 - Bathroom" },
-        { 5, "5 - Office" }
-    };
-
-            return rooms.ContainsKey(roomId) ? rooms[roomId] : $"{roomId} - Unknown";
-        }
-
-
-
-        private void ClearFields()
-        {
-            txtPaID.Clear();
-            txtPaName.Clear();
-            txtPaLast.Clear();
-            txtPaPhone.Clear();
-            dateTimePicker1.Value = DateTime.Now;
-            textPaAdress.Clear();
-            ComBlood.SelectedIndex = -1;
-            ComDoctor.SelectedIndex = -1;
-            ComDisease.SelectedIndex = -1;
-            ComRoom.SelectedIndex = -1;
-            GenPaM.Checked = false;
-            GenPaF.Checked = false;
-            txtPaID.ReadOnly = false;
-        }
-
-        private string GetSelectedGender()
-        {
-            return GenPaM.Checked ? "M" : GenPaF.Checked ? "F" : string.Empty;
-        }
-
-        private int GetSelectedDoctorId()
-        {
-            if (ComDoctor.SelectedItem != null)
-            {
-                string doctorText = ComDoctor.SelectedItem.ToString();
-                return int.Parse(doctorText.Split('-')[0].Trim());
-            }
-            return -1;
-        }
-
-        private int GetSelectedRoomId()
-        {
-            if (ComRoom.SelectedItem != null)
-            {
-                string roomText = ComRoom.SelectedItem.ToString();
-                string idStr = roomText.Split('-')[0].Trim();
-                if (int.TryParse(idStr, out int roomId))
-                    return roomId;
-            }
-            return -1;
         }
 
         private void LoadPatientDataForEditing()
@@ -484,10 +359,193 @@ namespace Client_Hosp
             }
         }
 
+        private void RefreshPatientsList()
+        {
+            listViewPatients.Items.Clear();
+            List<RPC> patients = patientRPC.GetAll(ConnectionManager.ConnectionString);
+
+            if (patients != null)
+            {
+                foreach (var patient in patients)
+                {
+                    var item = new ListViewItem(patient.ID.ToString());
+                    item.SubItems.Add(patient.FirstName);
+                    item.SubItems.Add(patient.LastName);
+                    item.SubItems.Add(patient.PhoneNumber);
+                    item.SubItems.Add(patient.Gender);   
+                    item.SubItems.Add(dateTimePicker1.Value.ToShortDateString());
+                    item.SubItems.Add(patient.Address ?? "-");
+
+                    // Format doctor information
+                    var doctors = doctorRPC.GetAll(ConnectionManager.ConnectionString);
+                    var doctor = doctors?.FirstOrDefault(d => d.ID == patient.DoctorId);
+                    string doctorInfo = doctor != null ?
+                    $"{doctor.ID} - Dr. {doctor.FirstName} {doctor.LastName}" : "-";
+                    item.SubItems.Add(doctorInfo);    
+                    // Get the actual diagnosis from the patient object
+                    string diagnosis = string.IsNullOrEmpty(patient.Diagnosis) ? "-" : patient.Diagnosis;
+                    item.SubItems.Add(diagnosis);
+                                     
+                    // Get blood type from the patient object directly
+                    string bloodType = string.IsNullOrEmpty(patient.BloodType) ? "-" : patient.BloodType;
+                    item.SubItems.Add(bloodType);
+
+                    // Format room information
+                    string roomInfo = GetRoomInfo(patient.RoomId);
+                    item.SubItems.Add(roomInfo);
+
+                   
+
+                    listViewPatients.Items.Add(item);
+                }
+            }
+        }
+        #endregion
+
+        // Data Validation
+        #region Data Validation
+        private bool ValidateFormInputs()
+        {
+            if (string.IsNullOrWhiteSpace(txtPaID.Text))
+            {
+                ConnectionManager.ShowError("Please enter a Patient ID");
+                return false;
+            }
+
+            if (!int.TryParse(txtPaID.Text, out _))
+            {
+                ConnectionManager.ShowError("Patient ID must be a valid number");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPaName.Text))
+            {
+                ConnectionManager.ShowError("Please enter the patient's first name");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPaLast.Text))
+            {
+                ConnectionManager.ShowError("Please enter the patient's last name");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPaPhone.Text))
+            {
+                ConnectionManager.ShowError("Please enter the patient's phone number");
+                return false;
+            }
+
+            if (!GenPaM.Checked && !GenPaF.Checked)
+            {
+                ConnectionManager.ShowError("Please select the patient's gender");
+                return false;
+            }
+
+            if (ComBlood.SelectedIndex == -1)
+            {
+                ConnectionManager.ShowError("Please select the patient's blood type");
+                return false;
+            }
+
+            if (dateTimePicker1.Value > DateTime.Now)
+            {
+                ConnectionManager.ShowError("Date of birth cannot be in the future");
+                return false;
+            }
+
+            if (ComDoctor.SelectedIndex == -1)
+            {
+                ConnectionManager.ShowError("Please assign a doctor to the patient");
+                return false;
+            }
+
+            if (ComRoom.SelectedIndex == -1)
+            {
+                ConnectionManager.ShowError("Please assign a room to the patient");
+                return false;
+            }
+
+            if (ComDisease.SelectedIndex == -1)
+            {
+                ConnectionManager.ShowError("Please select the patient's diagnosis");
+                return false;
+            }
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(txtPaPhone.Text.Trim(), @"^\+?[\d\s-]+$"))
+            {
+                ConnectionManager.ShowError("Please enter a valid phone number format");
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        // Helper Methods
+        #region Helper Methods
+        private void ClearFields()
+        {
+            txtPaID.Clear();
+            txtPaName.Clear();
+            txtPaLast.Clear();
+            txtPaPhone.Clear();
+            dateTimePicker1.Value = DateTime.Now;
+            textPaAdress.Clear();
+            ComBlood.SelectedIndex = -1;
+            ComDoctor.SelectedIndex = -1;
+            ComDisease.SelectedIndex = -1;
+            ComRoom.SelectedIndex = -1;
+            GenPaM.Checked = false;
+            GenPaF.Checked = false;
+            txtPaID.ReadOnly = false;
+        }
+
+        private string GetSelectedGender()
+        {
+            return GenPaM.Checked ? "M" : GenPaF.Checked ? "F" : string.Empty;
+        }
+
         private void SetSelectedGender(string gender)
         {
             GenPaM.Checked = gender.ToUpper() == "M";
             GenPaF.Checked = gender.ToUpper() == "F";
+        }
+
+        private int GetSelectedDoctorId()
+        {
+            if (ComDoctor.SelectedItem != null)
+            {
+                string doctorText = ComDoctor.SelectedItem.ToString();
+                return int.Parse(doctorText.Split('-')[0].Trim());
+            }
+            return -1;
+        }
+
+        private int GetSelectedRoomId()
+        {
+            if (ComRoom.SelectedItem != null)
+            {
+                string roomText = ComRoom.SelectedItem.ToString();
+                string idStr = roomText.Split('-')[0].Trim();
+                if (int.TryParse(idStr, out int roomId))
+                    return roomId;
+            }
+            return -1;
+        }
+
+        private string GetRoomInfo(int roomId)
+        {
+            var rooms = new Dictionary<int, string>
+    {
+        { 1, "1 - Living Room" },
+        { 2, "2 - Bedroom" },
+        { 3, "3 - Kitchen" },
+        { 4, "4 - Bathroom" },
+        { 5, "5 - Office" }
+    };
+
+            return rooms.ContainsKey(roomId) ? rooms[roomId] : $"{roomId} - Unknown";
         }
 
         private void SetSelectedDoctor(string doctorId)
@@ -503,57 +561,6 @@ namespace Client_Hosp
             }
             ComDoctor.SelectedIndex = -1; // If no match found
         }
-
-        private void AddPatient_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                if (patientRPC == null)
-                {
-                    InitializeRPCConnection();
-                }
-
-                if (patientRPC != null)
-                {
-                    RefreshPatientsList();
-                     
-                }
-                else
-                {
-                    MessageBox.Show("Could not connect to the patient service. Please try again.",
-                        "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                ConnectionManager.ShowError($"Error loading patients: {ex.Message}");
-            }
-        }
-
-        private void btnView_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Cursor = Cursors.WaitCursor;
-                lblStatus.Text = "Refreshing patients list...";
-                RefreshPatientsList();
-                lblStatus.Text = "Patients list refreshed";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error refreshing patients list: {ex.Message}",
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                lblStatus.Text = "Error refreshing list";
-            }
-            finally
-            {
-                Cursor = Cursors.Default;
-            }
-        }
-
-        private void listViewPatients_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+        #endregion
     }
 }
