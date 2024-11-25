@@ -17,6 +17,7 @@ namespace Server_Hosp
         public string LastName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string PhoneNumber { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string Specialization { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string DepartmentName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int DepartmentId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string Address { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string Gender { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -26,7 +27,6 @@ namespace Server_Hosp
         int RPC.DoctorId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         int RPC.RoomId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         string RPC.Diagnosis { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string DepartmentName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         #endregion
 
         #region Authentication Methods
