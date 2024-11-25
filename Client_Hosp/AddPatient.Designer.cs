@@ -111,7 +111,6 @@
             this.listViewPatients.TabIndex = 46;
             this.listViewPatients.UseCompatibleStateImageBehavior = false;
             this.listViewPatients.View = System.Windows.Forms.View.Details;
-            //this.listViewPatients.SelectedIndexChanged += new System.EventHandler(this.listViewPatients_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -197,6 +196,7 @@
             this.button2.TabIndex = 90;
             this.button2.Text = "Export .csv";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // btnDelete
             // 
