@@ -22,7 +22,6 @@ namespace Client_Hosp
             SetupComboBoxes();
             this.VisibleChanged += AddPatient_VisibleChanged;
         }
-        //test method
         private void AddPatient_VisibleChanged(object sender, EventArgs e)
         {
             if (this.Visible)
