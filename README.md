@@ -132,7 +132,7 @@ Modern Windows Forms interfaces:
 4. Use the login form to access the system
    - Default credentials:
      - Username: admin
-     - Password: admin123
+     - Password: admin
 
 ### Troubleshooting
 - If connection fails, verify:
