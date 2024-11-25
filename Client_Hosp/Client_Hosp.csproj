@@ -141,6 +141,10 @@
       <Project>{1aef587a-7a60-4008-a21e-d9dd23222234}</Project>
       <Name>Middle_Hosp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Server_Hosp\Server_Hosp.csproj">
+      <Project>{792B5F54-1E7F-4ED8-8E73-BCEE8E51604E}</Project>
+      <Name>Server_Hosp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
