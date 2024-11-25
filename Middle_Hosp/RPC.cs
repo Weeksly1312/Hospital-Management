@@ -20,6 +20,7 @@ namespace Middle_Hosp
         string Specialization { get; set; }
         int DepartmentId { get; set; }
         string Status { get; set; }
+        string DepartmentName { get; set; }
         #endregion
 
         // Properties specific to patients only
@@ -62,8 +63,6 @@ namespace Middle_Hosp
         bool Login(string username, string password);
         string RegisterUser(string username, string password);
         #endregion
-
-        // Add this property to the RPC interface
-        string DepartmentName { get; set; }
+        
     }
 }
