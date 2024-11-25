@@ -64,14 +64,11 @@ namespace Client_Hosp
             addPatient1.Visible = false;
             addRoom1.Visible = false;
 
-            //salary1.Visible = false;
+           
 
             AddDoctor addEmForm = addDoctor1 as AddDoctor;
 
-            //if (addEmForm != null)
-            //{
-            //    addEmForm.RefreshData();
-            //}
+            
         }
 
         private void dashboard1_Load(object sender, EventArgs e)
