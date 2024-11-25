@@ -11,16 +11,24 @@ namespace Client_Hosp
 {
     public partial class AddDoctor : UserControl
     {
+        // Fields and Properties
+        #region Fields and Properties
         private Middle_Hosp.RPC doctorRPC;
         private bool isEditing = false;
+        #endregion
 
+        // Constructor
+        #region Constructor
         public AddDoctor()
         {
             InitializeComponent();
             InitializeRPCConnection();
             SetupComboBoxes();
         }
+        #endregion
 
+        // Initialization Methods
+        #region Initialization Methods
         private void InitializeRPCConnection()
         {
             try
@@ -93,40 +101,10 @@ namespace Client_Hosp
                 ConnectionManager.ShowError($"Error loading doctors: {ex.Message}");
             }
         }
+        #endregion
 
-        private bool ValidateFormInputs()
-        {
-            if (string.IsNullOrWhiteSpace(txtDoctorID.Text))
-            {
-                MessageBox.Show("Please enter a Doctor ID",
-                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtName.Text) ||
-                string.IsNullOrWhiteSpace(txtLast.Text) ||
-                string.IsNullOrWhiteSpace(txtPhone.Text) ||
-                ComSpecialization.SelectedIndex == -1 ||
-                (!GenM.Checked && !GenF.Checked) ||
-                ComDepartment.SelectedIndex == -1 ||
-                ComStatus.SelectedIndex == -1)
-            {
-                MessageBox.Show("Please fill in all required fields",
-                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            int departmentId = GetSelectedDepartmentId();
-            if (departmentId <= 0)
-            {
-                MessageBox.Show("Please select a valid department.", 
-                    "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            return true;
-        }
-
+        // CRUD Operations
+        #region CRUD Operations
         private void btnAdd_Click_1(object sender, EventArgs e)
         {
             try
@@ -379,6 +357,42 @@ namespace Client_Hosp
                 lblStatus.Text = "Error: No doctors found.";
             }
         }
+        #endregion
+
+        // Helper Methods
+        #region Helper Methods
+        private bool ValidateFormInputs()
+        {
+            if (string.IsNullOrWhiteSpace(txtDoctorID.Text))
+            {
+                MessageBox.Show("Please enter a Doctor ID",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtName.Text) ||
+                string.IsNullOrWhiteSpace(txtLast.Text) ||
+                string.IsNullOrWhiteSpace(txtPhone.Text) ||
+                ComSpecialization.SelectedIndex == -1 ||
+                (!GenM.Checked && !GenF.Checked) ||
+                ComDepartment.SelectedIndex == -1 ||
+                ComStatus.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please fill in all required fields",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            int departmentId = GetSelectedDepartmentId();
+            if (departmentId <= 0)
+            {
+                MessageBox.Show("Please select a valid department.", 
+                    "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
 
         private void ClearFields()
         {
@@ -416,20 +430,6 @@ namespace Client_Hosp
             }
             return -1;
         }
-
-        private void listViewDoctors_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void ComSpecialization_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+        #endregion
     }
 }
