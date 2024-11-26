@@ -248,7 +248,7 @@ namespace Server_Hosp
             SELECT * FROM Patients";
         #endregion
 
-        #region Not Implemented Interface Members
+        #region Interface Members
         void RPC.Initialize(int id, string firstName, string lastName, string phoneNumber, 
             string specialization, int departmentId, string address, string gender, string status)
         {
