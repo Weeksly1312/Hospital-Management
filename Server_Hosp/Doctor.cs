@@ -315,7 +315,7 @@ namespace Server_Hosp
             LEFT JOIN dbo.Departments dep ON d.department_id = dep.ID";
         #endregion
 
-        #region Not Implemented Interface Members
+        #region Interface Members
         public bool Login(string username, string password) => throw new NotImplementedException();
         public string RegisterUser(string username, string password) => throw new NotImplementedException();
         public void Initialize(string text1, string text2, string text3, int v, string text4, string text5, string text6, string text7) => throw new NotImplementedException();
