@@ -178,3 +178,7 @@ The system uses a relational database with the following structure:
 2. Open `Client_Hosp.sln` in Visual Studio
 3. Restore NuGet packages
 4. Build the entire solution
+
+This project was created by:
+- **Soufiane EL HALLAOUI**
+- **Mohammed KOUCHAR**
