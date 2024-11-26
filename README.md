@@ -173,7 +173,7 @@ The system uses a relational database with the following structure:
 ### Development Setup
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/HMS.git
+   [git clone https://github.com/yourusername/HMS.git](https://github.com/Weeksly1312/Hospital-Management.git)
    ```
 2. Open `Client_Hosp.sln` in Visual Studio
 3. Restore NuGet packages
