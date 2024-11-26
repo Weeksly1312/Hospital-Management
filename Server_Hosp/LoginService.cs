@@ -99,7 +99,7 @@ namespace Server_Hosp
         }
         #endregion
 
-        #region Not Implemented Interface Members
+        #region Interface Members
         // Doctor-related methods
         public string Add(string connectionString) => throw new NotImplementedException();
         public string DeleteDoctor(string connectionString, int doctorId) => throw new NotImplementedException();
