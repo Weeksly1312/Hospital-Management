@@ -89,7 +89,7 @@ public class RegisterService : MarshalByRefObject, Middle_Hosp.RPC
     }
     #endregion
 
-    #region Not Implemented Interface Members
+    #region Interface Members
     // Authentication Methods
     public bool Login(string username, string password) => throw new NotImplementedException();
 
